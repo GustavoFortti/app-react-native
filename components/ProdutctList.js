@@ -26,7 +26,7 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation }) => {
             uri: item.link_imagem,
           }}
           style={{
-            marginTop: 20,
+            marginTop: 0,
             height: 170,
             width: 130,
           }}

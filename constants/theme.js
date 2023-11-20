@@ -49,6 +49,13 @@ export const COLORS = {
     grey_back: '#EBEBEB',
     grey_back_low: '#FCFCFC',
     grey_hard: "#0E0E0E",
+    grey_0: "#F0F0F0",
+    grey_1: "#E1E1E1",
+    grey_2: "#C0C0C0",
+    grey_3: "#ACACAC",
+    grey_4: "#8F8F8F",
+    grey_5: "#707070",
+    grey_6: "#232323",
 }
 
 export const SIZES = {
@@ -79,9 +86,16 @@ export const SIZES = {
 
 export const FONTS = {
     largeTitle: {
-        fontFamily: 'black',
-        fontSize: SIZES.largeTitle,
-        lineHeight: 55,
+      fontSize: 52,
+      fontFamily: 'orbitron_regular',
+      color: COLORS.grey_6,
+      letterSpacing: 4,
+    },
+    title: {
+      fontSize: 36,
+      fontFamily: 'eurostile',
+      color: COLORS.black,
+      letterSpacing: 4,
     },
     h1: { fontFamily: 'bold', fontSize: SIZES.h1, lineHeight: 36 },
     h2: { fontFamily: 'bold', fontSize: SIZES.h2, lineHeight: 30 },
