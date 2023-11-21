@@ -33,6 +33,13 @@ export default function App() {
   return (
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator>
+      <Stack.Screen
+          name="Home"
+          component={Home}
+          options={{
+            headerShown: false
+          }}
+        />
         <Stack.Screen
           name="Search"
           component={Search}

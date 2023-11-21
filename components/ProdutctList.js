@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FlatList, TouchableOpacity, View, Text, Image } from 'react-native';
 import { COLORS } from '../constants';
 import TruncatedText from '../components/TruncatedText';
+import FadeInImagePrdctList from './FadeInImagePrdctList';
 
-const ProdutctList = ({ data, numColumns, handleLoadMore, navigation }) => {
 
+const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading }) => {
   const renderProductItem = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -15,12 +16,15 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation }) => {
           borderColor: COLORS.white,
           borderWidth: 1,
           borderRadius: 14,
+          marginTop: 30,
           width: "49%",
           justifyContent: 'flex-start',
+          
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
-        <Image
+        <FadeInImagePrdctList item={item.link_imagem} />
+        {/* <Image
           resizeMode='contain'
           source={{
             uri: item.link_imagem,
@@ -33,33 +37,33 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation }) => {
           onError={(e) => {
             e.nativeEvent.error;
           }}
-        />
+        /> */}
         <View
           style={{
             flexDirection: 'column',
             borderRadius: 22,
             backgroundColor: COLORS.white,
             paddingHorizontal: 15,
-            alignItems: "flex-start",
+            alignItems: "center",
             width: "100%",
-            paddingTop: 10,
-            height: 120,
+            marginTop: 15,
+            height: 65,
           }}
         >
           <Text style={{ textAlign: 'center', lineHeight: 22 }}>
             <TruncatedText
               text={`${item.nome}`}
-              maxLength={50}
+              maxLength={12}
               style={{
                 fontSize: 22,
                 color: COLORS.black,
                 fontFamily: 'eurostile',
               }}
             />
-            {' - '}
+            {' '}
             <TruncatedText
               text={`${item.marca}`}
-              maxLength={20}
+              maxLength={12}
               style={{
                 marginTop: 6,
                 fontSize: 20,
@@ -98,20 +102,22 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation }) => {
   };
 
   return (
-    <FlatList
-      numColumns={numColumns}
-      columnWrapperStyle={{
-        justifyContent: 'space-between',
-        marginHorizontal: 10,
-      }}
-      style={{ marginTop: 20, height: '78%', width: "100%" }}
-      data={data}
-      renderItem={renderProductItem}
-      keyExtractor={(item, index) => index.toString()}
-      onEndReached={handleLoadMore}
-      onEndReachedThreshold={0.5}
-      key={`FlatList-${numColumns}`}
-    />
+    <View style={{ flex: 1 }}>
+        <FlatList
+          numColumns={numColumns}
+          columnWrapperStyle={{
+            justifyContent: 'space-between',
+            marginHorizontal: 10,
+          }}
+          style={{ marginTop: 20, height: '78%', width: '100%' }}
+          data={data}
+          renderItem={renderProductItem}
+          keyExtractor={(item, index) => index.toString()}
+          onEndReached={handleLoadMore}
+          onEndReachedThreshold={0.5}
+          key={`FlatList-${numColumns}`}
+        />
+    </View>
   );
 };
 

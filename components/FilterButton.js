@@ -2,24 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { COLORS } from '../constants';
 
-const FilterButton = ({ label, isActive, onPress, colorBack='white' }) => {
-  const [style, setStyle] = useState({
-    backgroundColor: isActive ? 'white' : colorBack,
-  });
-
-  useEffect(() => {
-    if (isActive) {
-      setStyle({
-        backgroundColor: 'black',
-      });
-    } else {
-      setTimeout(() => {
-        setStyle({
-          backgroundColor: colorBack,
-        });
-      }, 0);
-    }
-  }, [isActive]);
+const FilterButton = ({ label, isActive, onPress, colorBack='white', noActive=false }) => {
 
   return (
     <TouchableOpacity
@@ -28,7 +11,10 @@ const FilterButton = ({ label, isActive, onPress, colorBack='white' }) => {
         alignItems: 'center',
         borderWidth: 1,
         margin: -1,
-        ...style, // Aplica os estilos dinamicamente
+        backgroundColor: (isActive ? 'black' : 
+                          noActive && label !== 'Sabores' ? COLORS.grey_0 : 
+                          'white'),
+        borderColor: noActive ? COLORS.grey_0 : 'black',
       }}
       onPress={onPress}
     >
@@ -37,7 +23,9 @@ const FilterButton = ({ label, isActive, onPress, colorBack='white' }) => {
           fontSize: 18,
           fontWeight: '400',
           fontFamily: 'eurostile',
-          color: isActive ? 'white' : 'black',
+          color: (isActive ? 'white' :
+                  noActive ? COLORS.grey_4 :
+                 'black'),
           padding: 10,
         }}
       >

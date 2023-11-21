@@ -1,30 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
-import { COLORS, FONTS, staticDataCategoria, staticDataSabor, staticDataOrdem } from '../constants';
+import {
+  View,
+  Text,
+  FlatList,
+  TouchableOpacity
+} from 'react-native';
+import { COLORS,
+         FONTS,
+         staticDataCategoria,
+         staticDataSabor,
+         staticDataOrdem } from '../constants';
 import FilterButton from '../components/FilterButton';
 import CategoryItem from '../components/CategoryItem';
 import ButtonSearch from '../components/ButtonSearch';
 import { SearchBar, Icon } from 'react-native-elements';
 import ProdutctList from '../components/ProdutctList';
 import { searchByTitle } from '../services/api/product';
-
+import { MaterialIcons } from "@expo/vector-icons"
+import Loading from '../components/Loading';
 
 const Search = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
-  const [containerOption, setContainerOption] = useState('');
   const [searchResults, setSearchResults] = useState([]);
-  const [lastSearchQuery, setLastSearchQuery] = useState('');
-  const [currentSort, setCurrentSort] = useState(null); // Adicione o estado currentSort
-  const [currentPage, setCurrentPage] = useState(0);
+
   const [pageSize, setPageSize] = useState(30);
+  const [hasMorePages, setHasMorePages] = useState(true);
+
+  const [lastSearchQuery, setLastSearchQuery] = useState('');
+  const [currentPage, setCurrentPage] = useState(0);
   const [noResultsModalVisible, setNoResultsModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Adicione um estado para controlar o loading
-  const [hasMorePages, setHasMorePages] = useState(true);
-  
-  const [showHome, setShowHome] = useState(true);
-  const [showFilter, setShowFilter] = useState(false)
-  
+
+  const [containerOption, setContainerOption] = useState('categoria');
   const [selectedItemCategoria, setSelectedItemCategoria] = useState('');
   const [selectedItemSabor, setSelectedItemSabor] = useState('');
   const [selectedItemOrdem, setSelectedItemOrdem] = useState('');
@@ -40,28 +48,14 @@ const Search = ({ navigation }) => {
     }
   }, [searchText]);
 
-  useEffect(() => {
-    if (searchResults.length === 0 && showFilter === false) {
-      setShowHome(true)
-    }
-  }, [searchResults, showFilter]);
-
-  useEffect(() => {
-    if (searchResults.length > 0) {
-      setShowHome(false)
-    }
-  }, [searchResults]);
-
   const clearResults = () => {
-    setSearchResults([])
-    setShowFilter(false)
-    setShowHome(true)
+    setSelectedItemCategoria('')
+    setSelectedItemSabor('')
+    setSelectedItemOrdem('')
   }
 
   const showCategoria = () => {
     setContainerOption("categoria")
-    setShowFilter(true)
-    setShowHome(false)
   }
 
   const showSabor = () => {
@@ -72,27 +66,100 @@ const Search = ({ navigation }) => {
     setContainerOption("ordem")
   }
 
-  const cleanContainerOption = () => {
-    setShowFilter(false)
-    setContainerOption('')
-    // setShowHome(true)
-    // setSelectedItemCategoria('')
-    // setSelectedItemSabor('')
-    // setSelectedItemOrdem('')
-    // setSearchText('')
-  }
+  const renderCategoryItem = ({ item, index }, tipoFiltro) => {
+    return (
+      <CategoryItem
+        item={item}
+        onPress={() => {
+          handleCategoryItemClick(item.name, tipoFiltro);
+        }}
+        isSelected={
+          (tipoFiltro === 'categoria' && selectedItemCategoria === item.name) ||
+          (tipoFiltro === 'sabor' && selectedItemSabor === item.name) ||
+          (tipoFiltro === 'ordem' && selectedItemOrdem === item.name)
+        }
+      />
+    );
+  };
 
-  const executeSearch = async (query, page = 0, reset = true, currentSort = null) => {
-    if (!query.trim()) {
-      setCurrentPage(0);
-      setSearchResults([]); // Defina a pesquisa como vazia quando não houver consulta
-      return [];
+  const handleCategoryItemClick = async (categoryName, tipoFiltro) => {
+    if (tipoFiltro === 'categoria') {
+      if (categoryName === selectedItemCategoria) {
+        setSelectedItemCategoria('')
+      } else {
+        setSelectedItemCategoria(categoryName);
+      }
+    } else if (tipoFiltro === 'sabor') {
+      if (categoryName === selectedItemSabor) {
+        setSelectedItemSabor('')
+      } else {
+        setSelectedItemSabor(categoryName);
+      }
+    } else if (tipoFiltro === 'ordem') {
+      if (categoryName === selectedItemOrdem) {
+        setSelectedItemOrdem('')
+      } else {
+        setSelectedItemOrdem(categoryName);
+      }
     }
 
+  };
+
+  const handleSearch = async () => {
+    setContainerOption('')
+    setSearchResults([]);
+    if (!searchText.trim()) {
+      setCurrentPage(0);
+      return;
+    }
+
+    try {
+      const performSearch = async () => {
+
+        setTimeout(async () => {
+          const products = await executeSearch(searchText, 0);
+
+          if (products.length === 0) {
+            setNoResultsModalVisible(true); // Mostrar o modal se não houver resultados
+          } else {
+            setSearchResults(products);
+            setLastSearchQuery(searchText);
+          }
+        }, 0);
+      };
+
+      await performSearch();
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      setContainerOption('noresults')
+      setSearchResults([]);
+    }
+  };
+
+  const handleLoadMore = () => {
+    if (hasMorePages) {
+      const nextPage = currentPage + 1;
+      executeSearch(lastSearchQuery, nextPage, false); // Passar o valor de currentSort
+    }
+  };
+
+  const executeSearch = async (query, page = 0, reset = true) => {
+    if (!query.trim()) {
+      setCurrentPage(0);
+      setSearchResults([]);
+      return [];
+    }
+    
     setIsLoading(true);
     try {
       if (searchResults.length > 0) {
-        setPageSize(8)
+        setPageSize(20)
+      }
+
+      let orderParam = null
+      const order = staticDataOrdem.find((data) => data.name === selectedItemOrdem)
+      if (order) {
+        orderParam = {'field': order.field, "direction": order.direction}
       }
 
       const data = await searchByTitle(query, page, pageSize, null);
@@ -131,108 +198,6 @@ const Search = ({ navigation }) => {
     }
   };
 
-  const renderCategoryItem = ({ item, index }, tipoFiltro) => {
-    return (
-      <CategoryItem
-        item={item}
-        onPress={() => {
-          handleCategoryItemClick(item.name, tipoFiltro);
-        }}
-        isSelected={
-          (tipoFiltro === 'categoria' && selectedItemCategoria === item.name) ||
-          (tipoFiltro === 'sabor' && selectedItemSabor === item.name) ||
-          (tipoFiltro === 'ordem' && selectedItemOrdem === item.name)
-        }
-      />
-    );
-  };
-
-  const handleCategoryItemClick = async (categoryName, tipoFiltro) => {
-    if (tipoFiltro === 'categoria') {
-      if (categoryName === selectedItemCategoria) {
-        setSelectedItemCategoria('')
-      } else {
-        setSelectedItemCategoria(categoryName);
-      }
-    } else if (tipoFiltro === 'sabor') {
-      if (categoryName === selectedItemSabor) {
-        setSelectedItemSabor('')
-      } else {
-        setSelectedItemSabor(categoryName);
-      }
-    } else if (tipoFiltro === 'ordem') {
-      if (categoryName === selectedItemOrdem) {
-        setSelectedItemOrdem('')
-      } else {
-        setSelectedItemOrdem(categoryName);
-      }
-    }
-    return
-
-    try {
-      const products = await executeSearch(categoryName, 0, true, null);
-
-      if (products.length === 0) {
-        setNoResultsModalVisible(true); // Mostrar o modal se não houver resultados
-      } else {
-        setSearchResults(products);
-        setLastSearchQuery(categoryName);
-      }
-
-    } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
-      setSearchResults([]);
-    }
-  };
-
-  const handleSearch = async () => {
-    setShowFilter(false)
-    if (!searchText.trim()) {
-      setSearchResults([]);
-      setCurrentPage(0);
-      return;
-    }
-
-    try {
-      const performSearch = async () => {
-
-        setTimeout(async () => {
-          const products = await executeSearch(searchText, 0);
-
-          if (products.length === 0) {
-            setNoResultsModalVisible(true); // Mostrar o modal se não houver resultados
-          } else {
-            setSearchResults(products);
-            setLastSearchQuery(searchText);
-          }
-        }, 0);
-      };
-
-      await performSearch();
-    } catch (error) {
-      console.error('Erro ao buscar produtos:', error);
-      setSearchResults([]);
-    }
-  };
-
-  const handleLoadMore = () => {
-    console.log(hasMorePages)
-    if (hasMorePages) {
-      const nextPage = currentPage + 1;
-      executeSearch(lastSearchQuery, nextPage, false, currentSort); // Passar o valor de currentSort
-    }
-  };
-
-  const clearSearchAndHandleSearch = () => {
-    setSearchText('');
-  };
-
-  useEffect(() => {
-    if (searchText === '') {
-      handleSearch();
-    }
-  }, [searchText]);
-
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.white }}>
       <View style={{ flex: 1 }}>
@@ -247,10 +212,41 @@ const Search = ({ navigation }) => {
           <View
             style={{
               width: "100%",
-              justifyContent: "flex-start",
               alignItems: "center",
+              justifyContent: 'center'
             }}
           >
+            <View
+              style={{
+                width: "100%",
+                alignItems: "center",
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                height: 35,
+                marginBottom: 10,
+              }}
+            >
+              <TouchableOpacity
+                onPress={() => navigation.goBack()}
+              >
+                <MaterialIcons
+                  name="keyboard-arrow-left"
+                  size={36}
+                  color={COLORS.grey_3}
+                />
+              </TouchableOpacity>
+              <Text
+                style={{
+                  marginLeft: "-8%",
+                  fontSize: 18,
+                  fontWeight: '400',
+                  fontFamily: 'eurostile',
+                }}
+              >
+                Suplementos
+              </Text>
+              <Text></Text>
+            </View>
             <SearchBar
               placeholder="Buscar por suplementos..."
               onChangeText={(text) => setSearchText(text)}
@@ -280,67 +276,38 @@ const Search = ({ navigation }) => {
                 onPress: clearResults,
               }}
             />
-            {(!showHome & showFilter) ? (
+            <View
+              style={{
+                width: "100%",
+                alignItems: 'center',
+              }}
+            >
               <View
                 style={{
-                  width: "100%",
-                  alignItems: 'center',
-                }}
-              >
-                <View
-                  style={{
-                    marginHorizontal: 7,
-                    flexDirection: "row",
-                    alignContent: "center"
-                  }}>
-                  <FilterButton
-                    label="Categorias"
-                    isActive={containerOption === 'categoria'}
-                    onPress={showCategoria}
-                  />
-                  <FilterButton
-                    label="Sabores"
-                    isActive={containerOption === 'sabor'}
-                    onPress={showSabor}
-                  />
-                  <FilterButton
-                    label="Ordenar por"
-                    isActive={containerOption === 'ordem'}
-                    onPress={showOrdem}
-                  />
-                </View>
-                <TouchableOpacity
-                  onPress={cleanContainerOption}
-                  style={{
-                    transform: [{ scaleY: -1 }],
-                    marginTop: 20,
-                    width: 60,
-                    height: 40,
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                  }}>
-                  <Icon
-                    name="filter-list"
-                    size={26}
-                    color={COLORS.grey_3}
-                  />
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <TouchableOpacity
-                onPress={showCategoria}
-                style={{
-                  padding: 5,
-                  width: 60,
-                  height: 40,
+                  marginHorizontal: 7,
+                  flexDirection: "row",
+                  alignContent: "center"
                 }}>
-                <Icon
-                  name="filter-list"
-                  size={26}
-                  color={COLORS.grey_3}
+                <FilterButton
+                  label="Categorias"
+                  isActive={containerOption === 'categoria'}
+                  onPress={showCategoria}
+                  noActive={containerOption === ''}
                 />
-              </TouchableOpacity>
-            )}
+                <FilterButton
+                  label="Sabores"
+                  isActive={containerOption === 'sabor'}
+                  onPress={showSabor}
+                  noActive={containerOption === ''}
+                />
+                <FilterButton
+                  label="Ordenar"
+                  isActive={containerOption === 'ordem'}
+                  onPress={showOrdem}
+                  noActive={containerOption === ''}
+                />
+              </View>
+            </View>
           </View>
           <View
             style={{
@@ -349,13 +316,7 @@ const Search = ({ navigation }) => {
               height: "83%",
               alignItems: "center",
             }}>
-            { showHome & !showFilter & searchResults.length === 0 ? (
-              <View style={{ marginTop: '50%' }}>
-                <Text style={FONTS.largeTitle}>
-                  Nutrifind
-                </Text>
-              </View>
-            ) : showFilter & containerOption === 'categoria' ? (
+            {containerOption === 'categoria' ? (
               <FlatList
                 style={{ marginTop: 18, height: '50%' }}
                 data={staticDataCategoria}
@@ -363,21 +324,21 @@ const Search = ({ navigation }) => {
                 keyExtractor={(item) => item.id.toString()}
                 scrollIndicatorInsets={{ right: 1, backgroundColor: COLORS.grey_0 }}
               />
-            ) : showFilter & containerOption === 'sabor' ? (
+            ) : containerOption === 'sabor' ? (
               <FlatList
                 style={{ marginTop: 18, height: '50%' }}
                 data={staticDataSabor}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "sabor")}
                 keyExtractor={(item) => item.id.toString()}
               />
-            ) : showFilter & containerOption === 'ordem' ? (
+            ) : containerOption === 'ordem' ? (
               <FlatList
                 style={{ marginTop: 18, height: '50%' }}
                 data={staticDataOrdem}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "ordem")}
                 keyExtractor={(item) => item.id.toString()}
               />
-            ) : showFilter & containerOption === 'noresults' ? (
+            ) : containerOption === 'noresults' ? (
               <View style={{ marginTop: '50%' }}>
                 <Text style={FONTS.title}>
                   Sem resultados...
@@ -387,18 +348,40 @@ const Search = ({ navigation }) => {
               <View
                 style={{
                   width: '110%',
-                  height: "100%",
+                  height: "95%",
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
+                {isLoading ? (
+                  <View
+                    style={{
+                      flex: 1,
+                      position: 'absolute',
+                      zIndex: 1,
+                      top: "30%",
+                      left: "45%",
+                      right: "50%",
+                      bottom: "50%",
+                      height: "10%",
+                      width: "10%",
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Loading isActive={isLoading} />
+                  </View>
+                ) : (null)}
                 <ProdutctList
                   data={searchResults}
                   numColumns={2}
                   handleLoadMore={handleLoadMore}
-                  navigation={navigation} // Adicione esta linha para passar a função de navegação
+                  navigation={navigation}
+                  isLoading={isLoading}
                 />
               </View>
             )}
-            {showFilter ? (<ButtonSearch onPress={handleSearch} />) : (null)}
+            {containerOption !== '' ? (<ButtonSearch onPress={handleSearch} />) : (null)}
           </View>
         </View>
       </View>

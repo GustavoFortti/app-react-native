@@ -17,7 +17,7 @@ const ButtonSearch = ({onPress}) => {
 const bottomButtonStyle = {
   borderRadius: 0,
   position: 'absolute',
-  bottom: 80,
+  bottom: 90,
   left: 0,
   right: 0,
   backgroundColor: 'black',

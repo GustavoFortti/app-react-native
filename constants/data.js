@@ -30,11 +30,11 @@ export const staticDataSabor = [
 ];
 
 export const staticDataOrdem = [
-  { id: 1, name: "Quantidade menor" },
-  { id: 2, name: "Quantidade maior" },
-  { id: 3, name: "Preço maior" },
-  { id: 4, name: "Preço menor" },
-  { id: 5, name: "Preço x quantidade" },
+  { id: 1, name: "Quantidade menor", field: "qtd", direction: "asc"},
+  { id: 2, name: "Quantidade maior", field: "qtd", direction: "desc"},
+  { id: 3, name: "Preço menor", field: "preco", direction: "asc"},
+  { id: 4, name: "Preço maior", field: "preco", direction: "desc"},
+  { id: 5, name: "Preço x quantidade", field: "preco_qtd", direction: "asc"},
 ];
 
 const appData = { staticDataCategoria, staticDataSabor, staticDataOrdem }

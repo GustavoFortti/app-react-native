@@ -1,14 +1,22 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, Image, StyleSheet, Linking } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS, FONTS, SIZES, images } from '../constants'
 import TruncatedText from '../components/TruncatedText';
+import FadeInImageDetails from '../components/FadeInImageDetails';
 import { MaterialIcons, Ionicons, Feather } from "@expo/vector-icons"
 
 const Details = ({ navigation, route }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { productData } = route.params;
 
+  const openProductUrl = () => {
+    if (productData.link_produto) {
+      const url = productData.link_produto;
+      Linking.openURL(url);
+    }
+  };
+  
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -67,7 +75,8 @@ const Details = ({ navigation, route }) => {
             width: "100%",
           }}
         >
-          <Image
+          <FadeInImageDetails source={{ uri: productData.link_imagem }} />
+          {/* <Image
             resizeMode='contain'
             source={{
               uri: productData.link_imagem,
@@ -78,7 +87,7 @@ const Details = ({ navigation, route }) => {
               height: "50%",
               width: "100%",
             }}
-          />
+          /> */}
           <View style={{
             backgroundColor: COLORS.white,
             borderRadius: 36,
@@ -150,13 +159,13 @@ const Details = ({ navigation, route }) => {
             </View>
             <TouchableOpacity
               style={styles.button}
+              onPress={openProductUrl}
             >
               <Feather
                 name="shopping-bag"
                 size={24}
                 color={COLORS.white}
               />
-
               <Text style={{
                 fontFamily: "eurostile",
                 color: COLORS.white,
