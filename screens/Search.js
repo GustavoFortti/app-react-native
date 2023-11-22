@@ -1,24 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
+
 import {
   View,
   Text,
   FlatList,
-  TouchableOpacity
+  TouchableOpacity,
+  StyleSheet
 } from 'react-native';
-import { COLORS,
-         FONTS,
-         staticDataCategoria,
-         staticDataSabor,
-         staticDataOrdem } from '../constants';
+
+import { SearchBar, Icon } from 'react-native-elements';
+import { MaterialIcons } from "@expo/vector-icons"
+
+import {
+  COLORS,
+  FONTS,
+  staticDataCategoria,
+  staticDataSabor,
+  staticDataOrdem
+} from '../constants';
+
+import { searchByTitle } from '../services/api/product';
+
 import FilterButton from '../components/FilterButton';
 import CategoryItem from '../components/CategoryItem';
 import ButtonSearch from '../components/ButtonSearch';
-import { SearchBar, Icon } from 'react-native-elements';
+import NoResultsModal from '../components/NoResultsModal';
 import ProdutctList from '../components/ProdutctList';
-import { searchByTitle } from '../services/api/product';
-import { MaterialIcons } from "@expo/vector-icons"
 import Loading from '../components/Loading';
+
 
 const Search = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -26,6 +36,7 @@ const Search = ({ navigation }) => {
 
   const [pageSize, setPageSize] = useState(30);
   const [hasMorePages, setHasMorePages] = useState(true);
+  const [hasMorePagesModal, setHasMorePagesModal] = useState(false);
 
   const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
@@ -106,21 +117,21 @@ const Search = ({ navigation }) => {
   };
 
   const handleSearch = async () => {
-    setContainerOption('')
-    setSearchResults([]);
     if (!searchText.trim()) {
       setCurrentPage(0);
       return;
     }
 
+    setContainerOption('')
+    setSearchResults([]);
+
     try {
       const performSearch = async () => {
-
         setTimeout(async () => {
           const products = await executeSearch(searchText, 0);
-
           if (products.length === 0) {
             setNoResultsModalVisible(true); // Mostrar o modal se não houver resultados
+            setContainerOption("categoria")
           } else {
             setSearchResults(products);
             setLastSearchQuery(searchText);
@@ -131,7 +142,6 @@ const Search = ({ navigation }) => {
       await performSearch();
     } catch (error) {
       console.error('Erro ao buscar produtos:', error);
-      setContainerOption('noresults')
       setSearchResults([]);
     }
   };
@@ -140,29 +150,29 @@ const Search = ({ navigation }) => {
     if (hasMorePages) {
       const nextPage = currentPage + 1;
       executeSearch(lastSearchQuery, nextPage, false); // Passar o valor de currentSort
+    } else {
+      setHasMorePagesModal(true)
     }
   };
 
   const executeSearch = async (query, page = 0, reset = true) => {
+
+    if (query === '') {
+      return [];
+    }
+
     if (!query.trim()) {
       setCurrentPage(0);
       setSearchResults([]);
       return [];
     }
-    
+
     setIsLoading(true);
     try {
-      if (searchResults.length > 0) {
-        setPageSize(20)
-      }
+      const ordem = selectedItemOrdem !== '' ? staticDataOrdem.find((data) => data.name === selectedItemOrdem) : null;
+      const sort = ordem ? { 'field': ordem.field, "direction": ordem.direction } : null
 
-      let orderParam = null
-      const order = staticDataOrdem.find((data) => data.name === selectedItemOrdem)
-      if (order) {
-        orderParam = {'field': order.field, "direction": order.direction}
-      }
-
-      const data = await searchByTitle(query, page, pageSize, null);
+      const data = await searchByTitle(query, page, pageSize, sort);
       const products = data.results
       const totalPages = data.totalPages
 
@@ -193,7 +203,6 @@ const Search = ({ navigation }) => {
     } catch (error) {
       console.error('(executeSearch) - Erro ao buscar produtos:', error);
       setSearchResults([]);
-      setContainerOption('noresults')
       return []; // Retorne um array vazio em caso de erro
     }
   };
@@ -305,6 +314,7 @@ const Search = ({ navigation }) => {
                   isActive={containerOption === 'ordem'}
                   onPress={showOrdem}
                   noActive={containerOption === ''}
+                  filterSelected={selectedItemOrdem}
                 />
               </View>
             </View>
@@ -318,7 +328,7 @@ const Search = ({ navigation }) => {
             }}>
             {containerOption === 'categoria' ? (
               <FlatList
-                style={{ marginTop: 18, height: '50%' }}
+                style={styles.flatList}
                 data={staticDataCategoria}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "categoria")}
                 keyExtractor={(item) => item.id.toString()}
@@ -326,31 +336,25 @@ const Search = ({ navigation }) => {
               />
             ) : containerOption === 'sabor' ? (
               <FlatList
-                style={{ marginTop: 18, height: '50%' }}
+                style={styles.flatList}
                 data={staticDataSabor}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "sabor")}
                 keyExtractor={(item) => item.id.toString()}
               />
             ) : containerOption === 'ordem' ? (
               <FlatList
-                style={{ marginTop: 18, height: '50%' }}
+                style={styles.flatList}
                 data={staticDataOrdem}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "ordem")}
                 keyExtractor={(item) => item.id.toString()}
               />
-            ) : containerOption === 'noresults' ? (
-              <View style={{ marginTop: '50%' }}>
-                <Text style={FONTS.title}>
-                  Sem resultados...
-                </Text>
-              </View>
             ) : (
               <View
                 style={{
                   width: '110%',
-                  height: "95%",
+                  height: "96%",
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}
               >
                 {isLoading ? (
@@ -385,8 +389,30 @@ const Search = ({ navigation }) => {
           </View>
         </View>
       </View>
+      {noResultsModalVisible ? (
+        <NoResultsModal
+          visible={noResultsModalVisible}
+          onClose={() => setNoResultsModalVisible(false)}
+          label="Nenhum resultado encontrado."
+        />
+      ) : (null)}
+      {hasMorePagesModal ? (
+        <NoResultsModal
+          visible={true}
+          onClose={() => setHasMorePagesModal(false)}
+          label="Sem mais resultados."
+        />
+      ) : (null)}
     </SafeAreaView>
   );
 };
+
+export const styles = StyleSheet.create({
+  flatList: {
+    marginTop: 18, 
+    height: '60%', 
+    width: "100%",
+  },
+});
 
 export default Search;

@@ -42,7 +42,7 @@ const Details = ({ navigation, route }) => {
           >
             <MaterialIcons
               name="keyboard-arrow-left"
-              size={32}
+              size={38}
               color={COLORS.black}
             />
           </TouchableOpacity>
@@ -76,18 +76,6 @@ const Details = ({ navigation, route }) => {
           }}
         >
           <FadeInImageDetails source={{ uri: productData.link_imagem }} />
-          {/* <Image
-            resizeMode='contain'
-            source={{
-              uri: productData.link_imagem,
-            }}
-            style={{
-              marginTop: "25%",
-              justifyContent: "center",
-              height: "50%",
-              width: "100%",
-            }}
-          /> */}
           <View style={{
             backgroundColor: COLORS.white,
             borderRadius: 36,

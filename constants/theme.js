@@ -56,6 +56,13 @@ export const COLORS = {
     grey_4: "#8F8F8F",
     grey_5: "#707070",
     grey_6: "#232323",
+    grey_0_t: "rgba(240, 240, 240, 0.7)",
+    grey_1_t: "rgba(225, 225, 225, 0.7)",
+    grey_2_t: "rgba(192, 192, 192, 0.7)",
+    grey_3_t: "rgba(172, 172, 172, 0.7)",
+    grey_4_t: "rgba(143, 143, 143, 0.7)",
+    grey_5_t: "rgba(112, 112, 112, 0.7)",
+    grey_6_t: "rgba(35, 35, 35, 0.7)",
 }
 
 export const SIZES = {

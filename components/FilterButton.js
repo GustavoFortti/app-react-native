@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, Text, View } from 'react-native';
 import { COLORS } from '../constants';
 
-const FilterButton = ({ label, isActive, onPress, colorBack='white', noActive=false }) => {
+const FilterButton = ({ label, isActive, onPress, colorBack='white', noActive=false, filterSelected=false }) => {
 
   return (
     <TouchableOpacity
@@ -24,8 +24,10 @@ const FilterButton = ({ label, isActive, onPress, colorBack='white', noActive=fa
           fontWeight: '400',
           fontFamily: 'eurostile',
           color: (isActive ? 'white' :
+                  filterSelected && label === 'Ordenar' ? 'black' : 
                   noActive ? COLORS.grey_4 :
                  'black'),
+          textDecorationLine: filterSelected && label === 'Ordenar' ? 'underline' : 'none',
           padding: 10,
         }}
       >

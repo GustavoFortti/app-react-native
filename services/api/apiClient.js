@@ -5,12 +5,18 @@ const BASE_URL = 'https://nutrifind-api-10f8a344cbba.herokuapp.com';
 const apiClient = {
   get: async (path, queryParams = {}, headers = {}) => {
     // Ajusta os parâmetros da query para corresponder ao comando curl
+
     const adjustedQueryParams = {
       ...queryParams,
       query: queryParams.query,
       page: queryParams.page,
       size: queryParams.size,
     };
+
+    if (queryParams.sort) {
+      adjustedQueryParams.fieldSort = queryParams.sort.field;
+      adjustedQueryParams.direction = queryParams.sort.direction;
+    }
 
     // Constrói a URL final
     const url = `${BASE_URL}${path}`;
@@ -27,14 +33,14 @@ const apiClient = {
       },
     };
 
-    console.log('Request Config:', config); // Mostra a configuração da requisição que será enviada
+    console.log('Request Config:', config); // Mostra a confrguração da requisição que será enviada
 
     try {
       const response = await axios(config);
 
-      console.log('Response Status:', response.status); // Mostra o status da resposta
+      // console.log('Response Status:', response.status); // Mostra o status da resposta
       // console.log('Response Status:', response.data); // Mostra o status da resposta
-      console.log('Response results:', response.data.results); // Mostra o status da resposta
+      // console.log('Response results:', response.data.results); // Mostra o status da resposta
 
       return response.data; // Retorna os dados da resposta
     } catch (error) {

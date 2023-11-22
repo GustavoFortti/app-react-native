@@ -1,35 +1,25 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { COLORS } from '../constants';
+import { COLORS, styles } from '../constants';
 
-const ButtonSearch = ({onPress}) => {
+const ButtonSearch = ({ onPress }) => {
   return (
-    <View style={{ flex: 1, position: 'relative', width: "50%" }}>
-      <View style={{ flex: 1, padding: 20 }}>
+    <View style={{
+      flex: 1,
+      position: 'relative',
+      width: "100%",
+      bottom: '10%',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }}
+    >
+      <View style={{ flex: 1, padding: 25 }}>
       </View>
-      <TouchableOpacity style={bottomButtonStyle} onPress={onPress}>
-        <Text style={buttonTextStyle}>Buscar</Text>
+      <TouchableOpacity style={styles.button_black} onPress={onPress}>
+        <Text style={styles.buttonText_black}>Buscar</Text>
       </TouchableOpacity>
     </View>
   );
-};
-
-const bottomButtonStyle = {
-  borderRadius: 0,
-  position: 'absolute',
-  bottom: 90,
-  left: 0,
-  right: 0,
-  backgroundColor: 'black',
-  alignItems: 'center',
-  justifyContent: 'center',
-  paddingVertical: 10,
-};
-
-const buttonTextStyle = {
-  fontFamily: 'eurostile',
-  color: '#fff',
-  fontSize: 22,
 };
 
 export default ButtonSearch;

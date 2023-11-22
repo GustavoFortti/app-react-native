@@ -1,62 +1,82 @@
-import React, { useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, Animated } from 'react-native';
 import { COLORS } from '../constants';
 
-const NoResultsModal = ({ visible, onClose }) => {
+const NoResultsModal = ({ visible, onClose, label }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     if (visible) {
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true
+      }).start();
+
       const timer = setTimeout(() => {
         onClose();
-      }, 600); // Fecha o modal após 1,5 segundos
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true
+        }).start();
+      }, 2000);
 
-      return () => {
-        clearTimeout(timer);
-      };
+      return () => clearTimeout(timer);
+    } else {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 500,
+        useNativeDriver: true
+      }).start();
     }
-  }, [visible, onClose]);
+  }, [visible, onClose, fadeAnim]);
 
   return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={visible}
-      onRequestClose={onClose}
+    <Animated.View
+      style={{
+        bottom: "70%",
+        left: '0%',
+        backgroundColor: 'transparent',
+        alignItems: 'center',
+        justifyContent: 'center',
+        opacity: fadeAnim, // Animação de opacidade aplicada aqui
+      }}
     >
       <View
         style={{
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(0, 0, 0, 0)',
         }}
       >
         <TouchableOpacity
           style={{
             position: 'absolute',
-            top: '30%', // Ajuste a posição vertical conforme necessário
+            top: '30%',
             width: '100%',
             justifyContent: 'center',
             alignItems: 'center',
             zIndex: 1,
           }}
-          activeOpacity={1} // Isso permite que os toques não passem pelo modal
+          activeOpacity={1}
           onPress={onClose}
         >
           <View
             style={{
-              backgroundColor: COLORS.grey_title_sub,
+              backgroundColor: COLORS.grey_6_t,
               padding: 20,
               borderRadius: 10,
               alignItems: 'center',
             }}
           >
             <Text style={{ fontSize: 24, fontFamily: 'eurostile', color: COLORS.white }}>
-              Nenhum resultado encontrado.
+              {label}
             </Text>
           </View>
         </TouchableOpacity>
       </View>
-    </Modal>
+    </Animated.View>
   );
 };
 

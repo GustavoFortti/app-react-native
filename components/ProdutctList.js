@@ -17,27 +17,14 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
           borderWidth: 1,
           borderRadius: 14,
           marginTop: 30,
-          width: "49%",
+          width: "48%",
+          marginHorizontal: 2,
           justifyContent: 'flex-start',
           
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
         <FadeInImagePrdctList item={item.link_imagem} />
-        {/* <Image
-          resizeMode='contain'
-          source={{
-            uri: item.link_imagem,
-          }}
-          style={{
-            marginTop: 0,
-            height: 170,
-            width: 130,
-          }}
-          onError={(e) => {
-            e.nativeEvent.error;
-          }}
-        /> */}
         <View
           style={{
             flexDirection: 'column',
@@ -107,9 +94,11 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
           numColumns={numColumns}
           columnWrapperStyle={{
             justifyContent: 'space-between',
-            marginHorizontal: 10,
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
           }}
-          style={{ marginTop: 20, height: '78%', width: '100%' }}
+          style={{ marginTop: 10, height: '100%', width: '100%' }}
           data={data}
           renderItem={renderProductItem}
           keyExtractor={(item, index) => index.toString()}

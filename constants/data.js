@@ -1,7 +1,7 @@
 import images from "./images";
 
 export const staticDataCategoria = [
-  { id: 1, name: "Creatina" },
+  { id: 1, name: "peruana" },
   { id: 2, name: "Whey Protein" },
   { id: 3, name: "Vitaminas" },
   { id: 4, name: "Glutamina" },
@@ -32,8 +32,8 @@ export const staticDataSabor = [
 export const staticDataOrdem = [
   { id: 1, name: "Quantidade menor", field: "qtd", direction: "asc"},
   { id: 2, name: "Quantidade maior", field: "qtd", direction: "desc"},
-  { id: 3, name: "Preço menor", field: "preco", direction: "asc"},
-  { id: 4, name: "Preço maior", field: "preco", direction: "desc"},
+  { id: 3, name: "Preço menor", field: "preco_numeric", direction: "asc"},
+  { id: 4, name: "Preço maior", field: "preco_numeric", direction: "desc"},
   { id: 5, name: "Preço x quantidade", field: "preco_qtd", direction: "asc"},
 ];
 
