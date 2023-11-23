@@ -47,6 +47,8 @@ const Search = ({ navigation }) => {
   const [selectedItemCategoria, setSelectedItemCategoria] = useState('');
   const [selectedItemSabor, setSelectedItemSabor] = useState('');
   const [selectedItemOrdem, setSelectedItemOrdem] = useState('');
+  const [selectedItemOrdemMaxQnt, setSelectedItemOrdemMaxQnt] = useState('todos');
+  const [selectedItemOrdemMinQnt, setSelectedItemOrdemMinQnt] = useState('todos');
 
   useEffect(() => {
     setSearchText(selectedItemCategoria + ' ' + selectedItemSabor);
@@ -89,6 +91,8 @@ const Search = ({ navigation }) => {
           (tipoFiltro === 'sabor' && selectedItemSabor === item.name) ||
           (tipoFiltro === 'ordem' && selectedItemOrdem === item.name)
         }
+        setSelectedItemOrdemMaxQnt={setSelectedItemOrdemMaxQnt}
+        setSelectedItemOrdemMinQnt={setSelectedItemOrdemMinQnt}
       />
     );
   };
@@ -113,7 +117,6 @@ const Search = ({ navigation }) => {
         setSelectedItemOrdem(categoryName);
       }
     }
-
   };
 
   const handleSearch = async () => {
@@ -303,12 +306,12 @@ const Search = ({ navigation }) => {
                   onPress={showCategoria}
                   noActive={containerOption === ''}
                 />
-                <FilterButton
+                {/* <FilterButton
                   label="Sabores"
                   isActive={containerOption === 'sabor'}
                   onPress={showSabor}
                   noActive={containerOption === ''}
-                />
+                /> */}
                 <FilterButton
                   label="Ordenar"
                   isActive={containerOption === 'ordem'}
@@ -333,6 +336,7 @@ const Search = ({ navigation }) => {
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "categoria")}
                 keyExtractor={(item) => item.id.toString()}
                 scrollIndicatorInsets={{ right: 1, backgroundColor: COLORS.grey_0 }}
+                scrollEnabled={true}
               />
             ) : containerOption === 'sabor' ? (
               <FlatList
@@ -347,6 +351,7 @@ const Search = ({ navigation }) => {
                 data={staticDataOrdem}
                 renderItem={({ item, index }) => renderCategoryItem({ item, index }, "ordem")}
                 keyExtractor={(item) => item.id.toString()}
+                scrollEnabled={false}
               />
             ) : (
               <View

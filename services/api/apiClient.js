@@ -7,7 +7,6 @@ const apiClient = {
     // Ajusta os parâmetros da query para corresponder ao comando curl
 
     const adjustedQueryParams = {
-      ...queryParams,
       query: queryParams.query,
       page: queryParams.page,
       size: queryParams.size,
@@ -17,6 +16,10 @@ const apiClient = {
       adjustedQueryParams.fieldSort = queryParams.sort.field;
       adjustedQueryParams.direction = queryParams.sort.direction;
     }
+
+    console.log("adjustedQueryParams")
+    console.log(adjustedQueryParams)
+    console.log("adjustedQueryParams")
 
     // Constrói a URL final
     const url = `${BASE_URL}${path}`;
@@ -44,7 +47,7 @@ const apiClient = {
 
       return response.data; // Retorna os dados da resposta
     } catch (error) {
-      console.error('Response Error:', error.response); // Mostra o erro da resposta, se houver
+      // console.error('Response Error:', error.response); // Mostra o erro da resposta, se houver
 
       // Aqui você pode querer lançar um erro customizado ou tratar o erro de outra forma
       throw error;

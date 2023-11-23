@@ -1,25 +1,19 @@
 import images from "./images";
 
 export const staticDataCategoria = [
-  { id: 1, name: "peruana" },
+  { id: 1, name: "Creatina" },
   { id: 2, name: "Whey Protein" },
-  { id: 3, name: "Vitaminas" },
-  { id: 4, name: "Glutamina" },
+  { id: 3, name: "Hipercalorico" },
+  { id: 4, name: "Barrinhas" },
   { id: 5, name: "BCAA" },
   { id: 6, name: "Ômega-3" },
-  { id: 7, name: "Caseína" },
-  { id: 8, name: "Zinco" },
-  { id: 10, name: "Colágeno" },
-  { id: 11, name: "Prebióticos" },
-  { id: 12, name: "Probióticos" },
-  { id: 13, name: "Óleo de peixe" },
-  { id: 14, name: "L-arginina" },
-  { id: 15, name: "L-carnitina" },
-  { id: 16, name: "Magnésio" },
-  { id: 17, name: "Ferro" },
-  { id: 18, name: "Vitamina D" },
-  { id: 19, name: "Ginseng" },
-  { id: 20, name: "Cálcio" }
+  { id: 7, name: "Vitamina C" },
+  { id: 8, name: "Colágeno" },
+  { id: 9, name: "Pre-treino" },
+  { id: 10, name: "Vitamina D" },
+  { id: 11, name: "Glutamina" },
+  { id: 12, name: "Albumina" },
+  { id: 13, name: "Cafeina" },
 ];
 
 export const staticDataSabor = [
@@ -30,11 +24,14 @@ export const staticDataSabor = [
 ];
 
 export const staticDataOrdem = [
-  { id: 1, name: "Quantidade menor", field: "qtd", direction: "asc"},
-  { id: 2, name: "Quantidade maior", field: "qtd", direction: "desc"},
-  { id: 3, name: "Preço menor", field: "preco_numeric", direction: "asc"},
-  { id: 4, name: "Preço maior", field: "preco_numeric", direction: "desc"},
-  { id: 5, name: "Preço x quantidade", field: "preco_qtd", direction: "asc"},
+  { id: 1, name: "Menor preço", field: "preco_numeric", direction: "asc"},
+  { id: 2, name: "Maior preço", field: "preco_numeric", direction: "desc"},
+  { id: 3, name: "Menor quantidade", field: "quantidade", direction: "asc"},
+  { id: 4, name: "Maior quantidade", field: "quantidade", direction: "desc"},
+  { id: 5, name: "Preço x quantidade", field: "preco_qnt", direction: "asc"},
+  { id: 6, name: "Quantidade", field: "quantidade_filter"},
+  { id: 7, name: "De:", field: "min_qnt"},
+  { id: 8, name: "Até:", field: "max_qnt"},
 ];
 
 const appData = { staticDataCategoria, staticDataSabor, staticDataOrdem }
