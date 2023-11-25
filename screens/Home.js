@@ -141,11 +141,11 @@ const Home = ({ navigation }) => {
               height: "76%",
             }}
           >
-            <ProdutctList
+            {/* <ProdutctList
               data={products}
               numColumns={2}
               navigation={navigation}
-            />
+            /> */}
           </View>
           <View style={{
           }}>

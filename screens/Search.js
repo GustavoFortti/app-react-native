@@ -47,18 +47,19 @@ const Search = ({ navigation }) => {
   const [selectedItemCategoria, setSelectedItemCategoria] = useState('');
   const [selectedItemSabor, setSelectedItemSabor] = useState('');
   const [selectedItemOrdem, setSelectedItemOrdem] = useState('');
-  const [selectedItemOrdemMaxQnt, setSelectedItemOrdemMaxQnt] = useState('todos');
-  const [selectedItemOrdemMinQnt, setSelectedItemOrdemMinQnt] = useState('todos');
+  const [selectedItemOrdemMaxQnt, setSelectedItemOrdemMaxQnt] = useState(-1);
+  const [selectedItemOrdemMinQnt, setSelectedItemOrdemMinQnt] = useState(-1);
 
   useEffect(() => {
     setSearchText(selectedItemCategoria + ' ' + selectedItemSabor);
   }, [selectedItemCategoria, selectedItemSabor]);
 
   useEffect(() => {
-    if (searchText === '') {
-      setSelectedItemCategoria('')
-      setSelectedItemSabor('')
-    }
+    // setSelectedItemCategoria('')
+    setSelectedItemSabor('')
+    setSelectedItemOrdem('')
+    setSelectedItemOrdemMaxQnt(-1)
+    setSelectedItemOrdemMinQnt(-1)
   }, [searchText]);
 
   const clearResults = () => {
@@ -92,7 +93,9 @@ const Search = ({ navigation }) => {
           (tipoFiltro === 'ordem' && selectedItemOrdem === item.name)
         }
         setSelectedItemOrdemMaxQnt={setSelectedItemOrdemMaxQnt}
+        selectedItemOrdemMaxQnt={selectedItemOrdemMaxQnt}
         setSelectedItemOrdemMinQnt={setSelectedItemOrdemMinQnt}
+        selectedItemOrdemMinQnt={selectedItemOrdemMinQnt}
       />
     );
   };
@@ -175,7 +178,19 @@ const Search = ({ navigation }) => {
       const ordem = selectedItemOrdem !== '' ? staticDataOrdem.find((data) => data.name === selectedItemOrdem) : null;
       const sort = ordem ? { 'field': ordem.field, "direction": ordem.direction } : null
 
-      const data = await searchByTitle(query, page, pageSize, sort);
+      const rangeFilter = {
+        quantidade: {},
+      };
+      
+      if (selectedItemOrdemMinQnt) {
+        rangeFilter.quantidade.gte = selectedItemOrdemMinQnt;
+      }
+      
+      if (selectedItemOrdemMaxQnt) {
+        rangeFilter.quantidade.lt = selectedItemOrdemMaxQnt;
+      }
+      
+      const data = await searchByTitle(query, page, pageSize, sort, rangeFilter);
       const products = data.results
       const totalPages = data.totalPages
 
@@ -198,7 +213,12 @@ const Search = ({ navigation }) => {
       setCurrentPage(page);
       setIsLoading(false);
 
+      if (page === 0) {
+        console.log("OKK")
+        setHasMorePages(true);
+      }
       if (page >= totalPages - 1) {
+        console.log("OK")
         setHasMorePages(false);
       }
 
@@ -317,27 +337,36 @@ const Search = ({ navigation }) => {
                   isActive={containerOption === 'ordem'}
                   onPress={showOrdem}
                   noActive={containerOption === ''}
-                  filterSelected={selectedItemOrdem}
+                  filterSelected={selectedItemOrdem || selectedItemOrdemMaxQnt > 1 || selectedItemOrdemMinQnt  > 1}
                 />
               </View>
             </View>
           </View>
           <View
             style={{
-              marginTop: 0,
+              marginTop: 30,
               width: "100%",
-              height: "83%",
+              height: "75%",
               alignItems: "center",
             }}>
             {containerOption === 'categoria' ? (
-              <FlatList
-                style={styles.flatList}
-                data={staticDataCategoria}
-                renderItem={({ item, index }) => renderCategoryItem({ item, index }, "categoria")}
-                keyExtractor={(item) => item.id.toString()}
-                scrollIndicatorInsets={{ right: 1, backgroundColor: COLORS.grey_0 }}
-                scrollEnabled={true}
-              />
+              <>
+                {/* <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: '400',
+                  fontFamily: 'eurostile',
+                }}
+                >Sabores</Text> */}
+                <FlatList
+                  style={styles.flatList}
+                  data={staticDataCategoria}
+                  renderItem={({ item, index }) => renderCategoryItem({ item, index }, "categoria")}
+                  keyExtractor={(item) => item.id.toString()}
+                  scrollIndicatorInsets={{ right: 1, backgroundColor: COLORS.grey_0 }}
+                  scrollEnabled={true}
+                />
+              </>
             ) : containerOption === 'sabor' ? (
               <FlatList
                 style={styles.flatList}

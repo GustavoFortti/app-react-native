@@ -17,37 +17,40 @@ const apiClient = {
       adjustedQueryParams.direction = queryParams.sort.direction;
     }
 
-    console.log("adjustedQueryParams")
-    console.log(adjustedQueryParams)
-    console.log("adjustedQueryParams")
+    if (queryParams.rangeFilter.quantidade) {
+      if (queryParams.rangeFilter.quantidade.gte > 1) {
+        adjustedQueryParams.quantidadeGte = queryParams.rangeFilter.quantidade.gte;
+      }
+      if (queryParams.rangeFilter.quantidade.lt > 1) {
+        adjustedQueryParams.quantidadeLt = queryParams.rangeFilter.quantidade.lt;
+      }
+    }
 
-    // Constrói a URL final
     const url = `${BASE_URL}${path}`;
-    console.log('Request URL:', url); // Mostra a URL que será chamada
+    console.log('Request URL:', url);
 
-    // Configuração do Axios para a chamada GET
     const config = {
       method: 'get',
       url: url,
-      params: adjustedQueryParams, // Axios automaticamente trata os parâmetros da query
+      params: adjustedQueryParams,
       headers: {
         'Content-Type': 'application/json',
         ...headers,
       },
     };
-
+    
     console.log('Request Config:', config); // Mostra a confrguração da requisição que será enviada
 
     try {
       const response = await axios(config);
 
-      // console.log('Response Status:', response.status); // Mostra o status da resposta
-      // console.log('Response Status:', response.data); // Mostra o status da resposta
+      console.log('Response Status:', response.status); // Mostra o status da resposta
+      console.log('Response totalpages:', response.data.totalPages); // Mostra o status da resposta
       // console.log('Response results:', response.data.results); // Mostra o status da resposta
 
       return response.data; // Retorna os dados da resposta
     } catch (error) {
-      // console.error('Response Error:', error.response); // Mostra o erro da resposta, se houver
+      console.error('Response Error:', error.response); // Mostra o erro da resposta, se houver
 
       // Aqui você pode querer lançar um erro customizado ou tratar o erro de outra forma
       throw error;
