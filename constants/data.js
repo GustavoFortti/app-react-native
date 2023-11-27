@@ -3,6 +3,7 @@ import images from "./images";
 export const staticDataCategoria = [
   { id: 1, name: "Creatina" },
   { id: 2, name: "Whey Protein" },
+  { id: 17, name: "sem resultado" },
   { id: 3, name: "Hipercalorico" },
   { id: 4, name: "Barrinhas" },
   { id: 5, name: "BCAA" },
@@ -14,6 +15,7 @@ export const staticDataCategoria = [
   { id: 11, name: "Glutamina" },
   { id: 12, name: "Albumina" },
   { id: 13, name: "Cafeina" },
+  { id: 14, name: "" },
 ];
 
 export const staticDataSabor = [
@@ -32,6 +34,7 @@ export const staticDataOrdem = [
   { id: 6, name: "Quantidade", field: "quantidade_filter"},
   { id: 7, name: "De:", field: "min_qnt"},
   { id: 8, name: "Até:", field: "max_qnt"},
+  { id: 9, name: "", field: ""},
 ];
 
 const appData = { staticDataCategoria, staticDataSabor, staticDataOrdem }

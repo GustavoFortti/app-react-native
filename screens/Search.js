@@ -4,12 +4,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import {
   View,
   Text,
-  FlatList,
   TouchableOpacity,
   StyleSheet
 } from 'react-native';
 
-import { SearchBar, Icon } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import { MaterialIcons } from "@expo/vector-icons"
 
 import {
@@ -22,6 +21,7 @@ import {
 
 import { searchByTitle } from '../services/api/product';
 
+import CustomDropdown from '../components/CustomDropdown';
 import FilterButton from '../components/FilterButton';
 import CategoryItem from '../components/CategoryItem';
 import ButtonSearch from '../components/ButtonSearch';
@@ -162,11 +162,6 @@ const Search = ({ navigation }) => {
   };
 
   const executeSearch = async (query, page = 0, reset = true) => {
-
-    if (query === '') {
-      return [];
-    }
-
     if (!query.trim()) {
       setCurrentPage(0);
       setSearchResults([]);
@@ -181,15 +176,15 @@ const Search = ({ navigation }) => {
       const rangeFilter = {
         quantidade: {},
       };
-      
+
       if (selectedItemOrdemMinQnt) {
         rangeFilter.quantidade.gte = selectedItemOrdemMinQnt;
       }
-      
+
       if (selectedItemOrdemMaxQnt) {
         rangeFilter.quantidade.lt = selectedItemOrdemMaxQnt;
       }
-      
+
       const data = await searchByTitle(query, page, pageSize, sort, rangeFilter);
       const products = data.results
       const totalPages = data.totalPages
@@ -214,11 +209,9 @@ const Search = ({ navigation }) => {
       setIsLoading(false);
 
       if (page === 0) {
-        console.log("OKK")
         setHasMorePages(true);
       }
       if (page >= totalPages - 1) {
-        console.log("OK")
         setHasMorePages(false);
       }
 
@@ -326,18 +319,12 @@ const Search = ({ navigation }) => {
                   onPress={showCategoria}
                   noActive={containerOption === ''}
                 />
-                {/* <FilterButton
-                  label="Sabores"
-                  isActive={containerOption === 'sabor'}
-                  onPress={showSabor}
-                  noActive={containerOption === ''}
-                /> */}
                 <FilterButton
                   label="Ordenar"
                   isActive={containerOption === 'ordem'}
                   onPress={showOrdem}
                   noActive={containerOption === ''}
-                  filterSelected={selectedItemOrdem || selectedItemOrdemMaxQnt > 1 || selectedItemOrdemMinQnt  > 1}
+                  filterSelected={selectedItemOrdem || selectedItemOrdemMaxQnt > 1 || selectedItemOrdemMinQnt > 1}
                 />
               </View>
             </View>
@@ -350,38 +337,24 @@ const Search = ({ navigation }) => {
               alignItems: "center",
             }}>
             {containerOption === 'categoria' ? (
-              <>
-                {/* <Text
-                style={{
-                  fontSize: 20,
-                  fontWeight: '400',
-                  fontFamily: 'eurostile',
-                }}
-                >Sabores</Text> */}
-                <FlatList
-                  style={styles.flatList}
-                  data={staticDataCategoria}
-                  renderItem={({ item, index }) => renderCategoryItem({ item, index }, "categoria")}
-                  keyExtractor={(item) => item.id.toString()}
-                  scrollIndicatorInsets={{ right: 1, backgroundColor: COLORS.grey_0 }}
-                  scrollEnabled={true}
-                />
-              </>
-            ) : containerOption === 'sabor' ? (
-              <FlatList
-                style={styles.flatList}
-                data={staticDataSabor}
-                renderItem={({ item, index }) => renderCategoryItem({ item, index }, "sabor")}
-                keyExtractor={(item) => item.id.toString()}
+              <CustomDropdown
+                containerOption={'categoria'}
+                onPressArrowUp={setContainerOption}
+                searchResults={searchResults}
+                staticData={staticDataCategoria}
+                renderCategoryItem={renderCategoryItem}
+                handleSearch={handleSearch}
               />
             ) : containerOption === 'ordem' ? (
-              <FlatList
-                style={styles.flatList}
-                data={staticDataOrdem}
-                renderItem={({ item, index }) => renderCategoryItem({ item, index }, "ordem")}
-                keyExtractor={(item) => item.id.toString()}
-                scrollEnabled={false}
+              <CustomDropdown
+                containerOption={'ordem'}
+                onPressArrowUp={setContainerOption}
+                searchResults={searchResults}
+                staticData={staticDataOrdem}
+                renderCategoryItem={renderCategoryItem}
+                handleSearch={handleSearch}
               />
+
             ) : (
               <View
                 style={{
@@ -419,7 +392,6 @@ const Search = ({ navigation }) => {
                 />
               </View>
             )}
-            {containerOption !== '' ? (<ButtonSearch onPress={handleSearch} />) : (null)}
           </View>
         </View>
       </View>
@@ -443,8 +415,8 @@ const Search = ({ navigation }) => {
 
 export const styles = StyleSheet.create({
   flatList: {
-    marginTop: 18, 
-    height: '60%', 
+    marginTop: 18,
+    height: '60%',
     width: "100%",
   },
 });

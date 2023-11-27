@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
       paddingHorizontal: 45,
       paddingVertical: 10,
       borderRadius: 3,
-      marginTop: 20,
+      marginTop: "10%",
     },
     buttonText_black: {
       color: 'black',

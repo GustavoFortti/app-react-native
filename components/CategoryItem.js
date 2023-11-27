@@ -57,7 +57,7 @@ const CategoryItem = ({
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            borderBottomWidth: 0.3,
+            borderBottomWidth: item.name !== "" ? 0.3 : 0,
             width: "100%",
             borderColor: isSelected ? COLORS.grey_6 : COLORS.grey_4,
           }}

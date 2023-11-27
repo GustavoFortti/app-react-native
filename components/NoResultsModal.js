@@ -20,7 +20,7 @@ const NoResultsModal = ({ visible, onClose, label }) => {
           duration: 500,
           useNativeDriver: true
         }).start();
-      }, 2000);
+      }, 700);
 
       return () => clearTimeout(timer);
     } else {
