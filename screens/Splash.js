@@ -3,10 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const Splash = ({ navigation }) => {
   useEffect(() => {
-    // Simule um tempo de carregamento (por exemplo, 2 segundos)
     setTimeout(() => {
-      // Navegue para a próxima tela após o tempo de carregamento
-      // Substitua 'MinhaTelaPrincipal' pelo nome da sua tela principal
       navigation.replace('Home');
     }, 2000);
   }, []);

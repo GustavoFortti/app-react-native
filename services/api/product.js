@@ -14,3 +14,14 @@ export const searchByTitle = async (query, page = 0, size = 8, sort = null, rang
     throw error;
   }
 };
+
+export const searchByRef = async (query) => {
+  try {
+    return await apiClient.get('/api/auth/search/ref', {
+      query
+    }, {});
+  } catch (error) {
+    console.error('Error searching products:', error.message);
+    throw error;
+  }
+};

@@ -13,9 +13,7 @@ import { MaterialIcons } from "@expo/vector-icons"
 
 import {
   COLORS,
-  FONTS,
   staticDataCategoria,
-  staticDataSabor,
   staticDataOrdem
 } from '../constants';
 
@@ -24,11 +22,9 @@ import { searchByTitle } from '../services/api/product';
 import CustomDropdown from '../components/CustomDropdown';
 import FilterButton from '../components/FilterButton';
 import CategoryItem from '../components/CategoryItem';
-import ButtonSearch from '../components/ButtonSearch';
 import NoResultsModal from '../components/NoResultsModal';
 import ProdutctList from '../components/ProdutctList';
 import Loading from '../components/Loading';
-
 
 const Search = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
@@ -41,7 +37,7 @@ const Search = ({ navigation }) => {
   const [lastSearchQuery, setLastSearchQuery] = useState('');
   const [currentPage, setCurrentPage] = useState(0);
   const [noResultsModalVisible, setNoResultsModalVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // Adicione um estado para controlar o loading
+  const [isLoading, setIsLoading] = useState(false);
 
   const [containerOption, setContainerOption] = useState('categoria');
   const [selectedItemCategoria, setSelectedItemCategoria] = useState('');

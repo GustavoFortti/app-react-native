@@ -4,12 +4,9 @@ const BASE_URL = 'https://nutrifind-api-10f8a344cbba.herokuapp.com';
 
 const apiClient = {
   get: async (path, queryParams = {}, headers = {}) => {
-    // Ajusta os parâmetros da query para corresponder ao comando curl
 
     const adjustedQueryParams = {
       query: queryParams.query,
-      page: queryParams.page,
-      size: queryParams.size,
     };
 
     if (queryParams.sort) {
@@ -17,7 +14,12 @@ const apiClient = {
       adjustedQueryParams.direction = queryParams.sort.direction;
     }
 
-    if (queryParams.rangeFilter.quantidade) {
+    if (queryParams.page && queryParams.size) {
+      adjustedQueryParams.page = queryParams.page;
+      adjustedQueryParams.size = queryParams.size;
+    }
+
+    if (queryParams.rangeFilter?.quantidade) {
       if (queryParams.rangeFilter.quantidade.gte > 1) {
         adjustedQueryParams.quantidadeGte = queryParams.rangeFilter.quantidade.gte;
       }
@@ -39,20 +41,17 @@ const apiClient = {
       },
     };
     
-    console.log('Request Config:', config); // Mostra a confrguração da requisição que será enviada
+    console.log('Request Config:', config);
 
     try {
       const response = await axios(config);
 
-      console.log('Response Status:', response.status); // Mostra o status da resposta
-      console.log('Response totalpages:', response.data.totalPages); // Mostra o status da resposta
-      // console.log('Response results:', response.data.results); // Mostra o status da resposta
+      console.log('Response Status:', response.status);
+      console.log('Response results:', response.data.results);
 
-      return response.data; // Retorna os dados da resposta
+      return response.data;
     } catch (error) {
-      console.error('Response Error:', error.response); // Mostra o erro da resposta, se houver
-
-      // Aqui você pode querer lançar um erro customizado ou tratar o erro de outra forma
+      console.error('Response Error:', error.response);
       throw error;
     }
   },

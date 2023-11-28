@@ -28,7 +28,7 @@ const CustomDropdown = ({
         >
           <MaterialIcons
             name="keyboard-arrow-up"
-            color={COLORS.grey_3}
+            color={COLORS.grey_5}
             size={30}
           />
         </TouchableOpacity>
