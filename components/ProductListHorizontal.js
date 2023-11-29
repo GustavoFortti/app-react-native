@@ -5,10 +5,7 @@ import TruncatedText from '../components/TruncatedText';
 import FadeInImagePrdctList from './FadeInImagePrdctList';
 
 const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) => {
-  console.log(data.results);
   const renderProductItem = ({ item, index }) => {
-    console.log("item");
-    console.log(item);
     return (
       <TouchableOpacity
         style={{
@@ -60,7 +57,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) 
             justifyContent: 'center',
             marginTop: 15,
             paddingBottom: 10,
-            borderBottomWidth: 0.2,
+            // borderBottomWidth: 0.2,
             width: "80%",
             borderColor: COLORS.black,
             backgroundColor: COLORS.white,

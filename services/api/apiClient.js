@@ -4,17 +4,16 @@ const BASE_URL = 'https://nutrifind-api-10f8a344cbba.herokuapp.com';
 
 const apiClient = {
   get: async (path, queryParams = {}, headers = {}) => {
-
     const adjustedQueryParams = {
       query: queryParams.query,
     };
-
+    
     if (queryParams.sort) {
       adjustedQueryParams.fieldSort = queryParams.sort.field;
       adjustedQueryParams.direction = queryParams.sort.direction;
     }
-
-    if (queryParams.page && queryParams.size) {
+    
+    if (queryParams.page !== undefined && queryParams.size !== undefined) {
       adjustedQueryParams.page = queryParams.page;
       adjustedQueryParams.size = queryParams.size;
     }
@@ -51,7 +50,7 @@ const apiClient = {
 
       return response.data;
     } catch (error) {
-      console.error('Response Error:', error.response);
+      // console.error('Response Error:', error.response);
       throw error;
     }
   },

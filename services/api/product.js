@@ -15,9 +15,9 @@ export const searchByTitle = async (query, page = 0, size = 8, sort = null, rang
   }
 };
 
-export const searchByRef = async (query) => {
+export const searchByIndex = async (query) => {
   try {
-    return await apiClient.get('/api/auth/search/ref', {
+    return await apiClient.get('/api/auth/search/index', {
       query
     }, {});
   } catch (error) {

@@ -115,7 +115,7 @@ export const FONTS = {
   text_0: {
     fontSize: 22,
     fontFamily: "eurostile",
-    color: COLORS.grey_title_mid,
+    color: COLORS.grey_5,
     letterSpacing: 3,
   },
   h1: { fontFamily: 'bold', fontSize: SIZES.h1, lineHeight: 36 },

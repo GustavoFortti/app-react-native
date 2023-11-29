@@ -10,24 +10,48 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
-import ProductListHorizontal from '../components/ProductListHorizontal';
-import { searchByRef } from '../services/api/product';
+import ProductsCarousel from '../components/ProductsCarousel';
+import { searchByIndex } from '../services/api/product';
 
 const Home = ({ navigation }) => {
-  const [products, setProducts] = useState([]); // Estado para armazenar os resultados.
+  const [productsWhey, setProductsWhey] = useState([]); // Estado para armazenar os resultados.
+  const [productsBarrinhas, setProductsBarrinhas] = useState([]); // Estado para armazenar os resultados.
+  const [productsPreTreino, setProductsPreTreino] = useState([]); // Estado para armazenar os resultados.
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchProductsWhey = async () => {
       try {
-        const data = await searchByRef("d064f0fe,2df7f8b8,02469fd7,5770e2e9,a60eeaf0");
+        const data = await searchByIndex("whey");
         const products = data.results
-        setProducts(products);
+        setProductsWhey(products);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
       }
     };
 
-    fetchProducts();
+    const fetchProductsBarrinhas = async () => {
+      try {
+        const data = await searchByIndex("barrinhas");
+        const products = data.results
+        setProductsBarrinhas(products);
+      } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+      }
+    };
+
+    const fetchProductsPreTreino = async () => {
+      try {
+        const data = await searchByIndex("whey");
+        const products = data.results
+        setProductsPreTreino(products);
+      } catch (error) {
+        console.error('Erro ao buscar produtos:', error);
+      }
+    };
+
+    fetchProductsWhey();
+    fetchProductsBarrinhas();
+    fetchProductsPreTreino();
   }, []);
 
   return (
@@ -80,7 +104,7 @@ const Home = ({ navigation }) => {
             alignItems: "center",
             width: "100%",
             height: "74%",
-            marginTop: 30,
+            marginTop: 0,
           }}
         >
           <ScrollView
@@ -90,24 +114,9 @@ const Home = ({ navigation }) => {
               height: "100%",
             }}
           >
-            <View
-              style={{
-                justifyContent: 'center',
-                marginLeft: 30,
-              }}
-            >
-              <Text
-                style={FONTS.text_0}
-              >
-                Whey
-              </Text>
-            </View>
-            <ProductListHorizontal
-              data={products}
-              navigation={navigation}
-            />
-            
-           
+           <ProductsCarousel products={productsWhey} navigation={navigation} />
+           <ProductsCarousel products={productsBarrinhas} navigation={navigation} />
+           <ProductsCarousel products={productsWhey} navigation={navigation} />
           </ScrollView>
         </View>
         <View style={{
