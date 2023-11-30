@@ -4,14 +4,14 @@ import { COLORS, FONTS, styles } from '../constants';
 
 import ProductListHorizontal from '../components/ProductListHorizontal';
 
-const ProductsCarousel = ({ products, navigation }) => {
+const ProductsCarousel = ({ label, products, navigation }) => {
   return (
     <View
       style={{
         justifyContent: 'center',
         width: '100%',
         marginLeft: 15,
-        marginTop: 30,
+        marginTop: 25,
       }}
     >
       <View
@@ -20,7 +20,7 @@ const ProductsCarousel = ({ products, navigation }) => {
           padding: 15,
           // borderTopWidth: 0.3,
           borderLeftWidth: 0.3,
-          width: '60%',
+          width: '100%',
         }}
       >
         <Text
@@ -28,7 +28,7 @@ const ProductsCarousel = ({ products, navigation }) => {
           ...FONTS.text_0,
           }}
         >
-          Sabores de Whey
+          {label}
         </Text>
       </View>
       <ProductListHorizontal data={products} navigation={navigation} />

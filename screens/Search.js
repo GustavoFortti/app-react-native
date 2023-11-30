@@ -184,7 +184,6 @@ const Search = ({ navigation }) => {
       const data = await searchByTitle(query, page, pageSize, sort, rangeFilter);
       const products = data.results
       const totalPages = data.totalPages
-      console.log('Total de páginas:', products);
 
       if (reset) {
         setSearchResults(products);

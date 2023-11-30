@@ -4,7 +4,8 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -41,7 +42,7 @@ const Home = ({ navigation }) => {
 
     const fetchProductsPreTreino = async () => {
       try {
-        const data = await searchByIndex("whey");
+        const data = await searchByIndex("pretreino");
         const products = data.results
         setProductsPreTreino(products);
       } catch (error) {
@@ -57,13 +58,13 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={{
       flex: 1,
-      backgroundColor: COLORS.white,
+      backgroundColor: COLORS.background,
     }}>
       <View style={{
         alignItems: "center",
       }}>
         <View style={{
-          marginTop: "3%",
+          marginTop: "10%",
           flexDirection: "column",
           justifyContent: "space-evenly",
           alignItems: "center",
@@ -81,6 +82,7 @@ const Home = ({ navigation }) => {
                 fontFamily: "orbitron_regular",
                 letterSpacing: 4,
                 marginBottom: "7%",
+                color: COLORS.grey_6,
               }}
             >
               NutriFind
@@ -90,7 +92,7 @@ const Home = ({ navigation }) => {
             style={{
               fontSize: 22,
               fontFamily: "eurostile",
-              color: COLORS.grey_title_mid,
+              color: COLORS.grey_5,
               letterSpacing: 3,
             }}
           >
@@ -112,11 +114,15 @@ const Home = ({ navigation }) => {
             style={{
               width: "100%",
               height: "100%",
+              marginTop: 20,
             }}
           >
-           <ProductsCarousel products={productsWhey} navigation={navigation} />
-           <ProductsCarousel products={productsBarrinhas} navigation={navigation} />
-           <ProductsCarousel products={productsWhey} navigation={navigation} />
+            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
+            <ProductsCarousel label="Sabores de whey" products={productsWhey} navigation={navigation} />
+            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
+            <ProductsCarousel label="Barrinhas" products={productsBarrinhas} navigation={navigation} />
+            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
+            <ProductsCarousel label="Pré-treino" products={productsPreTreino} navigation={navigation} />
           </ScrollView>
         </View>
         <View style={{
