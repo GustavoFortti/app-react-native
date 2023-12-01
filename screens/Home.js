@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import {
+  Animated,
   View,
   Text,
   TouchableOpacity,
@@ -13,11 +14,28 @@ import { COLORS, FONTS, styles } from '../constants';
 
 import ProductsCarousel from '../components/ProductsCarousel';
 import { searchByIndex } from '../services/api/product';
+import BannerHome from '../components/CustomImageWithOverlay';
+import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
 
 const Home = ({ navigation }) => {
   const [productsWhey, setProductsWhey] = useState([]); // Estado para armazenar os resultados.
   const [productsBarrinhas, setProductsBarrinhas] = useState([]); // Estado para armazenar os resultados.
   const [productsPreTreino, setProductsPreTreino] = useState([]); // Estado para armazenar os resultados.
+
+  const [positionWhey, setPositionWhey] = useState(0);
+  const [positionBarrinhas, setPositionBarrinhas] = useState(0);
+  const [positionPreTreino, setPositionPreTreino] = useState(0);
+
+  const scrollViewRef = useRef(null);
+  const currentScrollY = useRef(0);
+  const scrollY = useRef(new Animated.Value(0)).current;
+  const scrollAnim = useRef(new Animated.Value(0)).current;
+
+  const CustomImageWithOverlayHeith = 500
+  const ProductsCarouselHeith = 500
+  const banner_1 = ProductsCarouselHeith * 1.12
+  const banner_2 = (banner_1 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.05
+  const banner_3 = (banner_2 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.03
 
   useEffect(() => {
     const fetchProductsWhey = async () => {
@@ -55,6 +73,49 @@ const Home = ({ navigation }) => {
     fetchProductsPreTreino();
   }, []);
 
+  const onLayoutWhey = (event) => {
+    const { y } = event.nativeEvent.layout;
+    setPositionWhey(y + banner_1);
+  };
+
+  const onLayoutBarrinhas = (event) => {
+    const { y } = event.nativeEvent.layout;
+    setPositionBarrinhas(y + banner_2);
+  };
+
+  const onLayoutPreTreino = (event) => {
+    const { y } = event.nativeEvent.layout;
+    setPositionPreTreino(y + banner_3);
+  };
+
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  });
+
+  useEffect(() => {
+    const listener = scrollAnim.addListener(({ value }) => {
+      scrollViewRef.current?.scrollTo({ y: value, animated: false });
+    });
+
+    return () => {
+      scrollAnim.removeListener(listener);
+    };
+  }, [scrollAnim]);
+
+
+  const scrollToCarousel = (position) => {
+    // Definir o valor inicial da animação para a posição atual de rolagem
+    scrollAnim.setValue(currentScrollY.current);
+
+    Animated.timing(scrollAnim, {
+      toValue: position,
+      duration: 1000, // Duração da animação em milissegundos
+      useNativeDriver: false,
+    }).start();
+  };
+
   return (
     <SafeAreaView style={{
       flex: 1,
@@ -63,74 +124,121 @@ const Home = ({ navigation }) => {
       <View style={{
         alignItems: "center",
       }}>
-        <View style={{
-          marginTop: "10%",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          alignItems: "center",
-          width: "50%",
-          height: "12%",
-        }}>
-          <View
-            style={{
-              borderBottomWidth: 0.3,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 26,
-                fontFamily: "orbitron_regular",
-                letterSpacing: 4,
-                marginBottom: "7%",
-                color: COLORS.grey_6,
-              }}
-            >
-              NutriFind
-            </Text>
-          </View>
+        <Animated.View
+          style={{
+            position: "absolute",
+            zIndex: 1,
+            backgroundColor: COLORS.background,
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "center",
+            width: "100%",
+            height: "10%",
+            opacity: headerOpacity,
+          }}
+        >
           <Text
             style={{
-              fontSize: 22,
-              fontFamily: "eurostile",
-              color: COLORS.grey_5,
-              letterSpacing: 3,
+              marginTop: 45,
+              fontSize: 26,
+              fontFamily: "orbitron_regular",
+              letterSpacing: 4,
+              color: COLORS.grey_6,
             }}
           >
-            Destaques
+            NutriFind
           </Text>
-        </View>
+        </Animated.View>
         <View
           style={{
             flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "center",
             width: "100%",
-            height: "74%",
-            marginTop: 0,
+            height: "100%",
+            marginTop: "1%",
           }}
         >
-          <ScrollView
+          <Animated.ScrollView
+            ref={scrollViewRef}
             contentContainerStyle={{ paddingBottom: 50, paddingLeft: 15 }}
             style={{
               width: "100%",
               height: "100%",
-              marginTop: 20,
             }}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+              {
+                useNativeDriver: true,
+                listener: event => {
+                  currentScrollY.current = event.nativeEvent.contentOffset.y;
+                }
+              }
+            )}
           >
-            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
-            <ProductsCarousel label="Sabores de whey" products={productsWhey} navigation={navigation} />
-            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
-            <ProductsCarousel label="Barrinhas" products={productsBarrinhas} navigation={navigation} />
-            <Image source={require("../assets/images/gym.png")} style={{ width: "110%", height: 200, marginLeft: -20 }} />
-            <ProductsCarousel label="Pré-treino" products={productsPreTreino} navigation={navigation} />
-          </ScrollView>
+            <View
+              style={{
+                width: "100%",
+                height: "4%",
+              }}
+            >
+            </View>
+            <CustomImageWithOverlay
+              source={"https://anamariabraga.globo.com/wp-content/uploads/2019/09/sorvete-caseiro-sem-congelador-pra-ja.jpg"}
+              text="Explore novos sabores e transforme sua nutrição com Whey Protein."
+              onButtonPress={() => scrollToCarousel(positionWhey)}
+            />
+            <ProductsCarousel
+              label="Sabores de whey"
+              products={productsWhey}
+              navigation={navigation}
+              onLayout={onLayoutWhey}
+            />
+            <CustomImageWithOverlay
+              source={"https://img.saborosos.com.br/imagens/sorvete-de-chocolate-640x480.jpg"}
+              text="Ninguém esquece um toque doce, e estas barrinhas são a ajuda perfeita."
+              onButtonPress={() => (scrollToCarousel(positionBarrinhas))}
+            />
+
+            <ProductsCarousel
+              label="Barrinhas"
+              products={productsBarrinhas}
+              navigation={navigation}
+              onLayout={onLayoutBarrinhas}
+            />
+            <CustomImageWithOverlay
+              source={"https://blog.coffeemais.com/wp-content/uploads/2022/01/para-que-serve-o-cafe-interna.jpg"}
+              text="Descubra o segredo para disposição e foco inigualáveis no seu treino."
+              onButtonPress={() => (scrollToCarousel(positionPreTreino))}
+            />
+            <ProductsCarousel
+              label="Pré-treino"
+              products={productsPreTreino}
+              navigation={navigation}
+              onLayout={onLayoutPreTreino}
+            />
+            <View
+              style={{
+                width: "100%",
+                height: 250,
+              }}
+            >
+            </View>
+          </Animated.ScrollView>
         </View>
+
         <View style={{
-          width: "100%",
+          position: "absolute",
           alignItems: "center",
-          justifyContent: "flex-start",
-          paddingVertical: "3%",
-          // backgroundColor: COLORS.grey_0,
+          paddingTop: 35,
+
+          width: "100%",
+          height: "20%",
+          bottom: -20,
+          borderTopWidth: 0.3,
+          borderTopColor: COLORS.grey_3,
+          backgroundColor: COLORS.background,
+
         }}>
           <TouchableOpacity
             style={{ ...styles.button_black_2 }}

@@ -35,8 +35,21 @@ export const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 3,
   },
+  button_trasparent: {
+    borderWidth: 1,
+    borderColor: 'white',
+    paddingHorizontal: 45,
+    paddingVertical: 10,
+    borderRadius: 3,
+  },
   buttonText_black: {
     color: 'black',
+    fontSize: 22,
+    fontFamily: "eurostile",
+    letterSpacing: 4,
+  },
+  buttonText_white: {
+    color: 'white',
     fontSize: 22,
     fontFamily: "eurostile",
     letterSpacing: 4,

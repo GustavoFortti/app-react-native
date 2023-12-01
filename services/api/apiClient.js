@@ -40,13 +40,13 @@ const apiClient = {
       },
     };
     
-    console.log('Request Config:', config);
+    // console.log('Request Config:', config);
 
     try {
       const response = await axios(config);
 
-      console.log('Response Status:', response.status);
-      console.log('Response results:', response.data.results);
+      // console.log('Response Status:', response.status);
+      // console.log('Response results:', response.data.results);
 
       return response.data;
     } catch (error) {

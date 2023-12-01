@@ -4,7 +4,7 @@ import { COLORS } from '../constants';
 import TruncatedText from '../components/TruncatedText';
 import FadeInImagePrdctList from './FadeInImagePrdctList';
 
-const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) => {
+const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, onLayout = { onLayout } }) => {
   const renderProductItem = ({ item, index }) => {
     return (
       <TouchableOpacity
@@ -12,29 +12,29 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) 
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'flex-start',
-          
+
           height: 310,
           width: 230,
           backgroundColor: COLORS.white,
           paddingHorizontal: 7,
 
-          marginTop: 25,
+          marginTop: 40,
           marginLeft: 25,
           marginBottom: 40,
 
           borderRadius: 6,
           borderWidth: 0.3,
           borderColor: COLORS.grey_2,
-          
+
           // IOS
           shadowColor: COLORS.grey_6,
-          shadowOffset: {width: -1, height: 2},
+          shadowOffset: { width: -1, height: 2 },
           shadowOpacity: 0.1,
           shadowRadius: 4,
 
           // // android
-          // elevation: 20,
-          // shadowColor: COLORS.grey_4,
+          elevation: 20,
+          shadowColor: COLORS.grey_4,
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
@@ -80,7 +80,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) 
             paddingBottom: 10,
             // borderBottomWidth: 0.2,
             // width: "80%",
-            
+
             borderColor: COLORS.grey_6,
             backgroundColor: COLORS.white,
           }}
@@ -101,11 +101,12 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) 
   };
 
   return (
-    <View style={{
-      flexDirection: 'row',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}>
       <FlatList
         data={data}
         renderItem={renderProductItem}
@@ -115,6 +116,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading }) 
         horizontal={true}
         key={`FlatList`}
         showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ paddingRight: 65 }} 
       />
     </View>
   );
