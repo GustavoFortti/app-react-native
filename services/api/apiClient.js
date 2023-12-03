@@ -7,12 +7,12 @@ const apiClient = {
     const adjustedQueryParams = {
       query: queryParams.query,
     };
-    
+
     if (queryParams.sort) {
       adjustedQueryParams.fieldSort = queryParams.sort.field;
       adjustedQueryParams.direction = queryParams.sort.direction;
     }
-    
+
     if (queryParams.page !== undefined && queryParams.size !== undefined) {
       adjustedQueryParams.page = queryParams.page;
       adjustedQueryParams.size = queryParams.size;
@@ -39,7 +39,7 @@ const apiClient = {
         ...headers,
       },
     };
-    
+
     // console.log('Request Config:', config);
 
     try {
@@ -56,4 +56,28 @@ const apiClient = {
   },
 };
 
-export default apiClient;
+const apiClientStatus = {
+  get: async (path) => {
+
+    const url = `${BASE_URL}${path}`;
+
+    const config = {
+      method: 'get',
+      url: url,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+
+    try {
+      const response = await axios(config);
+
+      return response.data.status;
+    } catch (error) {
+      // console.error('Response Error:', error.response);
+      throw error;
+    }
+  },
+};
+
+export { apiClient, apiClientStatus };

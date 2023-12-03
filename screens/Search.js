@@ -17,7 +17,7 @@ import {
   staticDataOrdem
 } from '../constants';
 
-import { searchByTitle } from '../services/api/product';
+import { searchByTitle } from '../services/api/products';
 
 import CustomDropdown from '../components/CustomDropdown';
 import FilterButton from '../components/FilterButton';

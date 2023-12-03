@@ -1,4 +1,4 @@
-import apiClient from './apiClient';
+import { apiClient, apiClientStatus } from './apiClient';
 
 export const searchByTitle = async (query, page = 0, size = 8, sort = null, rangeFilter = { "quantidade": {} }) => {
   try {
@@ -22,6 +22,15 @@ export const searchByIndex = async (query) => {
     }, {});
   } catch (error) {
     console.error('Error searching products:', error.message);
+    throw error;
+  }
+};
+
+export const checkDatabaseStatus = async () => {
+  try {
+    return await apiClientStatus.get('/api/auth/database/status');
+  } catch (error) {
+    console.error('API Error: ', error.message);
     throw error;
   }
 };

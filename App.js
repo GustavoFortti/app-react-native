@@ -33,17 +33,26 @@ export default function App() {
 
   return (
     <NavigationContainer onReady={onLayoutRootView}>
-      <Stack.Navigator>
+      <Stack.Navigator
+        initialRouteName="Splash"
+        screenOptions={{
+          headerShown: false,
+          animationEnabled: true, // Ativa a animação de transição
+          animationTypeForReplace: 'fade', // Define o tipo de animação
+        }}
+      >
         <Stack.Screen
           name="Splash"
           component={Splash}
-          options={{ headerShown: false }}
+          options={{ 
+            headerShown: false,
+          }}
         />
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
-            headerShown: false
+            headerShown: false,
           }}
         />
         <Stack.Screen

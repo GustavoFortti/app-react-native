@@ -1,13 +1,25 @@
-import React from 'react';
-import { View, ImageBackground, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { COLORS, FONTS, styles } from '../constants';
 
+const AnimatedImageBackground = Animated.createAnimatedComponent(ImageBackground);
+
 const CustomImageWithOverlay = ({ source, text, onButtonPress }) => {
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
+  }, [fadeAnim]);
+
   return (
     <View style={styles_container.container}>
-      <ImageBackground
-        source={{ uri: source }}
-        style={styles_container.image}
+      <AnimatedImageBackground
+        source={{ uri: source }} // Verifique se a propriedade 'source' está recebendo a URI correta
+        style={[styles_container.image, { opacity: fadeAnim }]}
       >
         <View style={styles_container.overlay}>
           <Text style={styles_container.text}>{text}</Text>
@@ -18,7 +30,7 @@ const CustomImageWithOverlay = ({ source, text, onButtonPress }) => {
             <Text style={styles.buttonText_white}>Veja mais</Text>
           </TouchableOpacity>
         </View>
-      </ImageBackground>
+      </AnimatedImageBackground>
     </View>
   );
 };
@@ -35,7 +47,6 @@ const styles_container = StyleSheet.create({
     marginLeft: -20,
     marginBottom: 40,
   },
-
   overlay: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.4)',

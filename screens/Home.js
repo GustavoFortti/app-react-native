@@ -5,7 +5,6 @@ import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
   Image
 } from 'react-native';
 
@@ -13,11 +12,11 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
 import ProductsCarousel from '../components/ProductsCarousel';
-import { searchByIndex } from '../services/api/product';
-import BannerHome from '../components/CustomImageWithOverlay';
+import { searchByIndex } from '../services/api/products';
 import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
 
 const Home = ({ navigation }) => {
+
   const [productsWhey, setProductsWhey] = useState([]); // Estado para armazenar os resultados.
   const [productsBarrinhas, setProductsBarrinhas] = useState([]); // Estado para armazenar os resultados.
   const [productsPreTreino, setProductsPreTreino] = useState([]); // Estado para armazenar os resultados.
@@ -25,6 +24,8 @@ const Home = ({ navigation }) => {
   const [positionWhey, setPositionWhey] = useState(0);
   const [positionBarrinhas, setPositionBarrinhas] = useState(0);
   const [positionPreTreino, setPositionPreTreino] = useState(0);
+
+  const [headerDisplay, setHeaderDisplay] = useState('flex');
 
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
@@ -36,6 +37,42 @@ const Home = ({ navigation }) => {
   const banner_1 = ProductsCarouselHeith * 1.12
   const banner_2 = (banner_1 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.05
   const banner_3 = (banner_2 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.03
+
+  const headerOpacity = scrollY.interpolate({
+    inputRange: [0, 50],
+    outputRange: [1, 0],
+    extrapolate: 'clamp',
+  });
+
+  useEffect(() => {
+    let timeoutId;
+  
+    const updateHeaderDisplay = ({ value }) => {
+      clearTimeout(timeoutId);
+      if (value === 0) {
+        timeoutId = setTimeout(() => setHeaderDisplay('none'), 500);
+      } else {
+        setHeaderDisplay('flex');
+      }
+    };
+  
+    headerOpacity.addListener(updateHeaderDisplay);
+  
+    return () => {
+      headerOpacity.removeListener(updateHeaderDisplay);
+      clearTimeout(timeoutId);
+    };
+  }, [headerOpacity]);
+
+  useEffect(() => {
+    const listener = scrollAnim.addListener(({ value }) => {
+      scrollViewRef.current?.scrollTo({ y: value, animated: false });
+    });
+
+    return () => {
+      scrollAnim.removeListener(listener);
+    };
+  }, [scrollAnim]);
 
   useEffect(() => {
     const fetchProductsWhey = async () => {
@@ -88,23 +125,6 @@ const Home = ({ navigation }) => {
     setPositionPreTreino(y + banner_3);
   };
 
-  const headerOpacity = scrollY.interpolate({
-    inputRange: [0, 50],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-
-  useEffect(() => {
-    const listener = scrollAnim.addListener(({ value }) => {
-      scrollViewRef.current?.scrollTo({ y: value, animated: false });
-    });
-
-    return () => {
-      scrollAnim.removeListener(listener);
-    };
-  }, [scrollAnim]);
-
-
   const scrollToCarousel = (position) => {
     // Definir o valor inicial da animação para a posição atual de rolagem
     scrollAnim.setValue(currentScrollY.current);
@@ -135,6 +155,7 @@ const Home = ({ navigation }) => {
             width: "100%",
             height: "10%",
             opacity: headerOpacity,
+            display: headerDisplay, 
           }}
         >
           <Text
@@ -171,7 +192,9 @@ const Home = ({ navigation }) => {
               {
                 useNativeDriver: true,
                 listener: event => {
-                  currentScrollY.current = event.nativeEvent.contentOffset.y;
+                  if (scrollViewRef.current) {
+                    currentScrollY.current = event.nativeEvent.contentOffset.y;
+                  }
                 }
               }
             )}
