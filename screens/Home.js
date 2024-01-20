@@ -87,7 +87,7 @@ const Home = ({ navigation }) => {
 
     const fetchProductsBarrinhas = async () => {
       try {
-        const data = await searchByIndex("barrinhas");
+        const data = await searchByIndex("bar");
         const products = data.results
         setProductsBarrinhas(products);
       } catch (error) {
@@ -97,7 +97,7 @@ const Home = ({ navigation }) => {
 
     const fetchProductsPreTreino = async () => {
       try {
-        const data = await searchByIndex("pretreino");
+        const data = await searchByIndex("preworkout");
         const products = data.results
         setProductsPreTreino(products);
       } catch (error) {

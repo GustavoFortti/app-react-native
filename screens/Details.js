@@ -46,25 +46,7 @@ const Details = ({ navigation, route }) => {
               color={COLORS.black}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => setIsFavourite(!isFavourite)}
-          >
-            {
-              isFavourite ? (
-                <Ionicons
-                  name="md-heart-sharp"
-                  size={24}
-                  color={COLORS.black}
-                />
-              ) : (
-                <Ionicons
-                  name="md-heart-outline"
-                  size={24}
-                  color={COLORS.black}
-                />
-              )
-            }
-          </TouchableOpacity>
+ 
         </View>
         <View
           style={{
