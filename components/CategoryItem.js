@@ -4,51 +4,63 @@ import { COLORS } from '../constants';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const CategoryItem = ({ 
-  item, 
-  onPress, 
-  isSelected, 
-  setSelectedItemOrdemMaxQnt, 
-  setSelectedItemOrdemMinQnt,
+const CategoryItem = ({
+  item,
+  onPress,
+  isSelected,
+  setSelectedItemOrdemMaxQnt,
   selectedItemOrdemMaxQnt,
-  selectedItemOrdemMinQnt
+  setSelectedItemOrdemMinQnt,
+  selectedItemOrdemMinQnt,
 }) => {
-  const [selectedNumber, setSelectedNumber] = useState(-1);
+
+  const [selectedNumber, setSelectedNumber] = useState(null);
 
   const options = [
-    { label: "Selecione um valor", value: -1 },
-    { label: "100g", value: 100 },
-    { label: "250g", value: 250 },
-    { label: "500g", value: 500 },
-    { label: "800g", value: 800 },
-    { label: "1Kg", value: 1000 },
-    { label: "2Kg", value: 2000 },
+    { label: "100g", value: "100" },
+    { label: "250g", value: "250" },
+    { label: "500g", value: "500" },
+    { label: "800g", value: "800" },
+    { label: "1Kg", value: "1000" },
+    { label: "2Kg", value: "2000" },
   ];
 
-  useEffect(() => {
-    if (item.field === "max_qnt" && selectedItemOrdemMaxQnt != null) {
-      setSelectedNumber(selectedItemOrdemMaxQnt - 1);
-    } else if (item.field === "min_qnt" && selectedItemOrdemMinQnt != null) {
-      setSelectedNumber(selectedItemOrdemMinQnt + 1);
+  const calculateFilteredOptions = () => {
+    if (item.field === "min_qnt") {
+      return options.filter(option => {
+        const optionValue = parseInt(option.value, 10);
+        return selectedItemOrdemMaxQnt === null || optionValue < (parseInt(selectedItemOrdemMaxQnt, 10) - 1);
+      });
+    } else if (item.field === "max_qnt") {
+      return options.filter(option => {
+        const optionValue = parseInt(option.value, 10);
+        return selectedItemOrdemMinQnt === null || optionValue > (parseInt(selectedItemOrdemMinQnt, 10) + 1);
+      });
     }
-  }, [selectedItemOrdemMaxQnt, selectedItemOrdemMinQnt, item.field]);
+  
+    return options;
+  };
+
+  const [filteredOptions, setFilteredOptions] = useState(calculateFilteredOptions());
 
   useEffect(() => {
-    if (selectedNumber === null) {
-      setSelectedNumber(-1)
-    }
-  }, [selectedNumber]);
+    setFilteredOptions(calculateFilteredOptions());
+  }, [selectedItemOrdemMinQnt, selectedItemOrdemMaxQnt]);
 
   const onValueChange = (value) => {
     setSelectedNumber(value);
-
-    if (item.field === "max_qnt") {
-      setSelectedItemOrdemMaxQnt(value === -1 ? null : value + 1);
-    } else if (item.field === "min_qnt") {
-      setSelectedItemOrdemMinQnt(value === -1 ? null : value - 1);
-    }
-  };
   
+    if (item.field === "max_qnt") {
+      const newValue = value ? parseInt(value, 10) + 1 : null;
+      setSelectedItemOrdemMaxQnt(newValue);
+    } else if (item.field === "min_qnt") {
+      const newValue = value ? parseInt(value, 10) - 1 : null;
+      setSelectedItemOrdemMinQnt(newValue);
+    }
+  
+    calculateFilteredOptions();
+  };
+
   return (
     <>
       {item.field !== "min_qnt" && item.field !== "max_qnt" && item.field !== "quantidade_filter" ? (
@@ -120,27 +132,28 @@ const CategoryItem = ({
           <View
             style={{
               marginLeft: 0,
-              height: 40,
+              height: 50,
+              width: 150,
               justifyContent: 'center',
               alignItems: 'center',
             }}
           >
             <RNPickerSelect
               onValueChange={onValueChange}
-              items={options}
+              items={filteredOptions}
               style={{
                 inputIOS: {
                   fontSize: 22,
-                  color: selectedNumber === -1 ? COLORS.grey_3 : COLORS.grey_6,
                   fontFamily: 'eurostile',
+                  color: selectedNumber ? COLORS.grey_6 : COLORS.grey_3,
                   letterSpacing: 3,
                   paddingRight: 30,
                   textAlign: 'center',
                 },
                 inputAndroid: {
                   fontSize: 22,
-                  color: selectedNumber === -1 ? COLORS.grey_3 : COLORS.grey_6,
                   fontFamily: 'eurostile',
+                  color: selectedNumber ? COLORS.grey_6 : COLORS.grey_3,
                   letterSpacing: 3,
                   paddingRight: 30,
                   textAlign: 'center',
@@ -151,7 +164,8 @@ const CategoryItem = ({
               }}
               value={selectedNumber}
               useNativeAndroidPickerStyle={false}
-              Icon={() => <Icon name="caret-down" size={20} color={selectedNumber === -1 ? COLORS.grey_3 : COLORS.grey_6} />}
+              placeholder={{ label: "Selecione um valor", value: null }}
+              Icon={() => <Icon name="caret-down" size={20} color={selectedNumber ? COLORS.grey_6 : COLORS.grey_3} />}
             />
           </View>
         </View>

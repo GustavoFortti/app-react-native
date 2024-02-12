@@ -1,13 +1,14 @@
 import { apiClient, apiClientStatus } from './apiClient';
 
-export const searchByTitle = async (query, page = 0, size = 8, sort = null, rangeFilter = { "quantidade": {} }) => {
+export const searchByTitle = async (query, index, page = 0, size = 30, sort = null, filter = null) => {
   try {
-    return await apiClient.get('/api/search', {
+    return await apiClient.get('/api/search/query', {
       query,
+      index,
       page,
       size,
       sort,
-      rangeFilter,
+      filter,
     }, {});
   } catch (error) {
     console.error('Error searching products:', error.message);

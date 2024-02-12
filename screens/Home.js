@@ -77,7 +77,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     const fetchProductsWhey = async () => {
       try {
-        const data = await searchByIndex("whey");
+        const data = await searchByIndex("6dfd37d8");
         const products = data.results
         setProductsWhey(products);
       } catch (error) {
@@ -87,7 +87,7 @@ const Home = ({ navigation }) => {
 
     const fetchProductsBarrinhas = async () => {
       try {
-        const data = await searchByIndex("bar");
+        const data = await searchByIndex("b5539dc2");
         const products = data.results
         setProductsBarrinhas(products);
       } catch (error) {
@@ -97,7 +97,7 @@ const Home = ({ navigation }) => {
 
     const fetchProductsPreTreino = async () => {
       try {
-        const data = await searchByIndex("preworkout");
+        const data = await searchByIndex("97b10707");
         const products = data.results
         setProductsPreTreino(products);
       } catch (error) {
@@ -207,7 +207,7 @@ const Home = ({ navigation }) => {
             >
             </View>
             <CustomImageWithOverlay
-              source={"https://anamariabraga.globo.com/wp-content/uploads/2019/09/sorvete-caseiro-sem-congelador-pra-ja.jpg"}
+              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-1.webp"}
               text="Explore novos sabores e transforme sua nutrição com Whey Protein."
               onButtonPress={() => scrollToCarousel(positionWhey)}
             />
@@ -218,8 +218,8 @@ const Home = ({ navigation }) => {
               onLayout={onLayoutWhey}
             />
             <CustomImageWithOverlay
-              source={"https://img.saborosos.com.br/imagens/sorvete-de-chocolate-640x480.jpg"}
-              text="Ninguém esquece um toque doce, e estas barrinhas são a ajuda perfeita."
+              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-2.webp"}
+              text="Ninguém deixa passar uma barrinha, especialmente quando é doce e cheia de proteína!"
               onButtonPress={() => (scrollToCarousel(positionBarrinhas))}
             />
 
@@ -230,7 +230,7 @@ const Home = ({ navigation }) => {
               onLayout={onLayoutBarrinhas}
             />
             <CustomImageWithOverlay
-              source={"https://blog.coffeemais.com/wp-content/uploads/2022/01/para-que-serve-o-cafe-interna.jpg"}
+              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp"}
               text="Descubra o segredo para disposição e foco inigualáveis no seu treino."
               onButtonPress={() => (scrollToCarousel(positionPreTreino))}
             />

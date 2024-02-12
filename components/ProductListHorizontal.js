@@ -38,7 +38,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
-        <FadeInImagePrdctList item={item.link_imagem} />
+        <FadeInImagePrdctList item={item.image_url_srv} />
         <View
           style={{
             flexDirection: 'column',
@@ -50,7 +50,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
           }}
         >
           <TruncatedText
-            text={`${item.nome}`}
+            text={`${item.name}`}
             maxLength={30}
             style={{
               fontSize: 22,
@@ -60,7 +60,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
             }}
           />
           <TruncatedText
-            text={`${item.marca}`}
+            text={`${item.brand}`}
             maxLength={20}
             style={{
               marginTop: 8,
@@ -80,7 +80,6 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
             paddingBottom: 10,
             // borderBottomWidth: 0.2,
             // width: "80%",
-
             borderColor: COLORS.grey_6,
             backgroundColor: COLORS.white,
           }}
@@ -93,7 +92,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
               letterSpacing: 3,
             }}
           >
-            R$ {item.preco}
+            R$ {item.price}
           </Text>
         </View>
       </TouchableOpacity>

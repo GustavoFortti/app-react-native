@@ -11,8 +11,8 @@ const Details = ({ navigation, route }) => {
   const { productData } = route.params;
 
   const openProductUrl = () => {
-    if (productData.link_produto) {
-      const url = productData.link_produto;
+    if (productData.product_url) {
+      const url = productData.product_url;
       Linking.openURL(url);
     }
   };
@@ -57,7 +57,7 @@ const Details = ({ navigation, route }) => {
             width: "100%",
           }}
         >
-          <FadeInImageDetails source={{ uri: productData.link_imagem }} />
+          <FadeInImageDetails source={{ uri: productData.image_url_srv }} />
           <View style={{
             backgroundColor: COLORS.white,
             borderRadius: 36,
@@ -81,7 +81,7 @@ const Details = ({ navigation, route }) => {
               }}
             >
               <TruncatedText
-                text={`${productData.nome}`}
+                text={`${productData.name}`}
                 maxLength={60}
                 style={{
                   fontSize: 30,
@@ -93,7 +93,7 @@ const Details = ({ navigation, route }) => {
                 }}
               />
               <TruncatedText
-                text={`${productData.marca}`}
+                text={`${productData.brand}`}
                 maxLength={28}
                 style={{
                   marginTop: 15,
@@ -123,7 +123,7 @@ const Details = ({ navigation, route }) => {
                     color: COLORS.grey_hard,
                     fontFamily: 'eurostile',
                     letterSpacing: 6,
-                  }}>R${productData.preco}</Text>
+                  }}>R${productData.price}</Text>
                 </View>
               </View>
             </View>

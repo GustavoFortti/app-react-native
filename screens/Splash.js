@@ -55,7 +55,9 @@ const Splash = ({ navigation }) => {
         <>
           <></>
           {isNetworkAvailable ? (
-            <FadeText text={"Estamos melhorando nosso app para você encontrar seus suplementos. \n\n : )"} style={styles.errorMessage} />
+            <FadeText text={"Ops! Nosso sistema tá dando uma pausa rápida para um upgrade. \
+                            Prometemos que é pra ficar ainda melhor pra você achar seus suplementos favoritos. \
+                            Volta logo, tá? Vai ser rapidinho! 😊"} style={styles.errorMessage} />
             ) : (
             <FadeText text={"Sem conexão com a internet. \n\n : | "} style={styles.errorMessage} />
           )}

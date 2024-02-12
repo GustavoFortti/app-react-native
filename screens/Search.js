@@ -43,19 +43,18 @@ const Search = ({ navigation }) => {
   const [selectedItemCategoria, setSelectedItemCategoria] = useState('');
   const [selectedItemSabor, setSelectedItemSabor] = useState('');
   const [selectedItemOrdem, setSelectedItemOrdem] = useState('');
-  const [selectedItemOrdemMaxQnt, setSelectedItemOrdemMaxQnt] = useState(-1);
-  const [selectedItemOrdemMinQnt, setSelectedItemOrdemMinQnt] = useState(-1);
+  const [selectedItemOrdemMaxQnt, setSelectedItemOrdemMaxQnt] = useState(null);
+  const [selectedItemOrdemMinQnt, setSelectedItemOrdemMinQnt] = useState(null);
 
   useEffect(() => {
     setSearchText(selectedItemCategoria + ' ' + selectedItemSabor);
   }, [selectedItemCategoria, selectedItemSabor]);
 
   useEffect(() => {
-    // setSelectedItemCategoria('')
     setSelectedItemSabor('')
     setSelectedItemOrdem('')
-    setSelectedItemOrdemMaxQnt(-1)
-    setSelectedItemOrdemMinQnt(-1)
+    setSelectedItemOrdemMaxQnt(null)
+    setSelectedItemOrdemMinQnt(null)
   }, [searchText]);
 
   const clearResults = () => {
@@ -167,21 +166,24 @@ const Search = ({ navigation }) => {
     setIsLoading(true);
     try {
       const ordem = selectedItemOrdem !== '' ? staticDataOrdem.find((data) => data.name === selectedItemOrdem) : null;
-      const sort = ordem ? { 'field': ordem.field, "direction": ordem.direction } : null
+      const sort = ordem ? { 'by': ordem.field, "ascending": ordem.direction } : null
+      
+      let filter = null;
 
-      const rangeFilter = {
-        quantidade: {},
-      };
 
-      if (selectedItemOrdemMinQnt) {
-        rangeFilter.quantidade.gte = selectedItemOrdemMinQnt;
+      if (selectedItemOrdemMinQnt || selectedItemOrdemMaxQnt) {
+        filter = { quantity: {} };
+        
+        if (selectedItemOrdemMinQnt) {
+          filter.quantity.gte = selectedItemOrdemMinQnt;
+        }
+        
+        if (selectedItemOrdemMaxQnt) {
+          filter.quantity.lt = selectedItemOrdemMaxQnt;
+        }
       }
-
-      if (selectedItemOrdemMaxQnt) {
-        rangeFilter.quantidade.lt = selectedItemOrdemMaxQnt;
-      }
-
-      const data = await searchByTitle(query, page, pageSize, sort, rangeFilter);
+      
+      const data = await searchByTitle(query, "ef1ef5aa", page, pageSize, sort, filter);
       const products = data.results
       const totalPages = data.totalPages
 

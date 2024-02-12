@@ -4,53 +4,49 @@ const BASE_URL = 'https://nutrifind-api-10f8a344cbba.herokuapp.com';
 
 const apiClient = {
   get: async (path, queryParams = {}, headers = {}) => {
-    const adjustedQueryParams = {
+    let parsedQueryParams = {
       query: queryParams.query,
+      index: queryParams.index,
+      page: queryParams.page,
+      size: queryParams.size,
     };
 
     if (queryParams.sort) {
-      adjustedQueryParams.fieldSort = queryParams.sort.field;
-      adjustedQueryParams.direction = queryParams.sort.direction;
+      parsedQueryParams['sort'] = {
+        by: queryParams.sort.by,
+        ascending: queryParams.sort.ascending,
+      };
     }
 
-    if (queryParams.page !== undefined && queryParams.size !== undefined) {
-      adjustedQueryParams.page = queryParams.page;
-      adjustedQueryParams.size = queryParams.size;
+    if (queryParams.filter && queryParams.filter.quantity) {
+      parsedQueryParams['filter'] = {
+        quantity: {
+          ...(queryParams.filter.quantity.gte && { gte: queryParams.filter.quantity.gte }),
+          ...(queryParams.filter.quantity.lt && { lt: queryParams.filter.quantity.lt }),
+        },
+      };
     }
 
-    if (queryParams.rangeFilter?.quantidade) {
-      if (queryParams.rangeFilter.quantidade.gte > 1) {
-        adjustedQueryParams.quantidadeGte = queryParams.rangeFilter.quantidade.gte;
-      }
-      if (queryParams.rangeFilter.quantidade.lt > 1) {
-        adjustedQueryParams.quantidadeLt = queryParams.rangeFilter.quantidade.lt;
-      }
-    }
+    if (parsedQueryParams.sort) parsedQueryParams.sort = JSON.stringify(parsedQueryParams.sort);
+    if (parsedQueryParams.filter) parsedQueryParams.filter = JSON.stringify(parsedQueryParams.filter);
 
     const url = `${BASE_URL}${path}`;
-    console.log('Request URL:', url);
-
+    
     const config = {
       method: 'get',
-      url: url,
-      params: adjustedQueryParams,
+      url,
+      params: parsedQueryParams,
       headers: {
         'Content-Type': 'application/json',
         ...headers,
       },
     };
-
-    // console.log('Request Config:', config);
-
+    console.log('Request URL:', config);
+    
     try {
       const response = await axios(config);
-
-      // console.log('Response Status:', response.status);
-      // console.log('Response results:', response.data.results);
-
       return response.data;
     } catch (error) {
-      // console.error('Response Error:', error.response);
       throw error;
     }
   },

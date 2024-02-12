@@ -24,7 +24,7 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
-        <FadeInImagePrdctList item={item.link_imagem} />
+        <FadeInImagePrdctList item={item.image_url_srv} />
         <View
           style={{
             flexDirection: 'column',
@@ -39,7 +39,7 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
         >
           <Text style={{ textAlign: 'center', lineHeight: 22 }}>
             <TruncatedText
-              text={`${item.nome}`}
+              text={`${item.name}`}
               maxLength={12}
               style={{
                 fontSize: 22,
@@ -47,9 +47,10 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
                 fontFamily: 'eurostile',
               }}
             />
-            {' '}
+          </Text>
+          <Text style={{ textAlign: 'center', lineHeight: 22 }}>
             <TruncatedText
-              text={`${item.marca}`}
+              text={`${item.brand}`}
               maxLength={12}
               style={{
                 marginTop: 6,
@@ -81,7 +82,7 @@ const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading 
               letterSpacing: 3,
             }}
           >
-            R$ {item.preco}
+            R$ {item.price}
           </Text>
         </View>
       </TouchableOpacity>
