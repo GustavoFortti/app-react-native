@@ -212,7 +212,7 @@ const Home = ({ navigation }) => {
               onButtonPress={() => scrollToCarousel(positionWhey)}
             />
             <ProductsCarousel
-              label="Sabores de whey"
+              label="Whey protein"
               products={productsWhey}
               navigation={navigation}
               onLayout={onLayoutWhey}

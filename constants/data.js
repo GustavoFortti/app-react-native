@@ -2,7 +2,7 @@ import images from "./images";
 
 export const staticDataCategoria = [
   { id: 1, name: "Creatina" },
-  { id: 9, name: "Pre-treino" },
+  { id: 9, name: "Pré-treino" },
   { id: 2, name: "Whey Protein" },
   { id: 4, name: "Barrinhas" },
   { id: 3, name: "Hipercalorico" },

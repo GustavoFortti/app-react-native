@@ -75,9 +75,10 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   text: {
-    fontSize: 64,
-    fontWeight: '400',
-    fontFamily: 'eurostile',
+    fontSize: 42,
+    fontFamily: "orbitron_regular",
+    textAlign: 'center',
+    letterSpacing: 10,
   },
   errorMessage: {
     fontSize: 32,
