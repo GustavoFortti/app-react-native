@@ -49,7 +49,7 @@ const Splash = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {isLoading ? (
+      {true ? (
         <FadeText text={"NutriFind"} style={styles.text} />
       ) : (
         <>

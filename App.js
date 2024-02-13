@@ -41,13 +41,13 @@ export default function App() {
           animationTypeForReplace: 'fade', // Define o tipo de animação
         }}
       >
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Splash"
           component={Splash}
           options={{ 
             headerShown: false,
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Home"
           component={Home}
