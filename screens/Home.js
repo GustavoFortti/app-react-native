@@ -11,6 +11,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
+import FadeHeader from '../components/body/FadeHeader';
+import Title from '../components/text/Title';
+
 import ProductsCarousel from '../components/ProductsCarousel';
 import { searchByIndex } from '../services/api/products';
 import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
@@ -25,8 +28,6 @@ const Home = ({ navigation }) => {
   const [positionBarrinhas, setPositionBarrinhas] = useState(0);
   const [positionPreTreino, setPositionPreTreino] = useState(0);
 
-  const [headerDisplay, setHeaderDisplay] = useState('flex');
-
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
   const scrollY = useRef(new Animated.Value(0)).current;
@@ -37,32 +38,6 @@ const Home = ({ navigation }) => {
   const banner_1 = ProductsCarouselHeith * 1.12
   const banner_2 = (banner_1 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.05
   const banner_3 = (banner_2 + CustomImageWithOverlayHeith + ProductsCarouselHeith) * 1.03
-
-  const headerOpacity = scrollY.interpolate({
-    inputRange: [0, 50],
-    outputRange: [1, 0],
-    extrapolate: 'clamp',
-  });
-
-  useEffect(() => {
-    let timeoutId;
-  
-    const updateHeaderDisplay = ({ value }) => {
-      clearTimeout(timeoutId);
-      if (value === 0) {
-        timeoutId = setTimeout(() => setHeaderDisplay('none'), 500);
-      } else {
-        setHeaderDisplay('flex');
-      }
-    };
-  
-    headerOpacity.addListener(updateHeaderDisplay);
-  
-    return () => {
-      headerOpacity.removeListener(updateHeaderDisplay);
-      clearTimeout(timeoutId);
-    };
-  }, [headerOpacity]);
 
   useEffect(() => {
     const listener = scrollAnim.addListener(({ value }) => {
@@ -144,32 +119,16 @@ const Home = ({ navigation }) => {
       <View style={{
         alignItems: "center",
       }}>
-        <Animated.View
+        <FadeHeader
+          scrollY={scrollY}
           style={{
             position: "absolute",
-            zIndex: 1,
-            backgroundColor: COLORS.background,
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            width: "100%",
-            height: "10%",
-            opacity: headerOpacity,
-            display: headerDisplay, 
+            height: "12%",
+            backgroundColor: COLORS.background_0,
           }}
         >
-          <Text
-            style={{
-              marginTop: 45,
-              fontSize: 26,
-              fontFamily: "orbitron_regular",
-              letterSpacing: 4,
-              color: COLORS.grey_6,
-            }}
-          >
-            NutriFind
-          </Text>
-        </Animated.View>
+          <Title text="NutriFind" />
+        </FadeHeader>
         <View
           style={{
             flexDirection: "column",

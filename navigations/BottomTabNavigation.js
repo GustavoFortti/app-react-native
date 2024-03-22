@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons, Ionicons } from "@expo/vector-icons";
 import { COLORS } from "../constants";
-import { Favourite, Home, Profile, Search } from "../screens";
+import { Favourite, ShelfSearch, Home, Search } from "../screens";
 
 const Tab = createBottomTabNavigator();
 
@@ -39,8 +39,8 @@ const BottomTabNavigation = () => {
         }}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="ShelfSearch"
+        component={ShelfSearch}
         options={{
           tabBarIcon: ({ focused }) => {
             return (

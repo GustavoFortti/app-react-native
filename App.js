@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
-import { Details, Search, Home, Splash } from "./screens"
+import { Details, ShelfSearch, Search, Home, Splash } from "./screens"
 import { useCallback } from "react";
 import BottomTabNavigation from "./navigations/BottomTabNavigation";
 
@@ -55,8 +55,8 @@ export default function App() {
           }}
         />
         <Stack.Screen
-          name="Search"
-          component={Search}
+          name="ShelfSearch"
+          component={ShelfSearch}
           options={{
             headerShown: false
           }}

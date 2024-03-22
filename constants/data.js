@@ -1,5 +1,3 @@
-import images from "./images";
-
 export const staticDataCategoria = [
   { id: 1, name: "Creatina" },
   { id: 9, name: "Pré-treino" },
