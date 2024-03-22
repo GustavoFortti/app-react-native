@@ -222,7 +222,6 @@ const Home = ({ navigation }) => {
               text="Ninguém deixa passar uma barrinha, especialmente quando é doce e cheia de proteína!"
               onButtonPress={() => (scrollToCarousel(positionBarrinhas))}
             />
-
             <ProductsCarousel
               label="Barrinhas"
               products={productsBarrinhas}
@@ -248,27 +247,6 @@ const Home = ({ navigation }) => {
             >
             </View>
           </Animated.ScrollView>
-        </View>
-
-        <View style={{
-          position: "absolute",
-          alignItems: "center",
-          paddingTop: 35,
-
-          width: "100%",
-          height: "20%",
-          bottom: -20,
-          borderTopWidth: 0.3,
-          borderTopColor: COLORS.grey_3,
-          backgroundColor: COLORS.background,
-
-        }}>
-          <TouchableOpacity
-            style={{ ...styles.button_black_2 }}
-            onPress={() => navigation.navigate('Search')}
-          >
-            <Text style={styles.buttonText_black}>Pesquisar</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </SafeAreaView>

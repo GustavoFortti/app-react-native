@@ -16,7 +16,7 @@ const FadeInImagePrdctList = ({ item }) => {
   }, [fadeAnim, isImageLoaded]);
 
   return (
-    <View>
+    <View style={{ padding: 10 }} >
       <Animated.Image
         resizeMode='contain'
         source={{

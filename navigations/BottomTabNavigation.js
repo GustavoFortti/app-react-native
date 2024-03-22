@@ -10,14 +10,13 @@ const screenOptions = {
   headerShown: false,
   tabBarHideOnKeyboard: true,
   tabBarStyle: {
-    display: "none",
     position: "absolute",
     bottom: 0,
     right: 0,
     left: 0,
     elevation: 0,
-    height: 0,
-    background: COLORS.black,
+    height: "9%",
+    backgroundColor: COLORS.white,
   }
 }
 

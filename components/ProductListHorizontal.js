@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, TouchableOpacity, View, Text, Image } from 'react-native';
 import { COLORS } from '../constants';
 import TruncatedText from '../components/TruncatedText';
-import FadeInImagePrdctList from './FadeInImagePrdctList';
+import FadeInImagePrdctList from './FadeInImageProductList';
 
 const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, onLayout = { onLayout } }) => {
   const renderProductItem = ({ item, index }) => {
@@ -13,8 +13,8 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
           alignItems: 'center',
           justifyContent: 'flex-start',
 
-          height: 310,
-          width: 230,
+          height: 350,
+          width: 250,
           backgroundColor: COLORS.white,
           paddingHorizontal: 7,
 

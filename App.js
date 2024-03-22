@@ -34,20 +34,19 @@ export default function App() {
   return (
     <NavigationContainer onReady={onLayoutRootView}>
       <Stack.Navigator
-        initialRouteName="Splash"
+        initialRouteName="BottomTabNavigation"
         screenOptions={{
           headerShown: false,
-          animationEnabled: true, // Ativa a animação de transição
-          animationTypeForReplace: 'fade', // Define o tipo de animação
+          animationEnabled: true,
         }}
       >
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Splash"
           component={Splash}
           options={{ 
             headerShown: false,
           }}
-        />
+        /> */}
         <Stack.Screen
           name="Home"
           component={Home}
@@ -74,6 +73,7 @@ export default function App() {
           component={BottomTabNavigation}
           options={{
             headerShown: false,
+            animationEnabled: true,
           }}
         />
       </Stack.Navigator>
