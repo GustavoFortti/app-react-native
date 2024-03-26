@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
 import FadeHeader from '../components/body/FadeHeader';
-import Title from '../components/text/Title';
+import H1 from '../components/text/H1';
 
 import ProductsCarousel from '../components/ProductsCarousel';
 import { searchByIndex } from '../services/api/products';
@@ -127,7 +127,7 @@ const Home = ({ navigation }) => {
             backgroundColor: COLORS.background_0,
           }}
         >
-          <Title text="NutriFind" />
+          <H1 text="NutriFind" color={COLORS.black} style={{ marginTop: 45 }} />
         </FadeHeader>
         <View
           style={{

@@ -93,6 +93,16 @@ export const COLORS = {
   grey_4_t: "rgba(143, 143, 143, 0.7)",
   grey_5_t: "rgba(112, 112, 112, 0.7)",
   grey_6_t: "rgba(35, 35, 35, 0.7)",
+  white_t: "rgba(250, 250, 250, 0.95)",
+  white_t_30: "rgba(250, 250, 250, 0.30)",
+  black_t_30: "rgba(0, 0, 0, 0.90)",
+  pastel_yellow: "#FDFD96",
+  pastel_pink: "#FFD1DC",
+  pastel_blue: "#AEC6CF",
+  pastel_green: "#B0E57C",
+  pastel_purple: "#CFA0E9",
+  pastel_orange: "#FFB347",
+  pastel_peach: "#FFDAB9",
 }
 
 export const SIZES = {
@@ -128,16 +138,34 @@ export const FONTS = {
     color: COLORS.grey_6,
     letterSpacing: 4,
   },
+  largeTitle: {
+    fontSize: 52,
+    fontFamily: 'orbitron_regular',
+    color: COLORS.grey_6,
+    letterSpacing: 4,
+  },
   title: {
     fontSize: 36,
     fontFamily: 'eurostile',
     color: COLORS.black,
     letterSpacing: 4,
   },
-  text_0: {
+  text_22_grey_5: {
     fontSize: 22,
     fontFamily: "eurostile",
     color: COLORS.grey_5,
+    letterSpacing: 4,
+  },
+  text_22_white: {
+    fontSize: 22,
+    fontFamily: "eurostile",
+    color: COLORS.white,
+    letterSpacing: 4,
+  },
+  text_18_black: {
+    fontSize: 18,
+    fontFamily: "eurostile",
+    color: COLORS.black,
     letterSpacing: 4,
   },
   h1: { fontFamily: 'bold', fontSize: SIZES.h1, lineHeight: 36 },

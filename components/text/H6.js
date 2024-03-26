@@ -2,20 +2,19 @@ import React from 'react';
 import { Text } from 'react-native';
 import { COLORS } from '../../constants';
 
-const Title = ({ text }) => {
+const H6 = ({ text, color, style }) => {
   return (
     <Text
-      style={{
-        marginTop: 45,
-        fontSize: 26,
+      style={[{
+        fontSize: 16,
         fontFamily: "orbitron_regular",
-        letterSpacing: 4,
-        color: COLORS.grey_6,
-      }}
+        letterSpacing: 3,
+        color: color,
+      }, style]}
     >
       {text}
     </Text>
   );
 }
 
-export default Title;
+export default H6;

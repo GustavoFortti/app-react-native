@@ -27,7 +27,7 @@ const ProductsCarousel = ({ label, products, navigation, onLayout }) => {
         <Text
           onLayout={onLayout}
           style={{
-          ...FONTS.text_0,
+          ...FONTS.text_22_grey_5,
           }}
         >
           {label}

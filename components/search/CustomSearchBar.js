@@ -23,7 +23,7 @@ const CustomSearchBar = ({
       inputContainerStyle={{
         backgroundColor: COLORS.grey_0,
         width: "90%",
-        borderRadius: 8,
+        borderRadius: 3,
       }}
       inputStyle={{
         color: 'rgba(0, 0, 0, 0.7)',
