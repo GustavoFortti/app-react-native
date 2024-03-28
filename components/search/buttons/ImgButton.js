@@ -3,31 +3,31 @@ import { TouchableOpacity, View, Text } from 'react-native';
 import { COLORS, FONTS, styles } from '../../../constants';
 import FadeInImageButton from '../../buttons/FadeInImageButton';
 import H6 from '../../text/H6';
+import H4 from '../../text/H4';
 
-const SearchBannerImgButtonBar = ({ data, onButtonPress, buttonStyle }) => {
+const ImgButton = ({ data, onButtonPress }) => {
   return (
     <View
       style={{
-        marginTop: buttonStyle.marginTop,
-        marginRight: buttonStyle.marginRight,
+        marginTop: 30,
       }}
     >
+      <H4 text={data.search} color={COLORS.black} />
       <FadeInImageButton
         imageUrl={data.imageUrl}
         imageStyle={{
-          height: buttonStyle.height,
-          width: buttonStyle.width,
-          borderRadius: buttonStyle.borderRadius,
+          height: 110,
+          width: "100%",
+          borderRadius: 5,
+          marginTop: 30,
+          backgroundColor: COLORS.white_t_30
         }}
         source={{ uri: data.imageUrl }}
         onButtonPress={onButtonPress}
         buttonName={data.search}
-      >
-        
-        <H6 text={data.search} color={COLORS.grey_6} />
-      </FadeInImageButton>
+      />
     </View>
   );
 };
 
-export default SearchBannerImgButtonBar;
+export default ImgButton;

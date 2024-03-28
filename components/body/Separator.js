@@ -10,7 +10,7 @@ const Separator = ({ color = COLORS.grey_3, thickness = 0.3 }) => {
 
 const styles = StyleSheet.create({
   separator: {
-    marginTop: 30,
+    marginTop: 20,
   },
 });
 

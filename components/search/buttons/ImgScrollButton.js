@@ -6,25 +6,38 @@ import { Svg, Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
 import H4 from '../../text/H4';
 import H6_bold from '../../text/H6_bold';
 
-const SearchImgScrollButtonBar = ({ title, data, onButtonPress, buttonStyle }) => {
-  const startColor = COLORS.grey_0;
-  const middleColor = COLORS.grey_0;
-  const endColor = COLORS.grey_1_t;
+const ImgScrollButton = ({ title, data, onButtonPress }) => {
+  const startColor = COLORS.white;
+  const middleColor = COLORS.white;
+  const endColor = COLORS.grey_0_t;
 
 
   const renderButton = ({ item }) => (
     <View
       style={{
-        marginTop: buttonStyle.marginTop,
-        marginRight: buttonStyle.marginRight,
+        paddingTop: 20,
+        paddingRight: 20,
+        paddingBottom: 20,
+        // IOS
+        shadowColor: COLORS.grey_1,
+        shadowOffset: { width: -1, height: 0 },
+        shadowOpacity: 0.3,
+        shadowRadius: 10,
+        
+        // // android
+        elevation: 20,
+        shadowColor: COLORS.grey_4,
+        
       }}
-    >
+      >
       <FadeInImageButton
         imageUrl={item.imageUrl}
         imageStyle={{
-          height: buttonStyle.height,
-          width: buttonStyle.width,
-          borderRadius: buttonStyle.borderRadius,
+          height: 110,
+          width: 210,
+          borderRadius: 5,
+          backgroundColor: COLORS.white_t_30,
+          
         }}
         source={{ uri: item.imageUrl }}
         onButtonPress={onButtonPress}
@@ -35,12 +48,11 @@ const SearchImgScrollButtonBar = ({ title, data, onButtonPress, buttonStyle }) =
             height: "100%",
             width: "100%",
             justifyContent: 'flex-end',
-            backgroundColor: COLORS.white_t_30,
           }}
         >
           <View
             style={{
-              height: "40%",
+              height: "45%",
               width: "100%",
               backgroundColor: COLORS.grey_0,
               justifyContent: 'center',
@@ -79,7 +91,7 @@ const SearchImgScrollButtonBar = ({ title, data, onButtonPress, buttonStyle }) =
   return (
     <View
       style={{
-        marginTop: buttonStyle.marginTop
+        marginTop: 10,
       }}
     >
       <H4 text={title} color={COLORS.grey_6} style={{ marginTop: 30 }} />
@@ -101,4 +113,4 @@ const SearchImgScrollButtonBar = ({ title, data, onButtonPress, buttonStyle }) =
   );
 };
 
-export default SearchImgScrollButtonBar;
+export default ImgScrollButton;

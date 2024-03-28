@@ -34,7 +34,7 @@ const FadeInImageButton = ({ children, source, buttonName, imageStyle, onButtonP
       />
       <View style={[
         styles.overlay,
-        imageStyle
+        imageStyle,
       ]}>
         {isImageLoaded && children}
       </View>
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
+    
   },
 });
 
