@@ -2,11 +2,9 @@ import React from 'react';
 import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { COLORS, FONTS } from '../../../constants';
 import H4 from '../../text/H4';
-import H6 from '../../text/H6';
-import GradientButton from './GradientButton';
 import H6_bold from '../../text/H6_bold';
 
-const SimpleGridButton = ({ title, data, onButtonPress, gridSize }) => {
+const SimpleButtonGrid = ({ title, data, onButtonPress, gridSize }) => {
   const formatDataIntoRows = (data, numItemsPerRow) => {
     const numberOfRows = Math.ceil(data.length / numItemsPerRow);
     return Array.from({ length: numberOfRows }, (_, rowIndex) => {
@@ -89,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SimpleGridButton;
+export default SimpleButtonGrid;

@@ -1,15 +1,17 @@
 import Home from "./Home";
+import NewHome from "./NewHome";
 import Favourite from "./Favourite";
-import ShelfSearch from "./ShelfSearch";
-import Search from "./Search";
+import NewSearch from "./NewSearch";
 import Details from "./Details";
+import Products from "./Products";
 import Splash from "./Splash";
 
 export {
     Home,
-    ShelfSearch,
+    NewHome,
     Favourite,
-    Search,
+    NewSearch,
     Details,
+    Products,
     Splash
 }

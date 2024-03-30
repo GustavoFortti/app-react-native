@@ -22,7 +22,6 @@ const CustomSearchBar = ({
       }}
       inputContainerStyle={{
         backgroundColor: COLORS.grey_0,
-        width: "90%",
         borderRadius: 3,
       }}
       inputStyle={{

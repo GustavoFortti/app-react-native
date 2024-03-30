@@ -1,9 +1,11 @@
 // FadeHeader.js
 import React, { useEffect, useState } from 'react';
 import { Animated, Text, StyleSheet } from 'react-native';
-import { COLORS } from '../../constants'; // Adjust the import path as necessary
+import { COLORS } from '../../constants';
+import Separator from './Separator';
+import { View } from 'react-native-animatable';
 
-const FadeHeader = ({ children, style, scrollY }) => {
+const FadeHeader = ({ children, scrollY, headerZIndex }) => {
   const [headerDisplay, setHeaderDisplay] = useState('flex');
 
   const headerOpacity = scrollY.interpolate({
@@ -15,16 +17,18 @@ const FadeHeader = ({ children, style, scrollY }) => {
   useEffect(() => {
     let timeoutId;
 
+
     const updateHeaderDisplay = ({ value }) => {
       clearTimeout(timeoutId);
       if (value > 50) {
-        timeoutId = setTimeout(() => setHeaderDisplay('none'), 500);
+        timeoutId = setTimeout(() => {
+          setHeaderDisplay('none');
+        }, 500);
       } else {
         setHeaderDisplay('flex');
       }
     };
 
-    // Add listener to the scrollY animated value
     const id = scrollY.addListener(updateHeaderDisplay);
 
     return () => {
@@ -37,25 +41,36 @@ const FadeHeader = ({ children, style, scrollY }) => {
     <Animated.View
       style={[
         styles.headContainer,
-        { 
+        {
           opacity: headerOpacity,
           display: headerDisplay,
-         },
-        style 
+          zIndex: headerZIndex
+        },
       ]}
     >
-      {children}
+      <View
+        style={{
+          width: "100%",
+          // backgroundColor: "red",
+          justifyContent: "flex-end",
+        }}
+      >
+        {children}
+      </View>
     </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   headContainer: {
-    zIndex: 1,
+    position: "absolute",
     flexDirection: "column",
-    justifyContent: "space-evenly",
+    justifyContent: "flex-end",
     alignItems: "center",
     width: "100%",
+    height: "20%",
+    // backgroundColor: "blue",
+    backgroundColor: "transparent",
   },
 });
 

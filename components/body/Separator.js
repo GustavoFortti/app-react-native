@@ -1,17 +1,17 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { COLORS } from '../../constants';
 
-const Separator = ({ color = COLORS.grey_3, thickness = 0.3 }) => {
+const Separator = ({ color = COLORS.grey_3, thickness = 0.3, marginTop = 20 }) => {
   return (
-    <View style={[styles.separator, { borderBottomColor: color, borderBottomWidth: thickness }]} />
+    <View
+      style={{
+        borderBottomColor: color,
+        borderBottomWidth: thickness,
+        marginTop: marginTop
+      }}
+    />
   );
 };
-
-const styles = StyleSheet.create({
-  separator: {
-    marginTop: 20,
-  },
-});
 
 export default Separator;

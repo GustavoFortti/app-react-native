@@ -3,9 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Animated,
   View,
-  Text,
-  TouchableOpacity,
-  Image
 } from 'react-native';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,12 +14,13 @@ import H1 from '../components/text/H1';
 import ProductsCarousel from '../components/ProductsCarousel';
 import { searchByIndex } from '../services/api/products';
 import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
+import Separator from '../components/body/Separator';
 
 const Home = ({ navigation }) => {
 
-  const [productsWhey, setProductsWhey] = useState([]); // Estado para armazenar os resultados.
-  const [productsBarrinhas, setProductsBarrinhas] = useState([]); // Estado para armazenar os resultados.
-  const [productsPreTreino, setProductsPreTreino] = useState([]); // Estado para armazenar os resultados.
+  const [productsWhey, setProductsWhey] = useState([]);
+  const [productsBarrinhas, setProductsBarrinhas] = useState([]);
+  const [productsPreTreino, setProductsPreTreino] = useState([]);
 
   const [positionWhey, setPositionWhey] = useState(0);
   const [positionBarrinhas, setPositionBarrinhas] = useState(0);
@@ -50,56 +48,26 @@ const Home = ({ navigation }) => {
   }, [scrollAnim]);
 
   useEffect(() => {
-    const fetchProductsWhey = async () => {
+    const fetchProductsByIndex = async (index, setProducts) => {
       try {
-        const data = await searchByIndex("6dfd37d8");
+        const data = await searchByIndex(index);
         const products = data.results
-        setProductsWhey(products);
+        setProducts(products);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
       }
     };
 
-    const fetchProductsBarrinhas = async () => {
-      try {
-        const data = await searchByIndex("b5539dc2");
-        const products = data.results
-        setProductsBarrinhas(products);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-      }
-    };
-
-    const fetchProductsPreTreino = async () => {
-      try {
-        const data = await searchByIndex("97b10707");
-        const products = data.results
-        setProductsPreTreino(products);
-      } catch (error) {
-        console.error('Erro ao buscar produtos:', error);
-      }
-    };
-
-    fetchProductsWhey();
-    fetchProductsBarrinhas();
-    fetchProductsPreTreino();
+    fetchProductsByIndex("6dfd37d8", setProductsWhey)
+    fetchProductsByIndex("b5539dc2", setProductsBarrinhas)
+    fetchProductsByIndex("97b10707", setProductsPreTreino)
   }, []);
 
-  const onLayoutWhey = (event) => {
+  const onLayoutHandler = (event, position, setPosition) => {
     const { y } = event.nativeEvent.layout;
-    setPositionWhey(y + banner_1);
+    setPosition(y + position);
   };
-
-  const onLayoutBarrinhas = (event) => {
-    const { y } = event.nativeEvent.layout;
-    setPositionBarrinhas(y + banner_2);
-  };
-
-  const onLayoutPreTreino = (event) => {
-    const { y } = event.nativeEvent.layout;
-    setPositionPreTreino(y + banner_3);
-  };
-
+ 
   const scrollToCarousel = (position) => {
     // Definir o valor inicial da animação para a posição atual de rolagem
     scrollAnim.setValue(currentScrollY.current);
@@ -174,7 +142,7 @@ const Home = ({ navigation }) => {
               label="Whey protein"
               products={productsWhey}
               navigation={navigation}
-              onLayout={onLayoutWhey}
+              onLayout={event => onLayoutHandler(event, banner_1, setPositionWhey)}
             />
             <CustomImageWithOverlay
               source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-2.webp"}
@@ -185,7 +153,7 @@ const Home = ({ navigation }) => {
               label="Barrinhas"
               products={productsBarrinhas}
               navigation={navigation}
-              onLayout={onLayoutBarrinhas}
+              onLayout={event => onLayoutHandler(event, banner_2, setPositionBarrinhas)}
             />
             <CustomImageWithOverlay
               source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp"}
@@ -196,15 +164,9 @@ const Home = ({ navigation }) => {
               label="Pré-treino"
               products={productsPreTreino}
               navigation={navigation}
-              onLayout={onLayoutPreTreino}
+              onLayout={event => onLayoutHandler(event, banner_3, setPositionPreTreino)}
             />
-            <View
-              style={{
-                width: "100%",
-                height: 250,
-              }}
-            >
-            </View>
+            <Separator color={COLORS.grey_3} thickness={0.3} marginTop={250} />
           </Animated.ScrollView>
         </View>
       </View>
