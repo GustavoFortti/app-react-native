@@ -8,15 +8,15 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
-import FadeHeader from '../components/body/FadeHeader';
 import H1 from '../components/text/H1';
 
 import ProductsCarousel from '../components/ProductsCarousel';
 import { searchByIndex } from '../services/api/products';
 import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
 import Separator from '../components/body/Separator';
+import BodyScroll from '../components/body/BodyScroll';
 
-const Home = ({ navigation }) => {
+const NewHome = ({ navigation }) => {
 
   const [productsWhey, setProductsWhey] = useState([]);
   const [productsBarrinhas, setProductsBarrinhas] = useState([]);
@@ -28,7 +28,7 @@ const Home = ({ navigation }) => {
 
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const scrollAnim = useRef(new Animated.Value(0)).current;
 
   const CustomImageWithOverlayHeith = 500
@@ -67,111 +67,76 @@ const Home = ({ navigation }) => {
     const { y } = event.nativeEvent.layout;
     setPosition(y + position);
   };
- 
+
   const scrollToCarousel = (position) => {
-    // Definir o valor inicial da animação para a posição atual de rolagem
     scrollAnim.setValue(currentScrollY.current);
 
     Animated.timing(scrollAnim, {
       toValue: position,
-      duration: 1000, // Duração da animação em milissegundos
+      duration: 1000,
       useNativeDriver: false,
     }).start();
   };
 
   return (
-    <SafeAreaView style={{
-      flex: 1,
-      backgroundColor: COLORS.background,
-    }}>
-      <View style={{
-        alignItems: "center",
-      }}>
-        <FadeHeader
-          scrollY={scrollY}
-          style={{
-            position: "absolute",
-            height: "12%",
-            backgroundColor: COLORS.background_0,
-          }}
-        >
-          <H1 text="NutriFind" color={COLORS.black} style={{ marginTop: 45 }} />
-        </FadeHeader>
+    <BodyScroll
+      headerZIndex={0}
+      childrenHeader={
         <View
           style={{
-            flexDirection: "column",
-            justifyContent: "space-evenly",
-            alignItems: "center",
-            width: "100%",
             height: "100%",
-            marginTop: "1%",
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "flex-end",
+            paddingBottom: "10%",
           }}
         >
-          <Animated.ScrollView
-            ref={scrollViewRef}
-            contentContainerStyle={{ paddingBottom: 50, paddingLeft: 15 }}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
-            onScroll={Animated.event(
-              [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-              {
-                useNativeDriver: true,
-                listener: event => {
-                  if (scrollViewRef.current) {
-                    currentScrollY.current = event.nativeEvent.contentOffset.y;
-                  }
-                }
-              }
-            )}
-          >
-            <View
-              style={{
-                width: "100%",
-                height: "4%",
-              }}
-            >
-            </View>
-            <CustomImageWithOverlay
-              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-1.webp"}
-              text="Explore novos sabores e transforme sua nutrição com Whey Protein."
-              onButtonPress={() => scrollToCarousel(positionWhey)}
-            />
-            <ProductsCarousel
-              label="Whey protein"
-              products={productsWhey}
-              navigation={navigation}
-              onLayout={event => onLayoutHandler(event, banner_1, setPositionWhey)}
-            />
-            <CustomImageWithOverlay
-              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-2.webp"}
-              text="Ninguém deixa passar uma barrinha, especialmente quando é doce e cheia de proteína!"
-              onButtonPress={() => (scrollToCarousel(positionBarrinhas))}
-            />
-            <ProductsCarousel
-              label="Barrinhas"
-              products={productsBarrinhas}
-              navigation={navigation}
-              onLayout={event => onLayoutHandler(event, banner_2, setPositionBarrinhas)}
-            />
-            <CustomImageWithOverlay
-              source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp"}
-              text="Descubra o segredo para disposição e foco inigualáveis no seu treino."
-              onButtonPress={() => (scrollToCarousel(positionPreTreino))}
-            />
-            <ProductsCarousel
-              label="Pré-treino"
-              products={productsPreTreino}
-              navigation={navigation}
-              onLayout={event => onLayoutHandler(event, banner_3, setPositionPreTreino)}
-            />
-            <Separator color={COLORS.grey_3} thickness={0.3} marginTop={250} />
-          </Animated.ScrollView>
+          <H1 text="NutriFind" color={COLORS.black}/>
         </View>
-      </View>
-    </SafeAreaView>
+      }
+      childrenMain={
+        <View>
+          <CustomImageWithOverlay
+            source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-1.webp"}
+            text="Explore novos sabores e transforme sua nutrição com Whey Protein."
+            onButtonPress={() => scrollToCarousel(positionWhey)}
+          />
+          <ProductsCarousel
+            label="Whey protein"
+            products={productsWhey}
+            navigation={navigation}
+            onLayout={event => onLayoutHandler(event, banner_1, setPositionWhey)}
+          />
+          <CustomImageWithOverlay
+            source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-2.webp"}
+            text="Ninguém deixa passar uma barrinha, especialmente quando é doce e cheia de proteína!"
+            onButtonPress={() => (scrollToCarousel(positionBarrinhas))}
+          />
+          <ProductsCarousel
+            label="Barrinhas"
+            products={productsBarrinhas}
+            navigation={navigation}
+            onLayout={event => onLayoutHandler(event, banner_2, setPositionBarrinhas)}
+          />
+          <CustomImageWithOverlay
+            source={"https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp"}
+            text="Descubra o segredo para disposição e foco inigualáveis no seu treino."
+            onButtonPress={() => (scrollToCarousel(positionPreTreino))}
+          />
+          <ProductsCarousel
+            label="Pré-treino"
+            products={productsPreTreino}
+            navigation={navigation}
+            onLayout={event => onLayoutHandler(event, banner_3, setPositionPreTreino)}
+          />
+        </View>
+      }
+      scrollY={scrollY}
+      setScrollY={setScrollY}
+      scrollViewRef={scrollViewRef}
+      currentScrollY={currentScrollY}
+    />
   )
 }
 
-export default Home;
+export default NewHome;

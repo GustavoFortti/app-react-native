@@ -8,7 +8,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, FONTS, styles } from '../constants';
 
-import FadeHeader from '../components/body/FadeHeader';
 import H1 from '../components/text/H1';
 
 import ProductsCarousel from '../components/ProductsCarousel';
@@ -29,7 +28,7 @@ const NewHome = ({ navigation }) => {
 
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const scrollAnim = useRef(new Animated.Value(0)).current;
 
   const CustomImageWithOverlayHeith = 500
@@ -80,15 +79,16 @@ const NewHome = ({ navigation }) => {
   };
 
   return (
-
     <BodyScroll
       headerZIndex={0}
       childrenHeader={
         <View
           style={{
+            height: "100%",
             width: "100%",
             alignItems: "center",
-            paddingBottom: 25
+            justifyContent: "flex-end",
+            paddingBottom: "10%",
           }}
         >
           <H1 text="NutriFind" color={COLORS.black}/>
@@ -132,6 +132,7 @@ const NewHome = ({ navigation }) => {
         </View>
       }
       scrollY={scrollY}
+      setScrollY={setScrollY}
       scrollViewRef={scrollViewRef}
       currentScrollY={currentScrollY}
     />

@@ -1,39 +1,62 @@
 import React, { useRef } from 'react';
-import { SafeAreaView, View, Animated, Keyboard } from 'react-native';
-import FadeHeader from './FadeHeader';
+import { SafeAreaView, View, Animated, Keyboard, useWindowDimensions } from 'react-native';
+import Header from './Header';
 import { COLORS } from '../../constants';
 import Separator from './Separator';
+import H1 from '../text/H1';
 
 const BodyScroll = ({
+  childrenSubHeader,
   childrenHeader,
   childrenMain,
   scrollY,
+  setScrollY,
   scrollViewRef,
   currentScrollY,
-  headerZIndex,
 }) => {
+  const { height } = useWindowDimensions();
+  const height_20 = height * 0.20;
+  const height_22 = height * 0.22;
 
   return (
     <SafeAreaView style={{
       flex: 1,
       backgroundColor: COLORS.background,
     }}>
-      <FadeHeader
+      <View
+        style={{
+          height: "10%",
+          paddingTop: "13%",
+          width: "100%",
+          top: 0,
+          zIndex: 1,
+          position: 'absolute',
+          backgroundColor: COLORS.background,
+        }}
+      >
+        {childrenSubHeader}
+      </View>
+      <Header
         scrollY={scrollY}
-        headerZIndex={headerZIndex}
+        heightSize={height_20}
       >
         {childrenHeader}
-      </FadeHeader>
+      </Header>
       <Animated.ScrollView
         ref={scrollViewRef}
         onScrollBeginDrag={() => Keyboard.dismiss()}
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ 
+          paddingTop: height_22,
+          paddingBottom: 100
+        }}
         style={{
           width: "100%",
           height: "100%",
+          top: 0,
+          position: 'absolute',
         }}
         onScroll={Animated.event(
           [{ nativeEvent: { contentOffset: { y: scrollY } } }],
@@ -47,7 +70,6 @@ const BodyScroll = ({
           }
         )}
       >
-        <Separator color={COLORS.grey_3} thickness={0} marginTop={"30%"} />
         {childrenMain}
       </Animated.ScrollView>
     </SafeAreaView>

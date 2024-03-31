@@ -1,8 +1,7 @@
 import { View, Text, Animated, StyleSheet, ScrollView } from 'react-native'
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { COLORS } from '../constants';
 
-import FadeHeader from '../components/body/FadeHeader';
 import CustomSearchBar from '../components/search/CustomSearchBar';
 import buttonData from '../components/search/searchData'
 import Separator from '../components/body/Separator';
@@ -15,7 +14,7 @@ import H1 from '../components/text/H1';
 import BodyScroll from '../components/body/BodyScroll';
 
 const NewSearch = ({ navigation }) => {
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
 
@@ -30,12 +29,18 @@ const NewSearch = ({ navigation }) => {
 
   return (
     <BodyScroll
-      headerZIndex={1}
+      
       childrenHeader={
         <View>
           <View
             style={{
+              height: "100%",
+              width: "100%",
+              // alignItems: "center",
+              justifyContent: "flex-end",
+              paddingBottom: "5%",
               paddingHorizontal: "3%",
+              // backgroundColor: "red"
             }}
           >
             <CustomSearchBar
@@ -46,14 +51,14 @@ const NewSearch = ({ navigation }) => {
               clearResults={() => console.log("Resultados limpos")}
             />
           </View>
-          <Separator color={COLORS.grey_3} thickness={0.9} marginTop={10} />
+          <Separator color={COLORS.grey_3} thickness={0.3} marginTop={0} />
         </View>
       }
       childrenMain={
         <View
           style={{
             paddingHorizontal: "5%",
-            paddingTop: 30
+            // paddingTop: 10
           }}
         >
           <SimpleButton
@@ -107,6 +112,7 @@ const NewSearch = ({ navigation }) => {
         </View>
       }
       scrollY={scrollY}
+      setScrollY={setScrollY}
       scrollViewRef={scrollViewRef}
       currentScrollY={currentScrollY}
     />

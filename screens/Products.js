@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { View, Text, Button, StyleSheet, Animated } from 'react-native';
 import { COLORS } from '../constants';
-import FadeHeader from '../components/body/FadeHeader';
 import Separator from '../components/body/Separator';
 
 const Products = ({ route, navigation }) => {
@@ -14,11 +13,11 @@ const Products = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <FadeHeader
+      {/* <FadeHeader
         scrollY={scrollY}
         style={styles.fadeHeader}
       >
-      </FadeHeader>
+      </FadeHeader> */}
       <Text>Products</Text>
     </View>
   );
