@@ -1,25 +1,78 @@
-import React, { useRef, useState } from 'react';
-import { View, Text, Button, StyleSheet, Animated } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
 import { COLORS } from '../constants';
-import Separator from '../components/body/Separator';
+import BodyScroll from '../components/body/BodyScroll';
+import IconButton from '../components/buttons/IconButton';
+import ModalSort from '../components/products/modals/ModalSort';
+import ModalFilter from '../components/products/modals/ModalFilter';
+import filterData from '../components/products/filtersData';
 
 const Products = ({ route, navigation }) => {
-  const scrollY = useRef(new Animated.Value(0)).current;
+  const [modal, setModal] = useState(false);
+  const scrollViewRef = useRef(null);
+  const currentScrollY = useRef(0);
+  const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
-  const { searchData } = route.params;
-  const [products, setProducts] = useState(searchData);
-
-  console.log(products)
+  // const { searchData } = route.params;
+  // const [products, setProducts] = useState(searchData);
+  const [products, setProducts] = useState([]);
+  const [sortOption, setSortOption] = useState('0');
+  
+  const sortOptions = filterData.sortOptions;
 
   return (
-    <View style={styles.container}>
-      {/* <FadeHeader
-        scrollY={scrollY}
-        style={styles.fadeHeader}
-      >
-      </FadeHeader> */}
-      <Text>Products</Text>
-    </View>
+    <BodyScroll
+      childrenHeader={
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+            alignItems: "flex-end",
+            height: "100%",
+            width: "100%",
+            paddingBottom: "10%",
+            // backgroundColor: "grey"
+          }}
+        >
+          <IconButton
+            iconName={"sort-variant"}
+            text={"Ordenar"}
+            onPress={() => setModal(
+              <ModalSort
+                modalVisible={true}
+                setModalVisible={setModal}
+                setSortOption={setSortOption}
+                sortOptions={sortOptions}
+              />
+            )}
+          />
+          <IconButton
+            iconName={"filter"}
+            text={"Filtrar"}
+            onPress={() => setModal(
+              <ModalFilter
+                modalVisible={true}
+                setModalVisible={setModal}
+              />
+            )}
+          />
+        </View>
+      }
+      childrenMain={
+        <View
+          style={{
+            backgroundColor: COLORS.grey_0
+          }}
+        >
+          <Text>inicio</Text>
+        </View>
+      }
+      scrollY={scrollY}
+      setScrollY={setScrollY}
+      scrollViewRef={scrollViewRef}
+      currentScrollY={currentScrollY}
+      childrenModal={modal}
+    />
   );
 };
 

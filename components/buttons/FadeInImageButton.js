@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Animated, StyleSheet, TouchableOpacity } from 'react-native';
-import { COLORS } from '../../constants';
 
 const FadeInImageButton = ({ children, source, buttonName, imageStyle, onButtonPress }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);

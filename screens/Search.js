@@ -13,13 +13,14 @@ import { searchByIndex } from '../services/api/products';
 import H1 from '../components/text/H1';
 import BodyScroll from '../components/body/BodyScroll';
 
-const NewSearch = ({ navigation }) => {
+const Search = ({ navigation }) => {
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
 
   const handleButtonPress = async (index) => {
     try {
+      console.log(index)
       // const products = await searchByIndex("6dfd37d8");
       navigation.navigate('Products', { searchData: [] });
     } catch (error) {
@@ -29,7 +30,6 @@ const NewSearch = ({ navigation }) => {
 
   return (
     <BodyScroll
-      
       childrenHeader={
         <View>
           <View
@@ -138,4 +138,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NewSearch;
+export default Search;

@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useFonts } from "expo-font";
-import { Details, Home, Products, Splash } from "./screens"
+import { Details, Home, Search, Products, Splash } from "./screens"
 import { useCallback } from "react";
 import BottomTabNavigation from "./navigations/BottomTabNavigation";
 

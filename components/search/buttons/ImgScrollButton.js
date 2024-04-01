@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, View, Text } from 'react-native';
+import { FlatList, View } from 'react-native';
 import FadeInImageButton from '../../buttons/FadeInImageButton';
 import { COLORS } from '../../../constants';
 import { Svg, Defs, LinearGradient, Rect, Stop } from 'react-native-svg';
@@ -41,7 +41,7 @@ const ImgScrollButton = ({ title, data, onButtonPress }) => {
         }}
         source={{ uri: item.imageUrl }}
         onButtonPress={onButtonPress}
-        buttonName={item.search}
+        buttonName={item.index}
       >
         <View
           style={{

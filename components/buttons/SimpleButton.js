@@ -1,12 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
-import { COLORS } from '../../../constants';
-import H6 from '../../text/H6';
+import { COLORS } from '../../constants';
+import H6 from '../text/H6';
 
-const SimpleButton = ({ data, onButtonPress }) => {
+const SimpleButton = ({ text, onPress, style, colorText=COLORS.black }) => {
   return (
     <TouchableOpacity
-      style={{
+      style={[{
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
@@ -17,10 +17,10 @@ const SimpleButton = ({ data, onButtonPress }) => {
         marginTop: 10,
         borderWidth: 0.5,
         borderRadius: 2,
-      }}
-      onPress={() => onButtonPress(data.index)}
+      }, style]}
+      onPress={() => onPress()}
     >
-      <H6 text={data.search} color={COLORS.black} />
+      <H6 text={text} color={colorText} />
     </TouchableOpacity>
   );
 };

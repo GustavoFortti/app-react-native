@@ -1,8 +1,7 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
-import { COLORS, FONTS, styles } from '../../../constants';
+import { View } from 'react-native';
+import { COLORS } from '../../../constants';
 import FadeInImageButton from '../../buttons/FadeInImageButton';
-import H6 from '../../text/H6';
 import H4 from '../../text/H4';
 
 const ImgButton = ({ data, onButtonPress }) => {
@@ -24,7 +23,7 @@ const ImgButton = ({ data, onButtonPress }) => {
         }}
         source={{ uri: data.imageUrl }}
         onButtonPress={onButtonPress}
-        buttonName={data.search}
+        buttonName={data.index}
       />
     </View>
   );

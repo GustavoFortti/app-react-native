@@ -16,7 +16,7 @@ import CustomImageWithOverlay from '../components/CustomImageWithOverlay';
 import Separator from '../components/body/Separator';
 import BodyScroll from '../components/body/BodyScroll';
 
-const NewHome = ({ navigation }) => {
+const Home = ({ navigation }) => {
 
   const [productsWhey, setProductsWhey] = useState([]);
   const [productsBarrinhas, setProductsBarrinhas] = useState([]);
@@ -80,7 +80,6 @@ const NewHome = ({ navigation }) => {
 
   return (
     <BodyScroll
-      headerZIndex={0}
       childrenHeader={
         <View
           style={{
@@ -139,4 +138,4 @@ const NewHome = ({ navigation }) => {
   )
 }
 
-export default NewHome;
+export default Home;

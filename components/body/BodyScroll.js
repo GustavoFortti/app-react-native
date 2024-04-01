@@ -9,6 +9,7 @@ const BodyScroll = ({
   childrenSubHeader,
   childrenHeader,
   childrenMain,
+  childrenModal,
   scrollY,
   setScrollY,
   scrollViewRef,
@@ -72,6 +73,7 @@ const BodyScroll = ({
       >
         {childrenMain}
       </Animated.ScrollView>
+      {childrenModal}
     </SafeAreaView>
   );
 };

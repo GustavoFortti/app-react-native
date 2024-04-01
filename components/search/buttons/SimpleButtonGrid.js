@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, ScrollView, TouchableOpacity, Text, StyleSheet } from 'react-native';
-import { COLORS, FONTS } from '../../../constants';
+import { View, ScrollView, TouchableOpacity, StyleSheet } from 'react-native';
+import { COLORS } from '../../../constants';
 import H4 from '../../text/H4';
 import H6_bold from '../../text/H6_bold';
 
