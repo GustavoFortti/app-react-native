@@ -3,7 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { COLORS } from '../../constants';
 import H6 from '../text/H6';
 
-const SimpleButton = ({ text, onPress, style, colorText=COLORS.black }) => {
+const SimpleButton = ({ text, onPress, style, colorText=COLORS.black, children }) => {
   return (
     <TouchableOpacity
       style={[{
@@ -20,7 +20,7 @@ const SimpleButton = ({ text, onPress, style, colorText=COLORS.black }) => {
       }, style]}
       onPress={() => onPress()}
     >
-      <H6 text={text} color={colorText} />
+      {children || <H6 text={text} color={colorText} />}
     </TouchableOpacity>
   );
 };

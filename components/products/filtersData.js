@@ -4,6 +4,7 @@ const sortOptions = [
     { label: 'Maior preço', value: '2' },
     { label: 'Menor quantidade', value: '3' },
     { label: 'Maior quantidade', value: '4' },
+    { label: 'Maior desconto', value: '5' },
 ];
 
 const filterData = {

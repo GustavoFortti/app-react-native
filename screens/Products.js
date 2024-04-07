@@ -13,10 +13,15 @@ const Products = ({ route, navigation }) => {
   const currentScrollY = useRef(0);
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
 
-  // const { searchData } = route.params;
+  const { query, index, data } = route.params;
+  console.log("query")
+  console.log(query)
+  console.log("index")
+  console.log(index)
+  
   // const [products, setProducts] = useState(searchData);
-  const [products, setProducts] = useState([]);
   const [sortOption, setSortOption] = useState('0');
+  const [filterOption, setFilterOption] = useState('');
   
   const sortOptions = filterData.sortOptions;
 
@@ -44,7 +49,7 @@ const Products = ({ route, navigation }) => {
                 setSortOption={setSortOption}
                 sortOptions={sortOptions}
               />
-            )}
+              )}
           />
           <IconButton
             iconName={"filter"}
@@ -53,6 +58,7 @@ const Products = ({ route, navigation }) => {
               <ModalFilter
                 modalVisible={true}
                 setModalVisible={setModal}
+                setSortOption={setFilterOption}
               />
             )}
           />

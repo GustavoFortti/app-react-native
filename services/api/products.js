@@ -1,6 +1,6 @@
 import { apiClient, apiClientStatus } from './apiClient';
 
-export const searchByTitle = async (query, index, page = 0, size = 30, sort = null, filter = null) => {
+export const searchByQuey = async (query, index, page = 0, size = 30, sort = null, filter = null) => {
   try {
     return await apiClient.get('/api/search/query', {
       query,

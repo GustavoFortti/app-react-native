@@ -14,13 +14,12 @@ const ModalBottom = ({
       animationType="none"
       visible={showModal}
     >
-      <TouchableOpacity
+      <View
         style={styles.overlay}
         activeOpacity={1}
-        onPressOut={() => handleCloseModal()}
       >
         {children}
-      </TouchableOpacity>
+      </View>
     </Modal>
   );
 };

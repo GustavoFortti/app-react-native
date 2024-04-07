@@ -8,7 +8,9 @@ const Separator = ({ color = COLORS.grey_3, thickness = 0.3, marginTop = 20 }) =
       style={{
         borderBottomColor: color,
         borderBottomWidth: thickness,
-        marginTop: marginTop
+        width: "100%",
+        marginTop: marginTop,
+        height: 1
       }}
     />
   );

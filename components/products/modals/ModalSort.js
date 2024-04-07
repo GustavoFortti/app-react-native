@@ -6,6 +6,7 @@ import SimpleButton from '../../buttons/SimpleButton';
 import { COLORS } from '../../../constants';
 import RadioButton from '../../buttons/RadioButoon';
 import IconButton from '../../buttons/IconButton';
+import ModalApply from './ModalApply';
 
 const ModalSort = ({
   modalVisible,
@@ -14,8 +15,9 @@ const ModalSort = ({
   setSortOption,
 }) => {
   const { height } = useWindowDimensions();
-  const height_15 = height * 0.15;
-  const height_70 = height * 0.70;
+  const height_25 = height * 0.25;
+  const height_80 = height * 0.80;
+  const height_modal = Math.min(height_25 + 400, height_80)
 
   const [selected, setSelected] = useState('0');
 
@@ -37,7 +39,7 @@ const ModalSort = ({
 
   const translateY = animation.interpolate({
     inputRange: [0, 1],
-    outputRange: [height_70, 0],
+    outputRange: [height_modal, 0],
   });
 
   const handleCloseModal = () => {
@@ -51,7 +53,6 @@ const ModalSort = ({
   return (
     <ModalBottom
       visible={modalVisible}
-      handleCloseModal={handleCloseModal}
     >
       <Animated.View style={{
         width: "100%",
@@ -63,8 +64,9 @@ const ModalSort = ({
       >
         <View
           style={{
-            height: 370 + height_15,
+            height: height_modal,
             bottom: 0,
+            paddingHorizontal: 15,
             width: "100%",
             position: 'absolute',
             backgroundColor: 'white',
@@ -73,50 +75,25 @@ const ModalSort = ({
 
           }}
         >
-          <IconButton iconName="chevron-down" onPress={() => (handleCloseModal())} />
+          <View
+            style={{
+              width: '105%',
+              alignItems: 'flex-end'
+            }}
+          >
+            <IconButton iconName="close" onPress={() => (handleCloseModal())} />
+          </View>
           <RadioButton
             options={sortOptions}
             selected={selected}
             setSelected={setSelected}
             style={{
-              paddingHorizontal: "7%",
+              paddingHorizontal: "3%",
               height: 60,
             }}
           />
         </View>
-        <View
-          style={[
-            styles.buttonContainer,
-            {
-              width: "100%",
-              backgroundColor: "white",
-              borderTopWidth: 0.3,
-              // IOS
-              shadowColor: COLORS.grey_6,
-              shadowOffset: { width: 0, height: -1 },
-              shadowOpacity: 0.15,
-              shadowRadius: 10,
-
-              // android
-              elevation: 20,
-            }
-          ]}
-        >
-          <View
-            style={{
-              paddingHorizontal: "5%",
-            }}
-          >
-            <SimpleButton
-              text="Aplicar"
-              style={{
-                backgroundColor: COLORS.black,
-              }}
-              colorText={COLORS.white}
-              onPress={() => (handleCloseModal())}
-            />
-          </View>
-        </View>
+        <ModalApply handleCloseModal={handleCloseModal} />
       </Animated.View>
     </ModalBottom>
   );

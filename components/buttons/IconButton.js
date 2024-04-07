@@ -20,12 +20,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    // backgroundColor: "red",
     height: 50,
   },
   textContainer: {
     marginLeft: 10,
-    // Opcional: adicionar estilos adicionais se necessário
   },
 });
 
