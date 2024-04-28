@@ -28,7 +28,6 @@ const ModalFilter = ({
 
   useEffect(() => {
     const brandSelected = (brand && brand.length > 0 ? filterOptions.brand.filter((item) => brand.includes(item.value)) : [])
-    // const brandSelected = (brandFilter.map((item) => item.value))
 
     const rangePriceSelected = (
       filterOptions.rangePrice.max === rangePrice.max &&

@@ -26,7 +26,7 @@ const Products = ({ route, navigation }) => {
     rangeQnt: filterData.rangeQnt,
     brand: filterData.brand,
   };
-  
+
   const [filterOption, setFilterOption] = useState({
     rangePrice: null,
     rangeQnt: null,
@@ -34,24 +34,31 @@ const Products = ({ route, navigation }) => {
   });
 
   const [applyQuery, setApplyQuery] = useState(true)
-  console.log("filterOption")
-  console.log(filterOption)
-  console.log("filterOption")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(">>>>>>>>>>>>>>>>>>>>>>>>")
+        console.log("applyQuery >>>>>>>>>>>>>")
+        console.log(applyQuery)
         if (!applyQuery) {
           return
         }
+        console.log("QUERY >>>>>>>>>>>>>")
+        // const [sort, quantity, match] = handleQueryParams()
 
-        const sort = { field: sortOption.field, order: sortOption.order }
+        const sizePage = 30
+        const page = 0
 
-        // const data = await searchByQuey(query, index);
-        // console.log("data")
-        // setProducts(data);
-        // setLoading(false);
+        const data = await searchByQuey(
+          query,
+          index,
+          sizePage,
+          page,
+          sortOption,
+          filterOption,
+          filterOptions,
+        );
+
         setApplyQuery(false)
       } catch (error) {
         console.error('Failed to fetch products:', error);

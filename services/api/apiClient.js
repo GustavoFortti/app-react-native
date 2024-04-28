@@ -5,33 +5,76 @@ const BASE_URL = 'https://nutrifind-api-10f8a344cbba.herokuapp.com';
 const apiClient = {
   get: async (path, queryParams = {}, headers = {}) => {
     let parsedQueryParams = {
-      query: queryParams.query,
       index: queryParams.index,
-      page: queryParams.page,
-      sizePage: queryParams.sizePage,
     };
 
-    if (queryParams.sort) {
-      parsedQueryParams['sort'] = {
-        field: queryParams.sort.field,
-        order: queryParams.sort.order,
-      };
-    }
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>");
 
-    if (queryParams.filter && queryParams.filter.quantity) {
-      parsedQueryParams['filter'] = {
-        quantity: {
-          ...(queryParams.filter.quantity.gte && { gte: queryParams.filter.quantity.gte }),
-          ...(queryParams.filter.quantity.lt && { lt: queryParams.filter.quantity.lt }),
-        },
-      };
-    }
+    const query = queryParams.query
+    const page = queryParams.page
+    const sizePage = queryParams.sizePage
 
-    if (parsedQueryParams.sort) parsedQueryParams.sort = JSON.stringify(parsedQueryParams.sort);
-    if (parsedQueryParams.filter) parsedQueryParams.filter = JSON.stringify(parsedQueryParams.filter);
+    const sort = queryParams.sortOption
+    console.log("sort");
+    console.log(sort);
+    console.log(sort);
+    return ""
+    const sortParam = (
+      sort.field ?
+      { field: sort.field, order: sort.order } :
+      null
+    )
 
+    const rangePrice = queryParams.filterOption.rangePrice
+    const rangePriceOptions = queryParams.filterOptions.rangePrice
+    const rangePriceParam = (rangePrice ?
+      {
+        field: "price_numeric",
+        ...(
+          rangePrice.min &&
+          rangePrice.min > rangePriceOptions.min &&
+          { gte: rangePrice.min }
+        ),
+        ...(
+          rangePrice.max &&
+          rangePrice.max < rangePriceOptions.max &&
+          { lt: rangePrice.max }
+        ),
+      } :
+      null
+    );
+
+    const rangeQnt = queryParams.filterOption.rangeQnt
+    const rangeQntOptions = queryParams.filterOptions.rangeQnt
+    const rangeQntParam = (rangeQnt ?
+      {
+        field: "quantity",
+        ...(
+          rangeQnt.min &&
+          rangeQnt.min > rangeQntOptions.min &&
+          { gte: rangeQnt.min }
+        ),
+        ...(
+          rangeQnt.max &&
+          rangeQnt.max < rangeQntOptions.max &&
+          { lt: rangeQnt.max }
+        ),
+      } :
+      null
+    );
+
+    const rangeQuantity = [rangePriceParam, rangeQntParam].filter(item => item !== null);
+    const quantity = rangeQuantity.length !== 0 ? rangeQuantity : null
+
+    const brand = filterOption.brand.map((item) => (item.name))
+    const match = brand.length !== 0 ? [{ field: "brand", order: brand }] : null
+
+    // if (parsedQueryParams.sort) parsedQueryParams.sort = JSON.stringify(parsedQueryParams.sort);
+    // if (parsedQueryParams.filter) parsedQueryParams.filter = JSON.stringify(parsedQueryParams.filter);
+
+    return ""
     const url = `${BASE_URL}${path}`;
-    
+
     const config = {
       method: 'get',
       url,
@@ -42,7 +85,7 @@ const apiClient = {
       },
     };
     console.log('Request URL:', config);
-    
+
     try {
       const response = await axios(config);
       return response.data;

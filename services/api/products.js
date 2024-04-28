@@ -1,14 +1,23 @@
 import { apiClient, apiClientStatus } from './apiClient';
 
-export const searchByQuey = async (query, index, page = 0, size = 30, sort = null, filter = null) => {
+export const searchByQuey = async (
+  query,
+  index,
+  page = 0,
+  sizePage = 30,
+  sortOption = null,
+  filterOption = null,
+  filterOptions = null,
+) => {
   try {
-    return await apiClient.get('/api/search/query', {
+    return await apiClient.get('/api/search/query-products', {
       query,
       index,
       page,
-      size,
-      sort,
-      filter,
+      sizePage,
+      sortOption,
+      filterOption,
+      filterOptions,
     }, {});
   } catch (error) {
     console.error('Error searching products:', error.message);
@@ -16,10 +25,10 @@ export const searchByQuey = async (query, index, page = 0, size = 30, sort = nul
   }
 };
 
-export const searchByIndex = async (query) => {
+export const searchByIndex = async (index) => {
   try {
     return await apiClient.get('/api/search/index', {
-      query
+      index
     }, {});
   } catch (error) {
     console.error('Error searching products:', error.message);
