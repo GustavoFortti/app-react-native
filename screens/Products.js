@@ -6,24 +6,60 @@ import IconButton from '../components/buttons/IconButton';
 import ModalSort from '../components/products/modals/ModalSort';
 import ModalFilter from '../components/products/modals/ModalFilter';
 import filterData from '../components/products/filtersData';
+import { searchByQuey } from '../services/api/products';
 
 const Products = ({ route, navigation }) => {
   const [modal, setModal] = useState(false);
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const { query, index, data } = route.params;
-  console.log("query")
-  console.log(query)
-  console.log("index")
-  console.log(index)
+  const { query, index } = route.params;
+
+  const sortOptions = filterData.sort;
+  const [sortOption, setSortOption] = useState(sortOptions[0]);
+
+  const filterOptions = {
+    rangePrice: filterData.rangePrice,
+    rangeQnt: filterData.rangeQnt,
+    brand: filterData.brand,
+  };
   
-  // const [products, setProducts] = useState(searchData);
-  const [sortOption, setSortOption] = useState('0');
-  const [filterOption, setFilterOption] = useState('');
-  
-  const sortOptions = filterData.sortOptions;
+  const [filterOption, setFilterOption] = useState({
+    rangePrice: null,
+    rangeQnt: null,
+    brand: [],
+  });
+
+  const [applyQuery, setApplyQuery] = useState(true)
+  console.log("filterOption")
+  console.log(filterOption)
+  console.log("filterOption")
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        console.log(">>>>>>>>>>>>>>>>>>>>>>>>")
+        if (!applyQuery) {
+          return
+        }
+
+        const sort = { field: sortOption.field, order: sortOption.order }
+
+        // const data = await searchByQuey(query, index);
+        // console.log("data")
+        // setProducts(data);
+        // setLoading(false);
+        setApplyQuery(false)
+      } catch (error) {
+        console.error('Failed to fetch products:', error);
+      }
+    };
+
+    fetchData();
+  }, [applyQuery]);
 
   return (
     <BodyScroll
@@ -48,8 +84,10 @@ const Products = ({ route, navigation }) => {
                 setModalVisible={setModal}
                 setSortOption={setSortOption}
                 sortOptions={sortOptions}
+                sortOption={sortOption}
+                setApplyQuery={setApplyQuery}
               />
-              )}
+            )}
           />
           <IconButton
             iconName={"filter"}
@@ -58,7 +96,10 @@ const Products = ({ route, navigation }) => {
               <ModalFilter
                 modalVisible={true}
                 setModalVisible={setModal}
-                setSortOption={setFilterOption}
+                filterOptions={filterOptions}
+                filterOption={filterOption}
+                setFilterOption={setFilterOption}
+                setApplyQuery={setApplyQuery}
               />
             )}
           />

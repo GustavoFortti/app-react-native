@@ -35,7 +35,7 @@ const ModalApply = ({ handleCloseModal }) => {
             backgroundColor: COLORS.white,
           }}
           colorText={COLORS.black}
-          onPress={() => handleCloseModal()}
+          onPress={() => handleCloseModal(true)}
         />
       </View>
       <View
@@ -49,7 +49,7 @@ const ModalApply = ({ handleCloseModal }) => {
             backgroundColor: COLORS.grey_6,
           }}
           colorText={COLORS.white}
-          onPress={() => handleCloseModal()}
+          onPress={() => handleCloseModal(false)}
         />
       </View>
     </View>

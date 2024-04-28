@@ -23,7 +23,8 @@ const ImgButton = ({ data, onButtonPress }) => {
         }}
         source={{ uri: data.imageUrl }}
         onButtonPress={onButtonPress}
-        buttonName={data.index}
+        buttonName={data}
+        data={data}
       />
     </View>
   );

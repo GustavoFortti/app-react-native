@@ -1,9 +1,6 @@
 import { View, Text, StyleSheet, Animated, useWindowDimensions } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ModalBottom from '../../body/ModalBottom';
-import { Button } from 'react-native-elements';
-import SimpleButton from '../../buttons/SimpleButton';
-import { COLORS } from '../../../constants';
 import RadioButton from '../../buttons/RadioButoon';
 import IconButton from '../../buttons/IconButton';
 import ModalApply from './ModalApply';
@@ -12,19 +9,22 @@ const ModalSort = ({
   modalVisible,
   setModalVisible,
   sortOptions,
+  sortOption,
   setSortOption,
+  setApplyQuery
 }) => {
   const { height } = useWindowDimensions();
   const height_25 = height * 0.25;
   const height_80 = height * 0.80;
   const height_modal = Math.min(height_25 + 400, height_80)
 
-  const [selected, setSelected] = useState('0');
+  const [sort, setSort] = useState(sortOption.value);
 
   useEffect(() => {
-    setSortOption(selected)
-  }, [selected])
-  
+    const sortSelectd = sortOptions.find((item) => item.value === sort);
+    setSortOption(sortSelectd)
+  }, [sort])
+
   const [animation] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -42,7 +42,13 @@ const ModalSort = ({
     outputRange: [height_modal, 0],
   });
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (cancel) => {
+    if (cancel) {
+      const sort = sortOptions.find((option) => option.value === sortOption.value);
+      setSortOption(sort)
+    } else {
+      setApplyQuery(true)
+    }
     Animated.timing(animation, {
       toValue: 0,
       duration: 500,
@@ -81,12 +87,12 @@ const ModalSort = ({
               alignItems: 'flex-end'
             }}
           >
-            <IconButton iconName="close" onPress={() => (handleCloseModal())} />
+            <IconButton iconName="close" onPress={() => (handleCloseModal(true))} />
           </View>
           <RadioButton
             options={sortOptions}
-            selected={selected}
-            setSelected={setSelected}
+            selected={sort}
+            setSelected={setSort}
             style={{
               paddingHorizontal: "3%",
               height: 60,

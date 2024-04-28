@@ -9,8 +9,6 @@ import SimpleButton from '../components/search/buttons/SimpleButton';
 import ImgScrollButton from '../components/search/buttons/ImgScrollButton';
 import SimpleButtonGrid from '../components/search/buttons/SimpleButtonGrid';
 import ImgButton from '../components/search/buttons/ImgButton';
-import { searchByIndex, searchByQuey } from '../services/api/products';
-import H1 from '../components/text/H1';
 import BodyScroll from '../components/body/BodyScroll';
 
 const Search = ({ navigation }) => {
@@ -19,20 +17,13 @@ const Search = ({ navigation }) => {
   const currentScrollY = useRef(0);
   const [searchText, setSearchText] = useState('');
 
-  const handleSearchByIndex = async (index) => {
+  const handleSearch = async (data) => {
     try {
-      console.log(index)
-      const products = await searchByIndex("6dfd37d8");
-      navigation.navigate('Products', { index: "6dfd37d8", query: false, data: products });
-    } catch (error) {
-      console.error("Erro ao buscar produtos:", error);
-    }
-  };
-
-  const handleSearchByQuery = async () => {
-    try {
-      const products = await searchByQuey(searchText);
-      navigation.navigate('Products', { index: false, query: query, data: products });
+      let index = buttonData.allData;
+      if (data.index) {
+        index = data.index
+      }
+      navigation.navigate('Products', { index, query: data.search });
     } catch (error) {
       console.error("Erro ao buscar produtos:", error);
     }
@@ -57,7 +48,7 @@ const Search = ({ navigation }) => {
               placeholder="Buscar por suplementos..."
               onChangeText={(text) => setSearchText(text)}
               value={searchText}
-              onSubmitEditing={() => handleSearchByQuery()}
+              onSubmitEditing={() => handleSearch({index: false, search: searchText})}
               clearResults={() => setSearchText("")}
             />
           </View>
@@ -73,51 +64,51 @@ const Search = ({ navigation }) => {
         >
           <SimpleButton
             data={buttonData.promotion[0]}
-            onButtonPress={handleSearchByIndex}
+            onButtonPress={handleSearch}
           />
           <Separator color={COLORS.grey_3} thickness={0} marginTop={30} />
           <ImgScrollButton
             title="Massa Muscular"
-            data={buttonData.muscle_mass}
-            onButtonPress={handleSearchByIndex}
+            data={buttonData.muscleMass}
+            onButtonPress={handleSearch}
           />
           <ImgButton
-            data={buttonData.protein_bar[0]}
-            onButtonPress={handleSearchByIndex}
+            data={buttonData.proteinBar[0]}
+            onButtonPress={handleSearch}
           />
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={40} />
           <SimpleButtonGrid
             title="Perfomance"
             data={buttonData.performance}
-            onButtonPress={handleSearchByIndex}
+            onButtonPress={handleSearch}
             gridSize={4}
           />
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={40} />
           <ImgScrollButton
             title="Perda de peso"
-            data={buttonData.weight_loss}
-            onButtonPress={handleSearchByIndex}
+            data={buttonData.weightLoss}
+            onButtonPress={handleSearch}
           />
           <ImgButton
-            data={buttonData.peanut_butter[0]}
-            onButtonPress={handleSearchByIndex}
+            data={buttonData.peanutButter[0]}
+            onButtonPress={handleSearch}
           />
           <ImgScrollButton
             title="Natural"
             data={buttonData.natural}
-            onButtonPress={handleSearchByIndex}
+            onButtonPress={handleSearch}
           />
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={40} />
           <SimpleButtonGrid
             title="Saúde"
             data={buttonData.health}
-            onButtonPress={handleSearchByIndex}
+            onButtonPress={handleSearch}
             gridSize={4}
           />
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={40} />
           <ImgButton
             data={buttonData.combos[0]}
-            onButtonPress={handleSearchByIndex}
+            onButtonPress={handleSearch}
           />
         </View>
       }

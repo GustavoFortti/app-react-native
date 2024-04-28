@@ -16,7 +16,7 @@ const RadioButton = ({ options = [], selected, setSelected, style }) => {
         <TouchableOpacity
           key={option.value}
           style={[styles.option, style]}
-          onPress={() => {setSelected(option.value)}}
+          onPress={() => setSelected(option.value)}
         >
           <View style={[styles.circle, selected === option.value && styles.selectedCircle]} />
           <H6 text={option.label} style={styles.text} />

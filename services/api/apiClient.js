@@ -8,13 +8,13 @@ const apiClient = {
       query: queryParams.query,
       index: queryParams.index,
       page: queryParams.page,
-      size: queryParams.size,
+      sizePage: queryParams.sizePage,
     };
 
     if (queryParams.sort) {
       parsedQueryParams['sort'] = {
-        by: queryParams.sort.by,
-        ascending: queryParams.sort.ascending,
+        field: queryParams.sort.field,
+        order: queryParams.sort.order,
       };
     }
 

@@ -1,66 +1,71 @@
+export const allData = [
+  { id: 1, search: "", index: "ef1ef5aa", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+];
+
 export const promotion = [
-  { id: 1, search: "% Promoções", index: "687cf505", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "% Promoções", index: "78f3ba11", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
-export const muscle_mass = [
-  { id: 1, search: "Whey Protein", index: "d0464e0d", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 2, search: "Creatina", index: "31274446", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 3, search: "Proteinas", index: "b3176254", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+export const muscleMass = [
+  { id: 1, search: "Whey Protein", index: "244113f2", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 2, search: "Creatina", index: "cf213335", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 3, search: "Proteinas", index: "648ba3a0", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
-export const protein_bar = [
-  { id: 1, search: "Barrinhas de proteina", index: "cf72264d", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+export const proteinBar = [
+  { id: 1, search: "Barrinhas de proteina", index: "f93b6d0e", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 export const performance = [
-  { id: 1, search: "Pré-Treino", index: "e6003604", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 2, search: "Cafeina", index: "eee05684", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 3, search: "Energia", index: "63b0d4e9", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 4, search: "Resistencia", index: "516ea489", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 5, search: "Imunidade", index: "f68bc2fe", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 6, search: "Hipercalorico", index: "af2856de", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 7, search: "Carboidratos", index: "93f3de11", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 8, search: "Beta Alanina", index: "8d115d55", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "Pré-Treino", index: "f88dc97c", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 2, search: "Cafeina", index: "fd4a05c6", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 3, search: "Energia", index: "9cfc1cbd", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 4, search: "Resistencia", index: "229f4ef0", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 5, search: "Imunidade", index: "373814a8", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 6, search: "Hipercalorico", index: "3f29b25a", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 7, search: "Carboidratos", index: "0b66c4b6", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 8, search: "Beta Alanina", index: "1b02f531", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
-export const weight_loss = [
-  { id: 1, search: "Termogenico", index: "801f5d54", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 2, search: "Oleos", index: "0ee70736", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 3, search: "Temperos", index: "efb9dbce", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 4, search: "Adoçantes", index: "7f866aba", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+export const weightLoss = [
+  { id: 1, search: "Termogenico", index: "7a664f15", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 2, search: "Oleos", index: "2d35ed66", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 3, search: "Temperos", index: "96317194", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 4, search: "Adoçantes", index: "44f5bce7", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
-export const peanut_butter = [
-  { id: 1, search: "Pasta de amendoim", index: "efe55232", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+export const peanutButter = [
+  { id: 1, search: "Pasta de amendoim", index: "7ad348f0", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 export const natural = [
-  { id: 1, search: "Vegano", index: "25226f66", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 2, search: "Vegetariano", index: "62d2abcf", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "Vegano", index: "613854f7", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 2, search: "Vegetariano", index: "1e7f717b", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 export const health = [
-  { id: 1, search: "Vitaminas", index: "2868e4cd", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 2, search: "Minerais", index: "6018130c", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 3, search: "Magnésio", index: "b7c971fd", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 4, search: "Pele", index: "5ffcf82c", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 5, search: "Cabelo", index: "d370fbc2", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 6, search: "Omega 3", index: "4edc1cc5", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 7, search: "Colageno", index: "a27bde0a", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
-  { id: 8, search: "Qualidade do sono", index: "a27bde0a", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "Vitaminas", index: "d4d866e8", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 2, search: "Minerais", index: "80ca0615", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 3, search: "Magnésio", index: "429f057a", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 4, search: "Pele", index: "459c4147", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 5, search: "Cabelo", index: "e556f180", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 6, search: "Omega 3", index: "94d5439f", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 7, search: "Colageno", index: "07833f51", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 8, search: "Qualidade do sono", index: "3d27cc37", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 export const combos = [
-  { id: 1, search: "Combos", index: "4bc28b96", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "Combos", index: "6be943ab", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 const buttonData = {
+  allData,
   promotion,
-  muscle_mass,
-  protein_bar,
-  peanut_butter,
+  muscleMass,
+  proteinBar,
+  peanutButter,
   performance,
-  weight_loss,
+  weightLoss,
   natural,
   health,
   combos

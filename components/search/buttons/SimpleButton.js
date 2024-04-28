@@ -18,7 +18,7 @@ const SimpleButton = ({ data, onButtonPress }) => {
         borderWidth: 0.5,
         borderRadius: 2,
       }}
-      onPress={() => onButtonPress(data.index)}
+      onPress={() => onButtonPress(data)}
     >
       <H6 text={data.search} color={COLORS.black} />
     </TouchableOpacity>

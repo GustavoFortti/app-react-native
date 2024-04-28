@@ -1,63 +1,54 @@
 import { View, Text, StyleSheet, Animated, useWindowDimensions, ScrollView, Keyboard, SafeAreaView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import ModalBottom from '../../body/ModalBottom';
-import { Button } from 'react-native-elements';
-import SimpleButton from '../../buttons/SimpleButton';
 import { COLORS } from '../../../constants';
-import RadioButton from '../../buttons/RadioButoon';
 import IconButton from '../../buttons/IconButton';
 import CheckBoxButton from '../../buttons/CheckBoxButton';
 import Separator from '../../body/Separator';
 import ModalApply from './ModalApply';
 import RangeSlider from '../../buttons/RangeSlider';
-import H7 from '../../text/H7';
 import H6 from '../../text/H6';
 
 const ModalFilter = ({
   modalVisible,
   setModalVisible,
+  filterOptions,
+  filterOption,
   setFilterOption,
+  setApplyQuery
 }) => {
   const { height } = useWindowDimensions();
   const height_15 = height * 0.15;
   const height_80 = height * 0.80;
   const height_modal = Math.min(height_15 + 600, height_80)
 
-  const [selectedOptions, setSelectedOptions] = useState([]);
-  const [rangePrice, setRangePrice] = useState({ min: 0, max: 100 });
-  const [rangeQnt, setRangeQnt] = useState({ min: 0, max: 4000 });
+  const [brand, setBrand] = useState(filterOption.brand.map((item) => item.value));
+  const [rangePrice, setRangePrice] = useState(filterOptions.rangePrice);
+  const [rangeQnt, setRangeQnt] = useState(filterOptions.rangeQnt);
 
-  const typesOfFlavors = [
-    { label: 'Option 1', value: '1' },
-  ];
+  useEffect(() => {
+    const brandSelected = (brand && brand.length > 0 ? filterOptions.brand.filter((item) => brand.includes(item.value)) : [])
+    // const brandSelected = (brandFilter.map((item) => item.value))
 
-  const brands = [
-    { label: "Adaptogen", value: '1' },
-    { label: "Atlhetica Nutrition", value: '2' },
-    { label: "Black Skull", value: '3' },
-    { label: "Boldsnacks", value: '4' },
-    { label: "Dark Lab", value: '5' },
-    { label: "Darkness", value: '6' },
-    { label: "Dux", value: '7' },
-    { label: "Growth ", value: '8' },
-    { label: "Integralmedica", value: '9' },
-    { label: "Iridium Labs", value: '10' },
-    { label: "Max Titanium", value: '11' },
-    { label: "New Millen", value: '12' },
-    { label: "Nutrata", value: '13' },
-    { label: "Probiotica", value: '14' },
-    { label: "Puravida", value: '15' },
-    { label: "Truesource", value: '16' },
-    { label: "Under Labz", value: '17' },
-    { label: "Vitafor", value: '18' },
-  ];
+    const rangePriceSelected = (
+      filterOptions.rangePrice.max === rangePrice.max &&
+      filterOptions.rangePrice.min === rangePrice.min
+    ) ? null : rangePrice
+    
+    const rangeQntSelected = (
+      filterOptions.rangeQnt.min === rangeQnt.min &&
+      filterOptions.rangeQnt.max === rangeQnt.max
+    ) ? null : rangeQnt
 
-  // useEffect(() => {
-  //   setFilterOption(selectedOptions)
-  // }, [selectedOptions])
+    setFilterOption({
+      rangePrice: rangePriceSelected,
+      rangeQnt: rangeQntSelected,
+      brand: brandSelected,
+    })
+  }, [brand, rangePrice, rangeQnt])
 
   const [animation] = useState(new Animated.Value(0));
-
+  
   useEffect(() => {
     if (modalVisible) {
       Animated.timing(animation, {
@@ -73,7 +64,11 @@ const ModalFilter = ({
     outputRange: [height_modal, 0],
   });
 
-  const handleCloseModal = () => {
+  const handleCloseModal = (cancel) => {
+    if (cancel) {
+    } else {
+      setApplyQuery(true)
+    }
     Animated.timing(animation, {
       toValue: 0,
       duration: 500,
@@ -111,7 +106,7 @@ const ModalFilter = ({
               alignItems: 'flex-end'
             }}
           >
-            <IconButton iconName="close" onPress={() => (handleCloseModal())} />
+            <IconButton iconName="close" onPress={() => (handleCloseModal(true))} />
           </View>
           <ScrollView
             style={{
@@ -140,8 +135,8 @@ const ModalFilter = ({
             </View>
             <RangeSlider
               pretext={"R$ "}
-              minimumValue={0}
-              maximumValue={100}
+              minimumValue={filterOptions.rangePrice.min}
+              maximumValue={filterOptions.rangePrice.max}
               setValues={setRangePrice}
               stepValue={5}
             />
@@ -158,8 +153,8 @@ const ModalFilter = ({
             </View>
             <RangeSlider
               postext={" g"}
-              minimumValue={0}
-              maximumValue={4000}
+              minimumValue={filterOptions.rangeQnt.min}
+              maximumValue={filterOptions.rangeQnt.max}
               setValues={setRangeQnt}
               stepValue={100}
             />
@@ -175,11 +170,15 @@ const ModalFilter = ({
               <H6 text={"Marcas"} color={COLORS.grey_6} />
             </View>
             <Separator color={COLORS.black} thickness={0} marginTop={25} />
-            <CheckBoxButton
-              options={brands}
-              selected={selectedOptions}
-              setSelected={setSelectedOptions}
-            />
+            {
+              filterOptions.brand && (
+                <CheckBoxButton
+                  options={filterOptions.brand}
+                  selected={brand}
+                  setSelected={setBrand}
+                />
+              )
+            }
           </ScrollView>
         </View>
         <ModalApply handleCloseModal={handleCloseModal} />

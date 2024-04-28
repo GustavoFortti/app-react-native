@@ -41,7 +41,8 @@ const ImgScrollButton = ({ title, data, onButtonPress }) => {
         }}
         source={{ uri: item.imageUrl }}
         onButtonPress={onButtonPress}
-        buttonName={item.index}
+        buttonName={item}
+        data={item}
       >
         <View
           style={{

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Animated, StyleSheet, TouchableOpacity } from 'react-native';
 
-const FadeInImageButton = ({ children, source, buttonName, imageStyle, onButtonPress }) => {
+const FadeInImageButton = ({ children, source, buttonName, imageStyle, onButtonPress, data }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -17,7 +17,7 @@ const FadeInImageButton = ({ children, source, buttonName, imageStyle, onButtonP
 
   return (
     <TouchableOpacity
-      onPress={() => onButtonPress(buttonName)}
+      onPress={() => onButtonPress(data)}
     >
       <Animated.Image
         resizeMode='cover'
