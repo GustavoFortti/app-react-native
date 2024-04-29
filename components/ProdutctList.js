@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, View, Text, Image } from 'react-native';
 import { COLORS } from '../constants';
-import TruncatedText from '../components/TruncatedText';
-import FadeInImagePrdctList from './FadeInImageProductList';
+import TruncatedText from '../components/text/TruncatedText';
+import FadeInImage from './FadeInImage';
 
 
 const ProdutctList = ({ data, numColumns, handleLoadMore, navigation, isLoading }) => {

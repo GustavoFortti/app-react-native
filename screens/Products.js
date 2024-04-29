@@ -6,6 +6,7 @@ import IconButton from '../components/buttons/IconButton';
 import ModalSort from '../components/products/modals/ModalSort';
 import ModalFilter from '../components/products/modals/ModalFilter';
 import filterData from '../components/products/filtersData';
+import GridLongProduct from '../components/products/cards/GridLongProduct'
 import { searchByQuey } from '../services/api/products';
 
 const Products = ({ route, navigation }) => {
@@ -14,6 +15,7 @@ const Products = ({ route, navigation }) => {
   const currentScrollY = useRef(0);
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const [products, setProducts] = useState([]);
+  const [totalProducts, setTotalProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const { query, index } = route.params;
@@ -33,40 +35,56 @@ const Products = ({ route, navigation }) => {
     brand: [],
   });
 
-  const [applyQuery, setApplyQuery] = useState(true)
+  const [applyQuery, setApplyQuery] = useState(true);
+  const [fetchCount, setFetchCount] = useState(0);
+  const [isFetchingAllowed, setIsFetchingAllowed] = useState(true);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFetchCount(0);
+      setIsFetchingAllowed(true);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("applyQuery >>>>>>>>>>>>>")
-        console.log(applyQuery)
-        if (!applyQuery) {
-          return
+        if (!applyQuery || !isFetchingAllowed || fetchCount >= 3) {
+          return;
         }
-        console.log("QUERY >>>>>>>>>>>>>")
-        // const [sort, quantity, match] = handleQueryParams()
 
-        const sizePage = 30
-        const page = 0
+        const sizePage = 30;
+        const page = 1;
 
         const data = await searchByQuey(
           query,
           index,
-          sizePage,
           page,
+          sizePage,
           sortOption,
           filterOption,
           filterOptions,
         );
 
-        setApplyQuery(false)
+        setTotalProducts(data.totalProducts)
+        setProducts(data.results);
+        setLoading(false);
+        setApplyQuery(false);
+        setFetchCount(prevCount => prevCount + 1);
+        if (fetchCount === 2) {
+          setIsFetchingAllowed(false);
+          console.log('To many requests');
+        }
       } catch (error) {
         console.error('Failed to fetch products:', error);
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [applyQuery]);
+  }, [applyQuery, fetchCount, isFetchingAllowed]);
 
   return (
     <BodyScroll
@@ -79,7 +97,6 @@ const Products = ({ route, navigation }) => {
             height: "100%",
             width: "100%",
             paddingBottom: "10%",
-            // backgroundColor: "grey"
           }}
         >
           <IconButton
@@ -115,10 +132,18 @@ const Products = ({ route, navigation }) => {
       childrenMain={
         <View
           style={{
-            backgroundColor: COLORS.grey_0
+            backgroundColor: COLORS.grey_0,
+            width: "100%",
+            alignItems: "center"
           }}
         >
-          <Text>inicio</Text>
+          {
+            products &&
+            <GridLongProduct
+              products={products}
+              navigation={navigation}
+            />
+          }
         </View>
       }
       scrollY={scrollY}

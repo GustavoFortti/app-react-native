@@ -1,8 +1,8 @@
 import React from 'react';
 import { FlatList, TouchableOpacity, View, Text, Image } from 'react-native';
 import { COLORS } from '../constants';
-import TruncatedText from '../components/TruncatedText';
-import FadeInImagePrdctList from './FadeInImageProductList';
+import TruncatedText from '../components/text/TruncatedText';
+import FadeInImage from './images/FadeInImage';
 
 const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, onLayout = { onLayout } }) => {
   const renderProductItem = ({ item, index }) => {
@@ -38,7 +38,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
-        <FadeInImagePrdctList item={item.image_url_srv} />
+        <FadeInImage item={item.image_url_srv} />
         <View
           style={{
             flexDirection: 'column',

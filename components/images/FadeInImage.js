@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, Animated } from 'react-native';
 
-const FadeInImagePrdctList = ({ item }) => {
+const FadeInImage = ({ item, height=170, width=130 }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -9,8 +9,8 @@ const FadeInImagePrdctList = ({ item }) => {
     if (isImageLoaded) {
       Animated.timing(fadeAnim, {
         toValue: 1,
-        duration: 1000, // ajuste a duração da animação conforme necessário
-        useNativeDriver: true, // use o driver nativo para melhor desempenho
+        duration: 1000,
+        useNativeDriver: true,
       }).start();
     }
   }, [fadeAnim, isImageLoaded]);
@@ -25,8 +25,8 @@ const FadeInImagePrdctList = ({ item }) => {
         onLoad={() => setIsImageLoaded(true)}
         style={{
           marginTop: 0,
-          height: 170,
-          width: 130,
+          height: height,
+          width: width,
           opacity: fadeAnim,
         }}
         onError={(e) => {
@@ -37,4 +37,4 @@ const FadeInImagePrdctList = ({ item }) => {
   );
 };
 
-export default FadeInImagePrdctList;
+export default FadeInImage;

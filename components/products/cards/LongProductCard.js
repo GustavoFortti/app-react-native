@@ -1,29 +1,28 @@
 import React from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
-import { COLORS } from './constants';
+import { COLORS } from '../../../constants';
+import TruncatedText from '../../text/TruncatedText';
+import FadeInImage from '../../images/FadeInImage'
 
 const LongProductCard = ({ item, navigation }) => {
   return (
     <TouchableOpacity
       style={{
         flexDirection: 'column',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'flex-start',
         height: 350,
-        width: 250,
+        width: "98%",
         backgroundColor: COLORS.white,
-        paddingHorizontal: 7,
-        marginTop: 40,
-        marginLeft: 25,
-        marginBottom: 40,
-        borderRadius: 6,
+        marginTop: 15,
+        borderRadius: 8,
         borderWidth: 0.3,
         borderColor: COLORS.grey_2,
 
         // IOS
         shadowColor: COLORS.grey_6,
-        shadowOffset: { width: -1, height: 2 },
-        shadowOpacity: 0.1,
+        shadowOffset: { width: 4, height: 2 },
+        shadowOpacity: 0.2,
         shadowRadius: 4,
         
         // Android
@@ -32,7 +31,7 @@ const LongProductCard = ({ item, navigation }) => {
       }}
       onPress={() => navigation.navigate('Details', { productData: item })}
     >
-      <FadeInImagePrdctList item={item.image_url_srv} />
+      <FadeInImage item={item.image_url_srv} />
       <View
         style={{
           flexDirection: 'column',

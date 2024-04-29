@@ -28,7 +28,8 @@ export const searchByQuey = async (
 export const searchByIndex = async (index) => {
   try {
     return await apiClient.get('/api/search/index', {
-      index
+      query: index,
+      index: index
     }, {});
   } catch (error) {
     console.error('Error searching products:', error.message);

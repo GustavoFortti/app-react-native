@@ -28,10 +28,6 @@ const brand = [
   { name: "Vitafor", label: "Vitafor", value: '18' },
 ];
 
-const flavors = [
-  { label: 'Option 1', value: '1' },
-];
-
 const rangePrice = {
   min: 0,
   max: 1000

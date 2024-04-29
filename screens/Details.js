@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, Image, StyleSheet, Linking } from 'react-
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { COLORS, FONTS, SIZES, images } from '../constants'
-import TruncatedText from '../components/TruncatedText';
+import TruncatedText from '../components/text/TruncatedText';
 import FadeInImageDetails from '../components/FadeInImageDetails';
 import { MaterialIcons, Ionicons, Feather } from "@expo/vector-icons"
 
