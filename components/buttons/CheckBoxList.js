@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import CheckBox from './CheckBox';
 
-const CheckBoxButton = ({ options = [], selected = [], setSelected, style }) => {
+const CheckBoxList = ({ options = [], selected = [], setSelected, style }) => {
   const toggleSelection = (value) => {
     if (selected.includes(value)) {
       setSelected(selected.filter((item) => item !== value));
@@ -43,4 +43,4 @@ const CheckBoxButton = ({ options = [], selected = [], setSelected, style }) => 
   );
 };
 
-export default CheckBoxButton;
+export default CheckBoxList;

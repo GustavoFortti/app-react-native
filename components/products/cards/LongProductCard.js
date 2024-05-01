@@ -14,10 +14,11 @@ const LongProductCard = ({ item, navigation }) => {
         height: 350,
         width: "98%",
         backgroundColor: COLORS.white,
-        marginTop: 15,
+        marginTop: 25,
         borderRadius: 8,
         borderWidth: 0.3,
         borderColor: COLORS.grey_2,
+        paddingTop: 10,
 
         // IOS
         shadowColor: COLORS.grey_6,
@@ -31,7 +32,7 @@ const LongProductCard = ({ item, navigation }) => {
       }}
       onPress={() => navigation.navigate('Details', { productData: item })}
     >
-      <FadeInImage item={item.image_url_srv} />
+      <FadeInImage item={item.image_url_srv} height={150} width={150} />
       <View
         style={{
           flexDirection: 'column',

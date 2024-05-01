@@ -4,10 +4,11 @@ import LongProductCard from './LongProductCard';
 
 const GridLongProduct = ({ products, navigation }) => {
   return (
-    <ScrollView
+    <View
       style={{
-        width: "92%",
-        left: "1%"
+        width: "100%",
+        paddingHorizontal: 10,
+        left: "1%",
       }}
     >
       <FlatList
@@ -21,7 +22,7 @@ const GridLongProduct = ({ products, navigation }) => {
         )}
         scrollEnabled={false}
       />
-    </ScrollView>
+    </View>
   );
 }
 

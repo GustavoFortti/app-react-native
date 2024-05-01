@@ -20,7 +20,7 @@ const SimpleButton = ({ data, onButtonPress }) => {
       }}
       onPress={() => onButtonPress(data)}
     >
-      <H6 text={data.search} color={COLORS.black} />
+      <H6 text={data.name} color={COLORS.black} />
     </TouchableOpacity>
   );
 };

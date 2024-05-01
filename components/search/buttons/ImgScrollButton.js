@@ -80,7 +80,7 @@ const ImgScrollButton = ({ title, data, onButtonPress }) => {
                   paddingLeft: 15,
                   paddingTop: 15
                 }}>
-                <H6_bold text={item.search} color={COLORS.grey_6_t} />
+                <H6_bold text={item.name} color={COLORS.grey_6_t} />
               </View>
             </View>
           </View>

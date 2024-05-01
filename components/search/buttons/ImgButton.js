@@ -11,7 +11,7 @@ const ImgButton = ({ data, onButtonPress }) => {
         marginTop: 30,
       }}
     >
-      <H4 text={data.search} color={COLORS.black} />
+      <H4 text={data.name} color={COLORS.black} />
       <FadeInImageButton
         imageUrl={data.imageUrl}
         imageStyle={{

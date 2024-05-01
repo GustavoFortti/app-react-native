@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import ModalBottom from '../../body/ModalBottom';
 import { COLORS } from '../../../constants';
 import IconButton from '../../buttons/IconButton';
-import CheckBoxButton from '../../buttons/CheckBoxButton';
+import CheckBoxList from '../../buttons/CheckBoxList';
 import Separator from '../../body/Separator';
 import ModalApply from './ModalApply';
 import RangeSlider from '../../buttons/RangeSlider';
@@ -171,7 +171,7 @@ const ModalFilter = ({
             <Separator color={COLORS.black} thickness={0} marginTop={25} />
             {
               filterOptions.brand && (
-                <CheckBoxButton
+                <CheckBoxList
                   options={filterOptions.brand}
                   selected={brand}
                   setSelected={setBrand}

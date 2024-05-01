@@ -8,6 +8,7 @@ import ModalFilter from '../components/products/modals/ModalFilter';
 import filterData from '../components/products/filtersData';
 import GridLongProduct from '../components/products/cards/GridLongProduct'
 import { searchByQuey } from '../services/api/products';
+import Separator from '../components/body/Separator';
 
 const Products = ({ route, navigation }) => {
   const [modal, setModal] = useState(false);
@@ -19,6 +20,11 @@ const Products = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
 
   const { query, index } = route.params;
+  const [lastQuery, setLastQuery] = useState(query);
+  const [lastIndex, setLastindex] = useState(index);
+
+  console.log(lastQuery);
+  console.log(lastIndex);
 
   const sortOptions = filterData.sort;
   const [sortOption, setSortOption] = useState(sortOptions[0]);
@@ -48,19 +54,33 @@ const Products = ({ route, navigation }) => {
     return () => clearInterval(interval);
   }, []);
 
+  // useEffect(() => {
+  //   setLastQuery
+  //   setLastindex
+  // }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        console.log("+++++++++++++++");
+        console.log(lastQuery);
+        console.log(lastIndex);
+        console.log("=============");
+        if (!lastQuery || !lastIndex) {
+          return
+        }
+        
         if (!applyQuery || !isFetchingAllowed || fetchCount >= 3) {
           return;
         }
+        console.log(">>>>>>>>>>>>>>>>>");
 
         const sizePage = 30;
         const page = 1;
 
         const data = await searchByQuey(
-          query,
-          index,
+          lastQuery,
+          lastIndex,
           page,
           sizePage,
           sortOption,
@@ -73,6 +93,8 @@ const Products = ({ route, navigation }) => {
         setLoading(false);
         setApplyQuery(false);
         setFetchCount(prevCount => prevCount + 1);
+        setLastQuery(null)
+        setLastindex(null)
         if (fetchCount === 2) {
           setIsFetchingAllowed(false);
           console.log('To many requests');
@@ -84,55 +106,65 @@ const Products = ({ route, navigation }) => {
     };
 
     fetchData();
-  }, [applyQuery, fetchCount, isFetchingAllowed]);
+  }, [applyQuery, fetchCount, isFetchingAllowed, lastQuery, lastIndex]);
 
   return (
     <BodyScroll
       childrenHeader={
         <View
           style={{
-            flexDirection: "row",
+            flexDirection: "column",
             justifyContent: "space-evenly",
             alignItems: "flex-end",
             height: "100%",
             width: "100%",
-            paddingBottom: "10%",
           }}
         >
-          <IconButton
-            iconName={"sort-variant"}
-            text={"Ordenar"}
-            onPress={() => setModal(
-              <ModalSort
-                modalVisible={true}
-                setModalVisible={setModal}
-                setSortOption={setSortOption}
-                sortOptions={sortOptions}
-                sortOption={sortOption}
-                setApplyQuery={setApplyQuery}
-              />
-            )}
-          />
-          <IconButton
-            iconName={"filter"}
-            text={"Filtrar"}
-            onPress={() => setModal(
-              <ModalFilter
-                modalVisible={true}
-                setModalVisible={setModal}
-                filterOptions={filterOptions}
-                filterOption={filterOption}
-                setFilterOption={setFilterOption}
-                setApplyQuery={setApplyQuery}
-              />
-            )}
-          />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: "center",
+              marginTop: "25%",
+              // height: 100,
+              width: '100%',
+            }}
+          >
+            <IconButton
+              iconName={"sort-variant"}
+              text={"Ordenar"}
+              onPress={() => setModal(
+                <ModalSort
+                  modalVisible={true}
+                  setModalVisible={setModal}
+                  setSortOption={setSortOption}
+                  sortOptions={sortOptions}
+                  sortOption={sortOption}
+                  setApplyQuery={setApplyQuery}
+                />
+              )}
+            />
+            <IconButton
+              iconName={"filter"}
+              text={"Filtrar"}
+              onPress={() => setModal(
+                <ModalFilter
+                  modalVisible={true}
+                  setModalVisible={setModal}
+                  filterOptions={filterOptions}
+                  filterOption={filterOption}
+                  setFilterOption={setFilterOption}
+                  setApplyQuery={setApplyQuery}
+                />
+              )}
+            />
+          </View>
+          <Separator color={COLORS.grey_3} thickness={0.3} marginTop={30} />
         </View>
       }
       childrenMain={
         <View
           style={{
-            backgroundColor: COLORS.grey_0,
             width: "100%",
             alignItems: "center"
           }}

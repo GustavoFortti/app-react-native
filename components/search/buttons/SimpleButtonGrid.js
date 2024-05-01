@@ -40,7 +40,7 @@ const SimpleButtonGrid = ({ title, data, onButtonPress, gridSize }) => {
             },
           ]}
           onPress={() => onButtonPress(item)}>
-          <H6_bold text={item.search} color={COLORS.grey_5} />
+          <H6_bold text={item.name} color={COLORS.grey_5} />
         </TouchableOpacity>
       ))}
     </View>
