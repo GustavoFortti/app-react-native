@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Image, Animated } from 'react-native';
 
-const FadeInImage = ({ item, height=170, width=130 }) => {
+const FadeInImage = ({ item, style }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -16,19 +16,17 @@ const FadeInImage = ({ item, height=170, width=130 }) => {
   }, [fadeAnim, isImageLoaded]);
 
   return (
-    <View style={{ padding: 10 }} >
+    <View style={[{ padding: 10, backgroundColor: "grey"}, style]} >
       <Animated.Image
         resizeMode='contain'
         source={{
           uri: item,
         }}
         onLoad={() => setIsImageLoaded(true)}
-        style={{
+        style={[{
           marginTop: 0,
-          height: height,
-          width: width,
           opacity: fadeAnim,
-        }}
+        }, style]}
         onError={(e) => {
           e.nativeEvent.error;
         }}

@@ -17,14 +17,11 @@ const Products = ({ route, navigation }) => {
   const [scrollY, setScrollY] = useState(new Animated.Value(0));
   const [products, setProducts] = useState([]);
   const [totalProducts, setTotalProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const { query, index } = route.params;
   const [lastQuery, setLastQuery] = useState(query);
-  const [lastIndex, setLastindex] = useState(index);
-
-  console.log(lastQuery);
-  console.log(lastIndex);
+  const [lastIndex, setLastIndex] = useState(index);
 
   const sortOptions = filterData.sort;
   const [sortOption, setSortOption] = useState(sortOptions[0]);
@@ -54,30 +51,29 @@ const Products = ({ route, navigation }) => {
     return () => clearInterval(interval);
   }, []);
 
-  // useEffect(() => {
-  //   setLastQuery
-  //   setLastindex
-  // }, []);
+  useEffect(() => {
+    if (query !== lastQuery || index !== lastIndex) {
+      setLastQuery(query);
+      setLastIndex(index);
+      setApplyQuery(true);
+    }
+  }, [query, index]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log("+++++++++++++++");
-        console.log(lastQuery);
-        console.log(lastIndex);
-        console.log("=============");
         if (!lastQuery || !lastIndex) {
-          return
+          return;
         }
         
         if (!applyQuery || !isFetchingAllowed || fetchCount >= 3) {
           return;
         }
-        console.log(">>>>>>>>>>>>>>>>>");
-
+  
         const sizePage = 30;
         const page = 1;
-
+        
+        setLoading(true)
         const data = await searchByQuey(
           lastQuery,
           lastIndex,
@@ -87,26 +83,25 @@ const Products = ({ route, navigation }) => {
           filterOption,
           filterOptions,
         );
-
-        setTotalProducts(data.totalProducts)
+  
+        setTotalProducts(data.totalProducts);
         setProducts(data.results);
-        setLoading(false);
         setApplyQuery(false);
         setFetchCount(prevCount => prevCount + 1);
-        setLastQuery(null)
-        setLastindex(null)
         if (fetchCount === 2) {
           setIsFetchingAllowed(false);
-          console.log('To many requests');
+          console.log('Too many requests');
         }
+        setLoading(false);
       } catch (error) {
         console.error('Failed to fetch products:', error);
         setLoading(false);
       }
     };
-
+  
     fetchData();
-  }, [applyQuery, fetchCount, isFetchingAllowed, lastQuery, lastIndex]);
+  }, [lastQuery, lastIndex, applyQuery, isFetchingAllowed, fetchCount, sortOption, filterOption, filterOptions]);
+  
 
   return (
     <BodyScroll

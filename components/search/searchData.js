@@ -13,7 +13,7 @@ export const muscleMass = [
 ];
 
 export const proteinBar = [
-  { id: 1, search: "Barrinhas de proteina", name: "Barrinhas de proteina", index: "f93b6d0e", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
+  { id: 1, search: "Barrinhas de proteina", lname: "Barrinhas de proteina", index: "f93b6d0e", imageUrl: "https://raw.githubusercontent.com/GustavoFortti/dataindex-img/master/app/banner-3.webp" },
 ];
 
 export const performance = [

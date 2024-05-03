@@ -25,65 +25,81 @@ const LongProductCard = ({ item, navigation }) => {
         shadowOffset: { width: 4, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 4,
-        
+
         // Android
         elevation: 20,
         shadowColor: COLORS.grey_4,
       }}
       onPress={() => navigation.navigate('Details', { productData: item })}
     >
-      <FadeInImage item={item.image_url_srv} height={150} width={150} />
       <View
         style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          marginTop: 0,
-          height: 100,
+          flexDirection: 'row',
           width: '100%',
         }}
       >
-        <TruncatedText
-          text={`${item.name}`}
-          maxLength={30}
+        <FadeInImage item={item.image_url_srv} style={{ height: 160, width: 130 }} />
+        <View
           style={{
-            fontSize: 22,
-            color: COLORS.grey_6,
-            fontFamily: 'eurostile',
-            textAlign: 'center',
-          }}
-        />
-        <TruncatedText
-          text={`${item.brand}`}
-          maxLength={20}
-          style={{
-            marginTop: 8,
-            fontSize: 20,
-            color: COLORS.grey_4,
-            fontFamily: 'eurostile',
-            textAlign: 'center',
-          }}
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          paddingBottom: 10,
-          borderColor: COLORS.grey_6,
-          backgroundColor: COLORS.white,
-        }}
-      >
-        <Text
-          style={{
-            fontSize: 20,
-            color: COLORS.grey_6,
-            fontFamily: 'eurostile',
-            letterSpacing: 3,
+            width: '60%',
+            alignItems: 'center',
+            justifyContent: "flex-start"
           }}
         >
-          R$ {item.price}
-        </Text>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'flex-start',
+              marginTop: 0,
+              height: 100,
+              backgroundColor: 'grey',
+              
+            }}
+          >
+            <TruncatedText
+              text={`${item.name}`}
+              maxLength={30}
+              style={{
+                fontSize: 22,
+                color: COLORS.grey_6,
+                fontFamily: 'eurostile',
+                textAlign: 'center',
+              }}
+            />
+            <TruncatedText
+              text={`${item.brand}`}
+              maxLength={20}
+              style={{
+                marginTop: 8,
+                fontSize: 20,
+                color: COLORS.grey_4,
+                fontFamily: 'eurostile',
+                textAlign: 'center',
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: 10,
+              borderColor: COLORS.grey_6,
+              backgroundColor: COLORS.white,
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 20,
+                color: COLORS.grey_6,
+                fontFamily: 'eurostile',
+                letterSpacing: 3,
+              }}
+            >
+              R$ {item.price}
+            </Text>
+          </View>
+        </View>
       </View>
     </TouchableOpacity>
   );
