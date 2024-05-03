@@ -38,7 +38,13 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
         }}
         onPress={() => navigation.navigate('Details', { productData: item })}
       >
-        <FadeInImage item={item.image_url_srv} />
+        <FadeInImage
+          item={item.image_url_srv}
+          styleView={{
+            paddingTop: 30,
+            marginBottom: 15,
+          }}
+        />
         <View
           style={{
             flexDirection: 'column',
@@ -115,7 +121,7 @@ const ProductListHorizontal = ({ data, handleLoadMore, navigation, isLoading, on
         horizontal={true}
         key={`FlatList`}
         showsHorizontalScrollIndicator={false}
-        contentContainerStyle={{ paddingRight: 65 }} 
+        contentContainerStyle={{ paddingRight: 65 }}
       />
     </View>
   );

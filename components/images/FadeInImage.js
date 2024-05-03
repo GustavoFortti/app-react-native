@@ -1,7 +1,16 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Image, Animated } from 'react-native';
+import { View, Image, Animated, useWindowDimensions } from 'react-native';
 
-const FadeInImage = ({ item, style }) => {
+const FadeInImage = ({ 
+  item, 
+  styleImg, 
+  styleView,
+  height_percent,
+  width_percent
+ }) => {
+  const { height, width } = useWindowDimensions();
+  const height_percentual = height_percent ? height * height_percent : height * 0.15;
+  const width__percentual = width_percent ? width * width_percent : width * 0.30;
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -16,7 +25,7 @@ const FadeInImage = ({ item, style }) => {
   }, [fadeAnim, isImageLoaded]);
 
   return (
-    <View style={[{ padding: 10, backgroundColor: "grey"}, style]} >
+    <View style={[{ padding: 0 }, styleView]} >
       <Animated.Image
         resizeMode='contain'
         source={{
@@ -26,7 +35,9 @@ const FadeInImage = ({ item, style }) => {
         style={[{
           marginTop: 0,
           opacity: fadeAnim,
-        }, style]}
+          height: height_percentual,
+          width: width__percentual
+        }, styleImg]}
         onError={(e) => {
           e.nativeEvent.error;
         }}
