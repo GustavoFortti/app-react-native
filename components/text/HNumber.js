@@ -7,7 +7,7 @@ const HNumber = ({ text, color, style }) => {
     <Text
       style={[{
         fontSize: 14,
-        fontFamily: "eurostyle",
+        fontFamily: "eurostile",
         letterSpacing: 3,
         color: color,
       }, style]}

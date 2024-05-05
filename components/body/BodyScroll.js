@@ -1,8 +1,7 @@
-import React, { useRef } from 'react';
-import { SafeAreaView, View, Animated, Keyboard, useWindowDimensions } from 'react-native';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Animated, Keyboard, useWindowDimensions, TouchableOpacity, Text } from 'react-native';
 import Header from './Header';
 import { COLORS } from '../../constants';
-import Separator from './Separator';
 import H1 from '../text/H1';
 
 const BodyScroll = ({
@@ -14,10 +13,35 @@ const BodyScroll = ({
   setScrollY,
   scrollViewRef,
   currentScrollY,
+  paddingTopScrollPercent,
+  handleEndPage
 }) => {
   const { height } = useWindowDimensions();
   const height_20 = height * 0.20;
   const height_22 = height * 0.22;
+
+  const onScroll = Animated.event(
+    [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+    {
+      useNativeDriver: true,
+      listener: event => {
+        const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+        const currentPosition = contentOffset.y;
+        const scrollViewHeight = layoutMeasurement.height;
+        const totalContentHeight = contentSize.height;
+
+        if (scrollViewRef.current) {
+          currentScrollY.current = currentPosition;
+        }
+
+        if (currentPosition + scrollViewHeight >= totalContentHeight) {
+          if (handleEndPage) {
+            handleEndPage();
+          }
+        }
+      },
+    }
+  );
 
   return (
     <SafeAreaView style={{
@@ -49,8 +73,8 @@ const BodyScroll = ({
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ 
-          paddingTop: height_22,
+        contentContainerStyle={{
+          paddingTop: paddingTopScrollPercent ? paddingTopScrollPercent * height : height_22,
           paddingBottom: 100
         }}
         style={{
@@ -59,17 +83,7 @@ const BodyScroll = ({
           top: 0,
           position: 'absolute',
         }}
-        onScroll={Animated.event(
-          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
-          {
-            useNativeDriver: true,
-            listener: event => {
-              if (scrollViewRef.current) {
-                currentScrollY.current = event.nativeEvent.contentOffset.y;
-              }
-            },
-          }
-        )}
+        onScroll={onScroll}
       >
         {childrenMain}
       </Animated.ScrollView>

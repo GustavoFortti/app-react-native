@@ -7,19 +7,13 @@ const Loading = ({ isActive }) => {
   return (
     <>
       {isActive ? (
-      <SafeAreaView
-        style={{
-          height: "0%",
-          width: "0%",
-          top: "-30%",
-          backgroundColor: 'transparent',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: 'blue'
-        }}
-      >
-        <ActivityIndicator size='large' color={COLORS.grey_3} />
-      </SafeAreaView>
+        <View
+          style={{
+            paddingTop: 50
+          }}
+        >
+          <ActivityIndicator size='large' color={COLORS.grey_3} />
+        </View>
       ) : (null)}
     </>
   );

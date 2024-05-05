@@ -69,6 +69,13 @@ export default function App() {
           }}
         />
         <Stack.Screen
+          name="Details"
+          component={Details}
+          options={{
+            headerShown: false
+          }}
+        />
+        <Stack.Screen
           name="BottomTabNavigation"
           component={BottomTabNavigation}
           options={{

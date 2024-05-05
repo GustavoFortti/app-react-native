@@ -6,7 +6,7 @@ import TruncatedText from '../components/text/TruncatedText';
 import FadeInImageDetails from '../components/FadeInImageDetails';
 import { MaterialIcons, Ionicons, Feather } from "@expo/vector-icons"
 
-const Details = ({ navigation, route }) => {
+const Details = ({ route, navigation }) => {
   const [isFavourite, setIsFavourite] = useState(false);
   const { productData } = route.params;
 

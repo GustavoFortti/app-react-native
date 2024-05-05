@@ -17,7 +17,7 @@ const GridLongProduct = ({ products, navigation }) => {
         renderItem={({ item }) => (
           <LongProductCard
             item={item}
-            navigation={""}
+            navigation={navigation}
           />
         )}
         scrollEnabled={false}

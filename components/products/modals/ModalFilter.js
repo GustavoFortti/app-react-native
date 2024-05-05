@@ -137,7 +137,7 @@ const ModalFilter = ({
               minimumValue={filterOptions.rangePrice.min}
               maximumValue={filterOptions.rangePrice.max}
               setValues={setRangePrice}
-              stepValue={5}
+              stepValue={50}
             />
             <Separator color={COLORS.black} thickness={0.3} marginTop={30} />
             <View
