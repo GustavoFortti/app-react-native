@@ -83,7 +83,25 @@ const apiClient = {
 
     try {
       const response = await axios(config);
-      return response.data;
+
+      let selectedFields
+      if (Array.isArray(response.data.results)) {
+        selectedFields = response.data.results.map(product => ({
+          name: product.name,
+          price: product.price,
+          brand: product.brand,
+          product_url: product.product_url,
+          image_url_srv: product.image_url_srv,
+          price_discount_percent: product.price_discount_percent,
+        }));
+      } else {
+        console.error('Error: response.data is not an array');
+      }
+      
+      return {
+        totalProducts: response.data.totalProducts,
+        results: selectedFields
+      };
     } catch (error) {
       throw error;
     }

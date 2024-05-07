@@ -51,8 +51,9 @@ const Home = ({ navigation }) => {
     const fetchProductsByIndex = async (index, setProducts) => {
       try {
         const data = await searchByIndex(index);
-        const products = data.results
-        setProducts(products);
+
+        console.log(data);
+        setProducts(data.results);
       } catch (error) {
         console.error('Erro ao buscar produtos:', error);
       }

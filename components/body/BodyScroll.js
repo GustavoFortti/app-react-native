@@ -10,7 +10,6 @@ const BodyScroll = ({
   childrenMain,
   childrenModal,
   scrollY,
-  setScrollY,
   scrollViewRef,
   currentScrollY,
   paddingTopScrollPercent,

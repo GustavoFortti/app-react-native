@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { TouchableOpacity, View, Text, Linking } from 'react-native';
 import { COLORS } from '../../../constants';
 import TruncatedText from '../../text/TruncatedText';
 import FadeInImage from '../../images/FadeInImage'
@@ -8,6 +8,14 @@ import { Ionicons } from '@expo/vector-icons';
 import Separator from '../../body/Separator';
 
 const LongProductCard = ({ item, navigation }) => {
+
+  const openProductUrl = () => {
+    if (item.product_url) {
+      const url = item.product_url;
+      Linking.openURL(url);
+    }
+  };
+
   return (
     <TouchableOpacity
       style={{
@@ -59,21 +67,27 @@ const LongProductCard = ({ item, navigation }) => {
                 paddingLeft: 10,
               }}
             />
-            <View style={{
-              position: 'absolute',
-              top: 0,
-              left: 10,
-              right: 0,
-              bottom: 0,
-              height: 50,
-              width: 50,
-              borderRadius: 100,
-              backgroundColor: 'black',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <Text style={{ color: 'white' }}>-20%</Text>
-            </View>
+            {
+              item.price_discount_percent != undefined &&
+              item.price_discount_percent <= -0.05 &&
+              <View style={{
+                position: 'absolute',
+                top: 0,
+                left: 10,
+                right: 0,
+                bottom: 0,
+                height: 50,
+                width: 50,
+                borderRadius: 100,
+                backgroundColor: 'black',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Text style={{ color: 'white' }}>
+                  {`${(item.price_discount_percent * 100).toFixed(0)}%`}
+                </Text>
+              </View>
+            }
           </View>
           <View
             style={{
@@ -181,6 +195,7 @@ const LongProductCard = ({ item, navigation }) => {
             colorText={COLORS.grey_6}
           />
           <SimpleButton
+            onPress={openProductUrl}
             text="Ir para loja"
             style={{
               height: 40,

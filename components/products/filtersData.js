@@ -1,10 +1,11 @@
 const sort = [
   { field: null, order: null, label: 'Normal', value: '0' },
-  { field: "price_numeric", order: "desc", label: 'Menor preço', value: '1' },
-  { field: "price_numeric", order: "asc", label: 'Maior preço', value: '2' },
-  { field: "quantity", order: "desc", label: 'Menor quantidade', value: '3' },
-  { field: "quantity", order: "asc", label: 'Maior quantidade', value: '4' },
-  { field: "price_qnt", order: "asc", label: 'Maior desconto', value: '5' },
+  { field: "price_numeric", order: "asc", label: 'Menor preço', value: '1' },
+  { field: "price_numeric", order: "desc", label: 'Maior preço', value: '2' },
+  { field: "quantity", order: "asc", label: 'Menor quantidade', value: '3' },
+  { field: "quantity", order: "desc", label: 'Maior quantidade', value: '4' },
+  { field: "price_qnt", order: "desc", label: 'Preço por quantidade', value: '5' },
+  { field: "price_discount_percent", order: "desc", label: 'Maior desconto', value: '6' },
 ];
 
 const brand = [

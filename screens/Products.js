@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, Animated, ActivityIndicator } from 'react-native';
 import { COLORS } from '../constants';
 import BodyScroll from '../components/body/BodyScroll';
@@ -16,7 +16,7 @@ const Products = ({ route, navigation }) => {
 
   const scrollViewRef = useRef(null);
   const currentScrollY = useRef(0);
-  const [scrollY, setScrollY] = useState(new Animated.Value(0));
+  const scrollY = useMemo(() => new Animated.Value(0), []);
 
   const { query, index } = route.params;
   const [execQuery, setExecQuery] = useState(query);
@@ -66,7 +66,18 @@ const Products = ({ route, navigation }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!execQuery || !execIndex || !applyQuery || !isFetchingAllowed || fetchCount >= 3 || loading) {
+      if (
+        !execQuery ||
+        !execIndex ||
+        !applyQuery ||
+        !isFetchingAllowed ||
+        fetchCount >= 3 ||
+        loading ||
+        (
+          products.length != 0 &&
+          products.length >= totalProducts
+        )
+      ) {
         return;
       }
 
@@ -112,14 +123,14 @@ const Products = ({ route, navigation }) => {
 
   const lastCallRef = useRef(Date.now());
 
-  const handleEndPage = () => {
+  const handleEndPage = useCallback(() => {
     const now = Date.now();
     if (!loading && isFetchingAllowed && now - lastCallRef.current > 3000) {
       setPage(prevPage => prevPage + 1);
       setApplyQuery(true);
       lastCallRef.current = now;
     }
-  };
+  }, [loading, isFetchingAllowed, lastCallRef.current]);
 
   return (
     <BodyScroll
@@ -192,7 +203,6 @@ const Products = ({ route, navigation }) => {
         </View>
       }
       scrollY={scrollY}
-      setScrollY={setScrollY}
       scrollViewRef={scrollViewRef}
       currentScrollY={currentScrollY}
       childrenModal={modal}
