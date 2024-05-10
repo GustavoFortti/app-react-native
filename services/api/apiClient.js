@@ -87,6 +87,7 @@ const apiClient = {
       let selectedFields
       if (Array.isArray(response.data.results)) {
         selectedFields = response.data.results.map(product => ({
+          ref: product.ref,
           name: product.name,
           price: product.price,
           brand: product.brand,

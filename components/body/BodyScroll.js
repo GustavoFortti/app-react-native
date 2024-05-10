@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Animated, Keyboard, useWindowDimensions, TouchableOpacity, Text } from 'react-native';
 import Header from './Header';
 import { COLORS } from '../../constants';
-import H1 from '../text/H1';
 
 const BodyScroll = ({
   childrenSubHeader,
@@ -13,7 +12,8 @@ const BodyScroll = ({
   scrollViewRef,
   currentScrollY,
   paddingTopScrollPercent,
-  handleEndPage
+  handleEndPage,
+  useFlatListToScroll = false
 }) => {
   const { height } = useWindowDimensions();
   const height_20 = height * 0.20;

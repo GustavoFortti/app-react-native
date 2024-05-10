@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Animated, StyleSheet } from 'react-native';
+import { COLORS } from '../../constants';
 
 const Header = ({ children, scrollY, heightSize }) => {
   const translateY = scrollY.interpolate({
@@ -34,7 +35,8 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     top: 0,
-    zIndex: 1
+    zIndex: 1,
+    backgroundColor: COLORS.background
   },
 });
 

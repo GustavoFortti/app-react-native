@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import { View, Text, StyleSheet, Animated, ActivityIndicator } from 'react-native';
 import { COLORS } from '../constants';
-import BodyScroll from '../components/body/BodyScroll';
 import IconButton from '../components/buttons/IconButton';
 import ModalSort from '../components/products/modals/ModalSort';
 import ModalFilter from '../components/products/modals/ModalFilter';
 import filterData from '../components/products/filtersData';
-import GridLongProduct from '../components/products/cards/GridLongProduct';
 import { searchByQuey } from '../services/api/products';
 import Separator from '../components/body/Separator';
-import Loading from '../components/Loading';
+import BodyProducts from '../components/body/BodyProducts';
 
 const Products = ({ route, navigation }) => {
   const [modal, setModal] = useState(false);
@@ -64,76 +62,118 @@ const Products = ({ route, navigation }) => {
     }
   }, [query, index]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (
-        !execQuery ||
-        !execIndex ||
-        !applyQuery ||
-        !isFetchingAllowed ||
-        fetchCount >= 3 ||
-        loading ||
-        (
-          products.length != 0 &&
-          products.length >= totalProducts
-        )
-      ) {
-        return;
-      }
+  console.log(products.length);
+
+  const fetchData = async () => {
+    console.log("==================");
+    console.log(!execQuery);
+    console.log(!execIndex);
+    console.log(!applyQuery);
+    console.log(!isFetchingAllowed);
+    console.log(fetchCount >= 3);
+    console.log(loading);
+    console.log((
+      products.length != 0 &&
+      products.length >= totalProducts
+    ));
+    console.log("==================");
+    if (
+      !execQuery ||
+      !execIndex ||
+      !applyQuery ||
+      !isFetchingAllowed ||
+      fetchCount >= 3 ||
+      loading ||
+      (
+        products.length != 0 &&
+        products.length >= totalProducts
+      )
+    ) {
+      console.log("RETURN");
+      return;
+    }
+
+    console.log("FLAG3");
+
+    if (page === 1) {
+      setProducts([])
+      setTotalProducts([])
+    }
+
+    const sizePage = 30;
+    setLoading(true);
+    try {
+      const data = await searchByQuey(
+        execQuery,
+        execIndex,
+        page,
+        sizePage,
+        sortOption,
+        filterOption,
+        filterOptions,
+      );
 
       if (page === 1) {
-        setProducts([])
-        setTotalProducts([])
+        setProducts(data.results);
+      } else {
+        setProducts(prevProducts => [...prevProducts, ...data.results]);
       }
-
-      const sizePage = 30;
-      setLoading(true);
-      try {
-        const data = await searchByQuey(
-          execQuery,
-          execIndex,
-          page,
-          sizePage,
-          sortOption,
-          filterOption,
-          filterOptions,
-        );
-
-        if (page === 1) {
-          setProducts(data.results);
-        } else {
-          setProducts(prevProducts => [...prevProducts, ...data.results]);
-        }
-        setTotalProducts(data.totalProducts);
-        setApplyQuery(false);
-        setFetchCount(prevCount => prevCount + 1);
-        if (fetchCount === 2) {
-          setIsFetchingAllowed(false);
-          console.log('Too many requests');
-        }
-      } catch (error) {
-        console.error('Failed to fetch products:', error);
-      } finally {
-        setLoading(false);
+      setTotalProducts(data.totalProducts);
+      setApplyQuery(false);
+      setFetchCount(prevCount => prevCount + 1);
+      if (fetchCount === 2) {
+        setIsFetchingAllowed(false);
+        console.log('Too many requests');
       }
-    };
+      console.log("++++++++++++++r");
+      console.log(loading);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-  }, [execQuery, execIndex, applyQuery, isFetchingAllowed, fetchCount, page, sortOption, filterOption, filterOptions]);
+  }, [
+    execQuery,
+    execIndex,
+    applyQuery,
+    isFetchingAllowed,
+    fetchCount,
+    page,
+    sortOption,
+    filterOption,
+    filterOptions
+  ]);
 
   const lastCallRef = useRef(Date.now());
 
   const handleEndPage = useCallback(() => {
     const now = Date.now();
-    if (!loading && isFetchingAllowed && now - lastCallRef.current > 3000) {
+    console.log("FLAG1");
+    console.log(!loading);
+    console.log(isFetchingAllowed);
+    console.log((now - lastCallRef.current) > 3000);
+    console.log("FLAG1");
+    if (!loading && isFetchingAllowed && (now - lastCallRef.current) > 3000) {
       setPage(prevPage => prevPage + 1);
+      console.log("FLAG2+");
+      console.log(applyQuery);
       setApplyQuery(true);
+      console.log(applyQuery);
+      console.log("FLAG2-");
       lastCallRef.current = now;
+      fetchData()
     }
   }, [loading, isFetchingAllowed, lastCallRef.current]);
 
+  console.log(loading);
+
   return (
-    <BodyScroll
+    <BodyProducts
       childrenHeader={
         <View
           style={{
@@ -185,29 +225,16 @@ const Products = ({ route, navigation }) => {
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={30} />
         </View>
       }
-      childrenMain={
-        <View
-          style={{
-            width: "100%",
-            alignItems: "center"
-          }}
-        >
-          {
-            products &&
-            <GridLongProduct
-              products={products}
-              navigation={navigation}
-            />
-          }
-          <Loading isActive={loading} />
-        </View>
-      }
+      data={products}
       scrollY={scrollY}
       scrollViewRef={scrollViewRef}
       currentScrollY={currentScrollY}
       childrenModal={modal}
-      paddingTopScrollPercent={0.20}
+      paddingTopScrollPercent={0.14}
       handleEndPage={handleEndPage}
+      useFlatListToScroll={true}
+      navigation={navigation}
+      isFetchingMore={loading}
     />
   );
 };
