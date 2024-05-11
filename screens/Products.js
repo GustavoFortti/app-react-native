@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, Animated, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, Animated, ActivityIndicator, useWindowDimensions } from 'react-native';
 import { COLORS } from '../constants';
 import IconButton from '../components/buttons/IconButton';
 import ModalSort from '../components/products/modals/ModalSort';
@@ -7,9 +7,14 @@ import ModalFilter from '../components/products/modals/ModalFilter';
 import filterData from '../components/products/filtersData';
 import { searchByQuey } from '../services/api/products';
 import Separator from '../components/body/Separator';
-import BodyProducts from '../components/body/BodyProducts';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Header from '../components/body/Header';
 
 const Products = ({ route, navigation }) => {
+  const { height } = useWindowDimensions();
+  const height_20 = height * 0.20;
+  const height_22 = height * 0.22;
+
   const [modal, setModal] = useState(false);
 
   const scrollViewRef = useRef(null);
@@ -173,8 +178,14 @@ const Products = ({ route, navigation }) => {
   console.log(loading);
 
   return (
-    <BodyProducts
-      childrenHeader={
+    <SafeAreaView style={{
+      flex: 1,
+      backgroundColor: COLORS.background,
+    }}>
+      <Header
+        scrollY={scrollY}
+        heightSize={height_20}
+      >
         <View
           style={{
             flexDirection: "column",
@@ -224,18 +235,20 @@ const Products = ({ route, navigation }) => {
           </View>
           <Separator color={COLORS.grey_3} thickness={0.3} marginTop={30} />
         </View>
-      }
-      data={products}
-      scrollY={scrollY}
-      scrollViewRef={scrollViewRef}
-      currentScrollY={currentScrollY}
-      childrenModal={modal}
-      paddingTopScrollPercent={0.14}
-      handleEndPage={handleEndPage}
-      useFlatListToScroll={true}
-      navigation={navigation}
-      isFetchingMore={loading}
-    />
+      </Header>
+      <View>
+
+      </View>
+      {/* {products && (
+        <GridLongProduct
+          products={products}
+          navigation={navigation}
+          paddingTop={paddingTop}
+          onScroll={onScroll}
+        />
+      )}
+      {childrenModal} */}
+    </SafeAreaView>
   );
 };
 

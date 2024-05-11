@@ -57,24 +57,59 @@ const BodyProducts = ({
       flex: 1,
       backgroundColor: COLORS.background,
     }}>
-      <View
-        style={{
-          height: "10%",
-          paddingTop: "13%",
-          width: "100%",
-          top: 0,
-          zIndex: 1,
-          position: 'absolute',
-          backgroundColor: COLORS.background,
-        }}
-      >
-        {childrenSubHeader}
-      </View>
       <Header
         scrollY={scrollY}
         heightSize={height_20}
       >
-        {childrenHeader}
+        <View
+          style={{
+            flexDirection: "column",
+            justifyContent: "space-evenly",
+            alignItems: "flex-end",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: "center",
+              marginTop: "25%",
+              width: '100%',
+            }}
+          >
+            <IconButton
+              iconName={"sort-variant"}
+              text={"Ordenar"}
+              onPress={() => setModal(
+                <ModalSort
+                  modalVisible={true}
+                  setModalVisible={setModal}
+                  setSortOption={setSortOption}
+                  sortOptions={sortOptions}
+                  sortOption={sortOption}
+                  setApplyQuery={setApplyQuery}
+                />
+              )}
+            />
+            <IconButton
+              iconName={"filter"}
+              text={"Filtrar"}
+              onPress={() => setModal(
+                <ModalFilter
+                  modalVisible={true}
+                  setModalVisible={setModal}
+                  filterOptions={filterOptions}
+                  filterOption={filterOption}
+                  setFilterOption={setFilterOption}
+                  setApplyQuery={setApplyQuery}
+                />
+              )}
+            />
+          </View>
+          <Separator color={COLORS.grey_3} thickness={0.3} marginTop={30} />
+        </View>
       </Header>
       {products && (
         <GridLongProduct
